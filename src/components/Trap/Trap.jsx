@@ -16,8 +16,6 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import EditIcon from "@mui/icons-material/Edit";
 import ModeStandbyIcon from "@mui/icons-material/ModeStandby";
@@ -26,6 +24,8 @@ import "./Trap.css";
 // ~~~~~~~~~~~~~~~ Hooks ~~~~~~~~~~~~~~~~~~
 import getCookie from "../../hooks/cookie";
 import Swal from "sweetalert2";
+// ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
+import { StyledTableCell, StyledTableRow } from "../Utils/helpers";
 
 export default function Trap() {
   const dispatch = useDispatch();
@@ -60,26 +60,6 @@ export default function Trap() {
     // Update the total score in the component state
     setTotalScore(totalScore);
   }, [trapHit]);
-
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  }));
-
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
 
   // Bring in Rounds
   const rounds = useSelector((store) => store.roundReducer);

@@ -16,15 +16,16 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import EditIcon from "@mui/icons-material/Edit";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 // ~~~~~~~~~~~~~~~ Hooks ~~~~~~~~~~~~~~~~~~
 import getCookie from "../../hooks/cookie";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
+// ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
+import { StyledTableCell, StyledTableRow } from "../Utils/helpers";
+import { savedAlert } from "../Utils/sweetAlerts";
 // ~~~~~~~~~~~~~~~ Components ~~~~~~~~~~~~~~~~~~
 import GameInfo from "../GameInfo/GameInfo";
 import GameMenu from "../GameMenu/GameMenu";
@@ -66,29 +67,6 @@ export default function ThreeRing() {
     // Update the total score in the component state
     setTotalScore(totalScore);
   }, [pointsOuter, pointsInner, bulls]);
-
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  }));
-
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    // "&:last-child td, &:last-child th": {
-    //   border: 0,
-    // },
-    // "&:last-child": {
-    //   borderBottom: '1px solid white', // Add a border to the last row
-    // },
-  }));
 
   // Bring in Rounds
   const rounds = useSelector((store) => store.roundReducer);
@@ -270,19 +248,6 @@ export default function ThreeRing() {
     setTotalScore(0);
     setRoundScores([]);
     setRoundHeaders([]);
-  };
-
-  const savedAlert = () => {
-    Swal.fire({
-      title: "Game Saved!",
-      showClass: {
-        popup: "animate__animated animate__fadeInDown",
-      },
-      hideClass: {
-        popup: "animate__animated animate__fadeOutUp",
-      },
-      confirmButtonColor: "#3085d6",
-    });
   };
 
   const buttonLabel = <QueryStatsIcon />;

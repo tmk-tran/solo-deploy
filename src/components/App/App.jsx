@@ -79,7 +79,7 @@ function App() {
     localStorage.setItem("darkMode", !darkMode);
   };
 
-  const user = useSelector((store) => store.user);
+  const user = useSelector((store) => store.user);  
 
   useEffect(() => {
     const storedDarkMode = localStorage.getItem("darkMode");

@@ -15,8 +15,6 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import EditIcon from "@mui/icons-material/Edit";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
@@ -25,6 +23,9 @@ import "./FourRing.css";
 // ~~~~~~~~~~~~~~~ Hooks ~~~~~~~~~~~~~~~~~~
 import getCookie from "../../hooks/cookie";
 import Swal from "sweetalert2";
+// ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
+import { StyledTableCell, StyledTableRow } from "../Utils/helpers";
+import { savedAlert } from "../Utils/sweetAlerts";
 // ~~~~~~~~~~~~~~~ Components ~~~~~~~~~~~~~
 import GameInfo from "../GameInfo/GameInfo";
 import GameMenu from "../GameMenu/GameMenu";
@@ -72,26 +73,6 @@ export default function FourRing() {
     // Update the total score in the component state
     setTotalScore(totalScore);
   }, [pointsFourth, pointsOuter, pointsInner, bulls]);
-
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  }));
-
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
 
   // Bring in Rounds
   const rounds = useSelector((store) => store.roundReducer);
@@ -285,19 +266,6 @@ export default function FourRing() {
     setRoundHeaders([]);
   };
 
-  const savedAlert = () => {
-    Swal.fire({
-      title: "Game Saved!",
-      showClass: {
-        popup: "animate__animated animate__fadeInDown",
-      },
-      hideClass: {
-        popup: "animate__animated animate__fadeOutUp",
-      },
-      confirmButtonColor: "#3085d6",
-    });
-  };
-
   const buttonLabel = <QueryStatsIcon />;
   const targetOptions = [
     `7's: ${pointsFourth}`,
@@ -308,7 +276,10 @@ export default function FourRing() {
   ];
 
   return (
-    <div className="page-container" style={{ backgroundImage: "none", position: "relative", top: "10px" }}>
+    <div
+      className="page-container"
+      style={{ backgroundImage: "none", position: "relative", top: "10px" }}
+    >
       <div className="top-buttons">
         <Button
           id="cancel-button"
