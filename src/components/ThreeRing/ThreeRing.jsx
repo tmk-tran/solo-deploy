@@ -24,7 +24,7 @@ import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import getCookie from "../../hooks/cookie";
 // import Swal from "sweetalert2";
 // ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
-import { StyledTableCell, StyledTableRow } from "../Utils/helpers";
+import { StyledTableCell, StyledTableRow, formatDate } from "../Utils/helpers";
 import { savedAlert } from "../Utils/sweetAlerts";
 // ~~~~~~~~~~~~~~~ Components ~~~~~~~~~~~~~~~~~~
 import GameInfo from "../GameInfo/GameInfo";
@@ -102,12 +102,6 @@ export default function ThreeRing() {
   // Extract the last game's ID
   const newGameId = gameIds.filter((game_id) => game_id !== null)[0];
   console.log("New Game ID:", newGameId);
-
-  // format the date to mm/dd/yyyy
-  function formatDate(inputDate) {
-    const date = new Date(inputDate);
-    return date.toLocaleDateString("en-US");
-  }
 
   const clearScores = (e) => {
     e.preventDefault();

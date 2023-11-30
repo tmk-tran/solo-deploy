@@ -9,12 +9,12 @@ function RegisterPage() {
 
   return (
     <div id="login-paper">
-      <RegisterForm />
+      {/* <RegisterForm /> */}
 
       <center>
         <Card style={{ width: "35%", borderRadius: "15px" }}>
           <CardContent>
-            <Typography variant="h6">
+            {/* <Typography variant="h6">
               Have an account?{" "}
               <Button
                 variant="outlined"
@@ -25,7 +25,10 @@ function RegisterPage() {
                 Login
               </Button>{" "}
               Here
-            </Typography>
+            </Typography> */}
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "30%" }}>
+              <Typography variant="h4"> No new users at this time</Typography>
+            </div>
           </CardContent>
         </Card>
       </center>
