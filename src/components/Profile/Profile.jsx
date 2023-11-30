@@ -37,6 +37,7 @@ export default function Profile({ user }) {
 
   const currentUser = user.username;
   const userId = user.user_id;
+  console.log(userId);
   const userRounds = useSelector((store) => store.totalRounds);
   const games = useSelector((store) => store.gamesReducer);
   const roundAvg = useSelector((store) => store.roundAvg);
