@@ -3,6 +3,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import RegisterForm from "../RegisterForm/RegisterForm";
 import { Button, Typography, Card, CardContent } from "@mui/material";
+import "./RegisterPage.css";
 
 function RegisterPage() {
   const history = useHistory();
@@ -11,8 +12,8 @@ function RegisterPage() {
     <div id="login-paper">
       {/* <RegisterForm /> */}
 
-      <center>
-        <Card style={{ width: "35%", borderRadius: "15px" }}>
+      {/* <center> */}
+        <Card id="reg-message">
           <CardContent>
             {/* <Typography variant="h6">
               Have an account?{" "}
@@ -26,12 +27,12 @@ function RegisterPage() {
               </Button>{" "}
               Here
             </Typography> */}
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "30%" }}>
-              <Typography variant="h4"> No new users at this time</Typography>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <Typography variant="h4" sx={{ textAlign:"center" }}>Registration currently disabled</Typography>
             </div>
           </CardContent>
         </Card>
-      </center>
+      {/* </center> */}
     </div>
   );
 }

@@ -1,0 +1,9 @@
+#reg-message {
+    position: relative;
+    margin: 0 auto;
+    border-radius: 25px;
+    top: 35%;
+    width: 50%;
+    height: 30%;
+    min-width: 350px;
+  }
