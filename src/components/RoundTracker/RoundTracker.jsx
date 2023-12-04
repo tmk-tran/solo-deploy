@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import EditIcon from "@mui/icons-material/Edit";
+import ClearAllIcon from "@mui/icons-material/ClearAll";
 
 export default function RoundTracker({
   showSettings,
@@ -198,8 +199,20 @@ export default function RoundTracker({
   return (
     <>
       <div className="top-buttons">
-        <button onClick={() => history.push("/games")}>Cancel</button>
-        <button onClick={addGame}>Finish</button>
+        <Button
+          id="cancel-button"
+          variant="outlined"
+          onClick={() => {
+            resetScore();
+            dispatch({ type: "DELETE_GAME", payload: newGameId });
+            history.push("/games");
+          }}
+        >
+          Cancel
+        </Button>{" "}
+        <Button id="finish-btn" variant="outlined" onClick={addGame}>
+          Finish
+        </Button>
       </div>
       <div></div>
       <Card>
@@ -217,9 +230,13 @@ export default function RoundTracker({
                 onBlur={saveName}
               />
             )}
-            <button variant="contained" onClick={toggleSettings}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={toggleSettings}
+            >
               <MoreHorizIcon />
-            </button>
+            </Button>
           </div>
           {showSettings ? (
             <div className="settings-div">
@@ -259,7 +276,9 @@ export default function RoundTracker({
               <div style={{ textAlign: "right", fontSize: "12px" }}>
                 <p>Hits: </p>
                 <p style={{ fontWeight: "bold" }}>Total: points</p>
-                <button onClick={clearScores}>Clear</button>
+                <Button onClick={clearScores} style={{ color: "red" }}>
+                  <ClearAllIcon /> Clear
+                </Button>
               </div>
             </div>
           ) : (

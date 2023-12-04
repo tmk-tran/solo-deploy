@@ -1,4 +1,18 @@
 import React, { useState, useEffect } from "react";
+
+import {
+  Card,
+  CardContent,
+  TextField,
+  FormControl,
+  Button,
+  Typography,
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 // ~~~~~~~~~~~~~~~ Hooks ~~~~~~~~~~~~~~~~~~
 import getCookie from "../../hooks/cookie";
 import RoundTracker from "../RoundTracker/RoundTracker";
@@ -28,7 +42,7 @@ export default function TestComp() {
   const [targetName, setTargetName] = useState("3-Ring");
   const [targetScore, setTargetScore] = useState(0); // update this when we decide what it is for
   return (
-    <>
+    <div className="page-container" style={{ backgroundImage: "none", position: "relative", top: "10px" }}>
       <RoundTracker
         showSettings={showSettings}
         setShowSettings={setShowSettings}
@@ -59,6 +73,6 @@ export default function TestComp() {
         targetScore={targetScore}
         setTargetScore={setTargetScore}
       />
-    </>
+    </div>
   );
 }
