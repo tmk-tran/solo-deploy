@@ -26,7 +26,7 @@ export default function TestComp() {
   const [gameDate, setGameDate] = useState(new Date()); // Initialize with the current date
   console.log("GAME DATE IS:", gameDate);
   const [gameNotes, setGameNotes] = useState("Notes");
-  const [targetName, setTargetName] = useState("3-Ring");
+  const [targetName, setTargetName] = useState("Test");
   const [targetScore, setTargetScore] = useState(0); // update this when we decide what it is for
   return (
     <div className="page-container" style={{ backgroundImage: "none", position: "relative", top: "10px" }}>

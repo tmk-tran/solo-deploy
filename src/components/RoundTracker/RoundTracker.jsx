@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import GameTimer from "../GameTimer/GameTimer"; // timer keeps resetting, figure out issue
 import { useDispatch, useSelector } from "react-redux";
@@ -21,6 +21,9 @@ import GameHeader from "../GameHeader/GameHeader";
 import RoundEdit from "../RoundEdit/RoundEdit";
 import ThreeRingPoints from "../ThreeRingPoints/ThreeRingPoints";
 import GameNotes from "../GameNotes/GameNotes";
+import AddRoundButton from "../AddRoundButton/AddRoundButton";
+
+import getCookie from "../../hooks/cookie";
 
 export default function RoundTracker({
   showSettings,
@@ -54,6 +57,9 @@ export default function RoundTracker({
 }) {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [pointsOuter, setPointsOuter] = useState(getCookie("outer") || 0);
+  const [pointsInner, setPointsInner] = useState(getCookie("inner") || 0);
+  const [bulls, setBulls] = useState(getCookie("bulls") || 0);
   // Bring in Rounds
   const rounds = useSelector((store) => store.roundReducer);
   console.log("SCORES: ", rounds);
@@ -224,30 +230,7 @@ export default function RoundTracker({
 
           {showSettings ? (
             <div className="settings-div">
-              {/* <div className="round-edit">
-                <Button
-                  variant="outlined"
-                  onClick={() => setReplaceName(!replaceName)}
-                  style={{ fontSize: "10px" }}
-                >
-                  <EditIcon />
-                  Edit
-                </Button>
-                <br />
-              </div>
-              <div className="round-table">
-                <RoundTable
-                  roundHeaders={roundHeaders}
-                  roundScores={roundScores}
-                />
-              </div>
-              <div style={{ textAlign: "right", fontSize: "12px" }}>
-                <p>Hits: </p>
-                <p style={{ fontWeight: "bold" }}>Total: points</p>
-                <Button onClick={clearScores} style={{ color: "red" }}>
-                  <ClearAllIcon /> Clear
-                </Button>
-              </div> */}
+
               {/* Round Edit */}
               <RoundEdit
                 replaceName={replaceName}
@@ -261,13 +244,13 @@ export default function RoundTracker({
               />
 
               {/* Points for Three Ring Target */}
-              {/* <ThreeRingPoints
+              <ThreeRingPoints
                 pointsOuter={pointsOuter}
                 pointsInner={pointsInner}
                 bulls={bulls}
                 totalScore={totalScore}
                 clearScores={clearScores}
-              /> */}
+              />
             </div>
           ) : (
             <GameNotes
@@ -280,14 +263,7 @@ export default function RoundTracker({
           )}
         </CardContent>
       </Card>
-      <FormControl className="form-control" fullWidth>
-        <Button
-          variant="contained"
-          onClick={addRound} // Make sure the button adds a round
-        >
-          Add Round
-        </Button>
-      </FormControl>
+      <AddRoundButton addRound={addRound} />
     </>
   );
 }
