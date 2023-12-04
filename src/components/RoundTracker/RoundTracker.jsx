@@ -9,11 +9,17 @@ import {
   TextField,
   FormControl,
   Button,
+  Table,
+  TableBody,
+  TableHead,
+  TableRow,
   Typography,
 } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import EditIcon from "@mui/icons-material/Edit";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
+// ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
+import { StyledTableCell, StyledTableRow, formatDate } from "../Utils/helpers";
 
 export default function RoundTracker({
   showSettings,
@@ -252,26 +258,29 @@ export default function RoundTracker({
                 <br />
               </div>
               <div className="round-table">
-                <table>
-                  <thead>
-                    <tr>
+                <Table sx={{ minWidth: 250 }} size="small">
+                  <TableHead>
+                    <TableRow sx={{ "&:last-child th": { border: 0 } }}>
                       {roundHeaders.map((header) => (
-                        <th key={header} className="header">
+                        <StyledTableCell
+                          key={header}
+                          style={{ textAlign: "center" }}
+                        >
                           Round {header}
-                        </th>
+                        </StyledTableCell>
                       ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <StyledTableRow>
                       {roundScores.map((score, index) => (
                         <td key={index} className="score">
                           {score}
                         </td>
                       ))}
-                    </tr>
-                  </tbody>
-                </table>
+                    </StyledTableRow>
+                  </TableBody>
+                </Table>
               </div>
               <div style={{ textAlign: "right", fontSize: "12px" }}>
                 <p>Hits: </p>
