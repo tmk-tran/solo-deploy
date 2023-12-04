@@ -26,6 +26,7 @@ import GameInfo from "../GameInfo/GameInfo";
 import GameMenu from "../GameMenu/GameMenu";
 import RoundTable from "../RoundTable/RoundTable";
 import ThreeRingTarget from "../ThreeRingTarget/ThreeRingTarget";
+import AddRoundButton from "../AddRoundButton/AddRoundButton";
 
 export default function ThreeRing() {
   const dispatch = useDispatch();
@@ -366,11 +367,7 @@ export default function ThreeRing() {
         </div>
         <ThreeRingTarget clickOuter={clickOuter} clickInner={clickInner} clickBull={clickBull} />
       </div>
-      <FormControl className="form-control" fullWidth>
-        <Button variant="contained" onClick={addRound}>
-          Add Round
-        </Button>
-      </FormControl>
+      <AddRoundButton addRound={addRound} />
     </div>
   );
 }
