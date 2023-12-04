@@ -22,6 +22,7 @@ import getCookie from "../../hooks/cookie";
 import { formatDate } from "../Utils/helpers";
 import { savedAlert } from "../Utils/sweetAlerts";
 // ~~~~~~~~~~~~~~~ Components ~~~~~~~~~~~~~~~~~~
+import GameHeader from "../GameHeader/GameHeader";
 import GameInfo from "../GameInfo/GameInfo";
 import GameMenu from "../GameMenu/GameMenu";
 import RoundTable from "../RoundTable/RoundTable";
@@ -269,41 +270,17 @@ export default function ThreeRing() {
       <div>
         <Card>
           <CardContent>
-            <div className="game-header">
-              {!replaceName ? (
-                <div>
-                  <Typography variant="h6">{targetName}</Typography>
-                </div>
-              ) : (
-                <input
-                  type="text"
-                  value={targetName}
-                  onChange={(e) => setTargetName(e.target.value)}
-                  onBlur={saveName}
-                />
-              )}
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={toggleSettings}
-              >
-                <MoreHorizIcon />
-              </Button>
-            </div>
+
+            {/* Game Header */}
+            <GameHeader replaceName={replaceName} targetName={targetName} setTargetName={setTargetName} saveName={saveName} toggleSettings={toggleSettings}  />
+            
             {showSettings ? (
               <div className="settings-div">
-                {/* <div className="round-edit">
-                  <Button
-                    onClick={() => setReplaceName(!replaceName)}
-                    style={{ fontSize: "10px" }}
-                  >
-                    <EditIcon />
-                    Edit Name
-                  </Button>
-                  <br />
-                </div> */}
+                
+                {/* Round Edit */}
                 <RoundEdit replaceName={replaceName} setReplaceName={setReplaceName} />
 
+                {/* Round Table */}
                 <RoundTable
                   roundHeaders={roundHeaders}
                   roundScores={roundScores}
