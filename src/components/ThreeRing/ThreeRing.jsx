@@ -24,11 +24,12 @@ import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import getCookie from "../../hooks/cookie";
 // import Swal from "sweetalert2";
 // ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
-import { StyledTableCell, StyledTableRow, formatDate } from "../Utils/helpers";
+import { formatDate } from "../Utils/helpers";
 import { savedAlert } from "../Utils/sweetAlerts";
 // ~~~~~~~~~~~~~~~ Components ~~~~~~~~~~~~~~~~~~
 import GameInfo from "../GameInfo/GameInfo";
 import GameMenu from "../GameMenu/GameMenu";
+import RoundTable from "../RoundTable/RoundTable";
 
 export default function ThreeRing() {
   const dispatch = useDispatch();
@@ -253,7 +254,10 @@ export default function ThreeRing() {
   ];
 
   return (
-    <div className="page-container" style={{ backgroundImage: "none", position: "relative", top: "10px" }}>
+    <div
+      className="page-container"
+      style={{ backgroundImage: "none", position: "relative", top: "10px" }}
+    >
       <div className="top-buttons">
         <Button
           id="cancel-button"
@@ -307,29 +311,10 @@ export default function ThreeRing() {
                   <br />
                 </div>
                 <div className="round-table">
-                  <Table sx={{ minWidth: 250 }} size="small">
-                    <TableHead>
-                      <TableRow sx={{ "&:last-child th": { border: 0 } }}>
-                        {roundHeaders.map((header) => (
-                          <StyledTableCell
-                            key={header}
-                            style={{ textAlign: "center" }}
-                          >
-                            Round {header}
-                          </StyledTableCell>
-                        ))}
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <StyledTableRow>
-                        {roundScores.map((score, index) => (
-                          <td key={index} className="score">
-                            {score}
-                          </td>
-                        ))}
-                      </StyledTableRow>
-                    </TableBody>
-                  </Table>
+                  <RoundTable
+                    roundHeaders={roundHeaders}
+                    roundScores={roundScores}
+                  />
                 </div>
                 <div style={{ textAlign: "right", fontSize: "12px" }}>
                   <p>8's: {pointsOuter}</p>
