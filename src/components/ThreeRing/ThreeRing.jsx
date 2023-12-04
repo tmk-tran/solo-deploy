@@ -28,6 +28,9 @@ import RoundTable from "../RoundTable/RoundTable";
 import ThreeRingTarget from "../ThreeRingTarget/ThreeRingTarget";
 import AddRoundButton from "../AddRoundButton/AddRoundButton";
 import TopButtonsGame from "../TopButtonsGame/TopButtonsGame";
+import ThreeRingPoints from "../ThreeRingPoints/ThreeRingPoints";
+import GameNotes from "../GameNotes/GameNotes";
+import RoundEdit from "../RoundEdit/RoundEdit";
 
 export default function ThreeRing() {
   const dispatch = useDispatch();
@@ -257,8 +260,12 @@ export default function ThreeRing() {
       style={{ backgroundImage: "none", position: "relative", top: "10px" }}
     >
       {/* Top Buttons Control */}
-      <TopButtonsGame resetScore={resetScore} addGame={addGame} newGameId={newGameId} />
-      
+      <TopButtonsGame
+        resetScore={resetScore}
+        addGame={addGame}
+        newGameId={newGameId}
+      />
+
       <div>
         <Card>
           <CardContent>
@@ -285,7 +292,7 @@ export default function ThreeRing() {
             </div>
             {showSettings ? (
               <div className="settings-div">
-                <div className="round-edit">
+                {/* <div className="round-edit">
                   <Button
                     onClick={() => setReplaceName(!replaceName)}
                     style={{ fontSize: "10px" }}
@@ -294,53 +301,31 @@ export default function ThreeRing() {
                     Edit Name
                   </Button>
                   <br />
-                </div>
-                <div className="round-table">
-                  <RoundTable
-                    roundHeaders={roundHeaders}
-                    roundScores={roundScores}
-                  />
-                </div>
-                <div style={{ textAlign: "right", fontSize: "12px" }}>
-                  <p>8's: {pointsOuter}</p>
-                  <p>9's: {pointsInner}</p>
-                  <p>Bull's: {bulls}</p>
-                  <p style={{ fontWeight: "bold" }}>
-                    Total: {totalScore} points
-                  </p>
-                  <Button onClick={clearScores} style={{ color: "red" }}>
-                    <ClearAllIcon /> Clear
-                  </Button>
-                </div>
+                </div> */}
+                <RoundEdit replaceName={replaceName} setReplaceName={setReplaceName} />
+
+                <RoundTable
+                  roundHeaders={roundHeaders}
+                  roundScores={roundScores}
+                />
+
+                {/* Points for Three Ring Target */}
+                <ThreeRingPoints
+                  pointsOuter={pointsOuter}
+                  pointsInner={pointsInner}
+                  bulls={bulls}
+                  totalScore={totalScore}
+                  clearScores={clearScores}
+                />
               </div>
             ) : (
-              <>
-                {isEdit ? (
-                  // Render an input field in edit mode
-                  <TextField
-                    type="text"
-                    label="Game Notes"
-                    placeholder="Game Notes"
-                    // value={gameNotes}
-                    onChange={(e) => setGameNotes(e.target.value)}
-                    onBlur={saveNotes}
-                  />
-                ) : (
-                  // Render the round title
-                  <>
-                    {/* <GameTimer /> gameId={game_id} */}
-                    <Typography
-                      id="notes-edit"
-                      variant="h7"
-                      onClick={() => {
-                        setIsEdit(!isEdit);
-                      }}
-                    >
-                      {gameNotes}
-                    </Typography>
-                  </>
-                )}
-              </>
+              <GameNotes
+                isEdit={isEdit}
+                saveNotes={saveNotes}
+                setGameNotes={setGameNotes}
+                gameNotes={gameNotes}
+                setIsEdit={setIsEdit}
+              />
             )}
           </CardContent>
         </Card>
@@ -353,8 +338,15 @@ export default function ThreeRing() {
           {" "}
           <GameMenu buttonLabel={buttonLabel} targetOptions={targetOptions} />
         </div>
-        <ThreeRingTarget clickOuter={clickOuter} clickInner={clickInner} clickBull={clickBull} />
+
+        {/* Target */}
+        <ThreeRingTarget
+          clickOuter={clickOuter}
+          clickInner={clickInner}
+          clickBull={clickBull}
+        />
       </div>
+
       {/* Add Round Button */}
       <AddRoundButton addRound={addRound} />
     </div>

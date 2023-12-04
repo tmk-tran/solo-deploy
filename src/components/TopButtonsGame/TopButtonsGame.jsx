@@ -7,6 +7,7 @@ import { Button } from "@mui/material";
 export default function TopButtonsGame({ resetScore, addGame, newGameId }) {
   const dispatch = useDispatch();
   const history = useHistory();
+  
   return (
     <div className="top-buttons">
       <Button
