@@ -28,6 +28,7 @@ export default function TestComp() {
   const [gameNotes, setGameNotes] = useState("Notes");
   const [targetName, setTargetName] = useState("Test");
   const [targetScore, setTargetScore] = useState(0); // update this when we decide what it is for
+
   return (
     <div className="page-container" style={{ backgroundImage: "none", position: "relative", top: "10px" }}>
       <RoundTracker

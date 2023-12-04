@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import GameTimer from "../GameTimer/GameTimer"; // timer keeps resetting, figure out issue
+// import GameTimer from "../GameTimer/GameTimer"; // timer keeps resetting, figure out issue
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -57,9 +57,6 @@ export default function RoundTracker({
 }) {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [pointsOuter, setPointsOuter] = useState(getCookie("outer") || 0);
-  const [pointsInner, setPointsInner] = useState(getCookie("inner") || 0);
-  const [bulls, setBulls] = useState(getCookie("bulls") || 0);
   // Bring in Rounds
   const rounds = useSelector((store) => store.roundReducer);
   console.log("SCORES: ", rounds);
@@ -244,13 +241,13 @@ export default function RoundTracker({
               />
 
               {/* Points for Three Ring Target */}
-              <ThreeRingPoints
+              {/* <ThreeRingPoints
                 pointsOuter={pointsOuter}
                 pointsInner={pointsInner}
                 bulls={bulls}
                 totalScore={totalScore}
                 clearScores={clearScores}
-              />
+              /> */}
             </div>
           ) : (
             <GameNotes

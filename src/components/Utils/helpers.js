@@ -15,6 +15,7 @@ import { styled } from "@mui/material/styles";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 
+// Styling for Rounds Table
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -38,17 +39,11 @@ export const StyledTableRow = styled(TableRow)(({ theme }) => ({
   // },
 }));
 
-// format the date to mm/dd/yyyy
+// Format the date to mm/dd/yyyy
 export function formatDate(inputDate) {
   const date = new Date(inputDate);
   return date.toLocaleDateString("en-US");
 }
 
+// Icon for GameMenu
 export const buttonLabel = <QueryStatsIcon />;
-
-// export const targetOptions = [
-//   `8's: ${pointsOuter}`,
-//   `9's: ${pointsInner}`,
-//   `10's: ${bulls}`,
-//   `Total = ${totalScore}`,
-// ];
