@@ -19,7 +19,7 @@ import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import getCookie from "../../hooks/cookie";
 // import Swal from "sweetalert2";
 // ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
-import { formatDate } from "../Utils/helpers";
+import { formatDate, buttonLabel } from "../Utils/helpers";
 import { savedAlert } from "../Utils/sweetAlerts";
 // ~~~~~~~~~~~~~~~ Components ~~~~~~~~~~~~~~~~~~
 import GameHeader from "../GameHeader/GameHeader";
@@ -247,7 +247,7 @@ export default function ThreeRing() {
     setRoundHeaders([]);
   };
 
-  const buttonLabel = <QueryStatsIcon />;
+  // const buttonLabel = <QueryStatsIcon />;
   const targetOptions = [
     `8's: ${pointsOuter}`,
     `9's: ${pointsInner}`,

@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import QueryStatsIcon from "@mui/icons-material/QueryStats";
 
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -42,3 +43,12 @@ export function formatDate(inputDate) {
   const date = new Date(inputDate);
   return date.toLocaleDateString("en-US");
 }
+
+export const buttonLabel = <QueryStatsIcon />;
+
+// export const targetOptions = [
+//   `8's: ${pointsOuter}`,
+//   `9's: ${pointsInner}`,
+//   `10's: ${bulls}`,
+//   `Total = ${totalScore}`,
+// ];

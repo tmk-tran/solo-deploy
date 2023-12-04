@@ -1,7 +1,13 @@
 import { Button, Typography } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
-export default function GameHeader({ replaceName, targetName, setTargetName, saveName, toggleSettings }) {
+export default function GameHeader({
+  replaceName,
+  targetName,
+  setTargetName,
+  saveName,
+  toggleSettings,
+}) {
   return (
     <div className="game-header">
       {!replaceName ? (

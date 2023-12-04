@@ -16,6 +16,11 @@ import EditIcon from "@mui/icons-material/Edit";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 // ~~~~~~~~~~~~~~~ Components ~~~~~~~~~~~~~~~~~~
 import RoundTable from "../RoundTable/RoundTable";
+import TopButtonsGame from "../TopButtonsGame/TopButtonsGame";
+import GameHeader from "../GameHeader/GameHeader";
+import RoundEdit from "../RoundEdit/RoundEdit";
+import ThreeRingPoints from "../ThreeRingPoints/ThreeRingPoints";
+import GameNotes from "../GameNotes/GameNotes";
 
 export default function RoundTracker({
   showSettings,
@@ -200,49 +205,26 @@ export default function RoundTracker({
 
   return (
     <>
-      <div className="top-buttons">
-        <Button
-          id="cancel-button"
-          variant="outlined"
-          onClick={() => {
-            resetScore();
-            dispatch({ type: "DELETE_GAME", payload: newGameId });
-            history.push("/games");
-          }}
-        >
-          Cancel
-        </Button>{" "}
-        <Button id="finish-btn" variant="outlined" onClick={addGame}>
-          Finish
-        </Button>
-      </div>
+      <TopButtonsGame
+        resetScore={resetScore}
+        addGame={addGame}
+        newGameId={newGameId}
+      />
       <div></div>
       <Card>
         <CardContent>
-          <div className="game-header">
-            {!replaceName ? (
-              <div>
-                <Typography variant="h6">{roundName}</Typography>
-              </div>
-            ) : (
-              <input
-                type="text"
-                value={roundName}
-                onChange={(e) => setRoundName(e.target.value)}
-                onBlur={saveName}
-              />
-            )}
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={toggleSettings}
-            >
-              <MoreHorizIcon />
-            </Button>
-          </div>
+          {/* Game Header */}
+          <GameHeader
+            replaceName={replaceName}
+            targetName={targetName}
+            setTargetName={setTargetName}
+            saveName={saveName}
+            toggleSettings={toggleSettings}
+          />
+
           {showSettings ? (
             <div className="settings-div">
-              <div className="round-edit">
+              {/* <div className="round-edit">
                 <Button
                   variant="outlined"
                   onClick={() => setReplaceName(!replaceName)}
@@ -265,56 +247,36 @@ export default function RoundTracker({
                 <Button onClick={clearScores} style={{ color: "red" }}>
                   <ClearAllIcon /> Clear
                 </Button>
-              </div>
+              </div> */}
+              {/* Round Edit */}
+              <RoundEdit
+                replaceName={replaceName}
+                setReplaceName={setReplaceName}
+              />
+
+              {/* Round Table */}
+              <RoundTable
+                roundHeaders={roundHeaders}
+                roundScores={roundScores}
+              />
+
+              {/* Points for Three Ring Target */}
+              {/* <ThreeRingPoints
+                pointsOuter={pointsOuter}
+                pointsInner={pointsInner}
+                bulls={bulls}
+                totalScore={totalScore}
+                clearScores={clearScores}
+              /> */}
             </div>
           ) : (
-            <>
-              {isEdit ? (
-                // Render an input field in edit mode
-              //   <input
-              //     type="text"
-              //     value={notes}
-              //     onChange={(e) => setNotes(e.target.value)}
-              //     onBlur={saveNotes}
-              //   />
-              // ) : (
-              //   // Render the round title
-              //   <>
-              //     {/* <GameTimer /> gameId={game_id} */}
-              //     <Typography
-              //       variant="h7"
-              //       onClick={() => {
-              //         setIsEdit(!isEdit);
-              //       }}
-              //     >
-              //       {notes}
-              //     </Typography>
-              //   </>
-              <TextField
-                    type="text"
-                    label="Game Notes"
-                    placeholder="Game Notes"
-                    value={notes}
-                    onChange={(e) => setGameNotes(e.target.value)}
-                    onBlur={saveNotes}
-                  />
-                ) : (
-                  // Render the round title
-                  <>
-                    {/* <GameTimer /> gameId={game_id} */}
-                    <Typography
-                      id="notes-edit"
-                      variant="h7"
-                      onClick={() => {
-                        setIsEdit(!isEdit);
-                      }}
-                    >
-                      {notes}
-                    </Typography>
-                  </>
-                
-              )}
-            </>
+            <GameNotes
+              isEdit={isEdit}
+              saveNotes={saveNotes}
+              setGameNotes={setGameNotes}
+              gameNotes={gameNotes}
+              setIsEdit={setIsEdit}
+            />
           )}
         </CardContent>
       </Card>
