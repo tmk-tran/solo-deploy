@@ -10,11 +10,6 @@ import {
   FormControl,
   Button,
   Typography,
-  Table,
-  TableBody,
-  TableContainer,
-  TableHead,
-  TableRow,
 } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import EditIcon from "@mui/icons-material/Edit";
@@ -30,6 +25,7 @@ import { savedAlert } from "../Utils/sweetAlerts";
 import GameInfo from "../GameInfo/GameInfo";
 import GameMenu from "../GameMenu/GameMenu";
 import RoundTable from "../RoundTable/RoundTable";
+import ThreeRingTarget from "../ThreeRingTarget/ThreeRingTarget";
 
 export default function ThreeRing() {
   const dispatch = useDispatch();
@@ -368,11 +364,7 @@ export default function ThreeRing() {
           {" "}
           <GameMenu buttonLabel={buttonLabel} targetOptions={targetOptions} />
         </div>
-        <div className="three-ring" onClick={clickOuter}>
-          <div className="three-ring-inner" onClick={clickInner}>
-            <div className="three-ring-bulls" onClick={clickBull}></div>
-          </div>
-        </div>
+        <ThreeRingTarget clickOuter={clickOuter} clickInner={clickInner} clickBull={clickBull} />
       </div>
       <FormControl className="form-control" fullWidth>
         <Button variant="contained" onClick={addRound}>
