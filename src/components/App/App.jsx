@@ -191,7 +191,8 @@ function App() {
             </ProtectedRoute>
 
             <ProtectedRoute exact path="/test">
-              <MiniDrawer />
+              {/* <MiniDrawer /> */}
+              <TestComp />
             </ProtectedRoute>
 
             <Route exact path="/login">

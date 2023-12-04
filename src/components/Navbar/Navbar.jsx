@@ -10,6 +10,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import Paper from "@mui/material/Paper";
 import InfoIcon from "@mui/icons-material/Info";
+import BiotechIcon from "@mui/icons-material/Biotech";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBullseye } from "@fortawesome/free-solid-svg-icons";
 import "./Navbar.css";
@@ -89,6 +90,14 @@ export default function SimpleBottomNavigation() {
               style={{ color: "white" }}
               component={Link}
               to="/about"
+            />
+            <BottomNavigationAction
+              className="profile-nav"
+              label="Test"
+              icon={<BiotechIcon />}
+              style={{ color: "white" }}
+              component={Link}
+              to="/test"
             />
           </BottomNavigation>
         </Paper>
