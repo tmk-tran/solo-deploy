@@ -27,6 +27,7 @@ import GameMenu from "../GameMenu/GameMenu";
 import RoundTable from "../RoundTable/RoundTable";
 import ThreeRingTarget from "../ThreeRingTarget/ThreeRingTarget";
 import AddRoundButton from "../AddRoundButton/AddRoundButton";
+import TopButtonsGame from "../TopButtonsGame/TopButtonsGame";
 
 export default function ThreeRing() {
   const dispatch = useDispatch();
@@ -255,22 +256,9 @@ export default function ThreeRing() {
       className="page-container"
       style={{ backgroundImage: "none", position: "relative", top: "10px" }}
     >
-      <div className="top-buttons">
-        <Button
-          id="cancel-button"
-          variant="outlined"
-          onClick={() => {
-            resetScore();
-            dispatch({ type: "DELETE_GAME", payload: newGameId });
-            history.push("/games");
-          }}
-        >
-          Cancel
-        </Button>{" "}
-        <Button id="finish-btn" variant="outlined" onClick={addGame}>
-          Finish
-        </Button>
-      </div>
+      {/* Top Buttons Control */}
+      <TopButtonsGame resetScore={resetScore} addGame={addGame} newGameId={newGameId} />
+      
       <div>
         <Card>
           <CardContent>
@@ -367,6 +355,7 @@ export default function ThreeRing() {
         </div>
         <ThreeRingTarget clickOuter={clickOuter} clickInner={clickInner} clickBull={clickBull} />
       </div>
+      {/* Add Round Button */}
       <AddRoundButton addRound={addRound} />
     </div>
   );
