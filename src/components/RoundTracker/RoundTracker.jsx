@@ -6,20 +6,16 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   Card,
   CardContent,
-  TextField,
   FormControl,
   Button,
-  Table,
-  TableBody,
-  TableHead,
-  TableRow,
+  TextField,
   Typography,
 } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import EditIcon from "@mui/icons-material/Edit";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
-// ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
-import { StyledTableCell, StyledTableRow, formatDate } from "../Utils/helpers";
+// ~~~~~~~~~~~~~~~ Components ~~~~~~~~~~~~~~~~~~
+import RoundTable from "../RoundTable/RoundTable";
 
 export default function RoundTracker({
   showSettings,
@@ -258,29 +254,10 @@ export default function RoundTracker({
                 <br />
               </div>
               <div className="round-table">
-                <Table sx={{ minWidth: 250 }} size="small">
-                  <TableHead>
-                    <TableRow sx={{ "&:last-child th": { border: 0 } }}>
-                      {roundHeaders.map((header) => (
-                        <StyledTableCell
-                          key={header}
-                          style={{ textAlign: "center" }}
-                        >
-                          Round {header}
-                        </StyledTableCell>
-                      ))}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <StyledTableRow>
-                      {roundScores.map((score, index) => (
-                        <td key={index} className="score">
-                          {score}
-                        </td>
-                      ))}
-                    </StyledTableRow>
-                  </TableBody>
-                </Table>
+                <RoundTable
+                  roundHeaders={roundHeaders}
+                  roundScores={roundScores}
+                />
               </div>
               <div style={{ textAlign: "right", fontSize: "12px" }}>
                 <p>Hits: </p>
@@ -294,25 +271,48 @@ export default function RoundTracker({
             <>
               {isEdit ? (
                 // Render an input field in edit mode
-                <input
-                  type="text"
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  onBlur={saveNotes}
-                />
-              ) : (
-                // Render the round title
-                <>
-                  {/* <GameTimer /> gameId={game_id} */}
-                  <Typography
-                    variant="h7"
-                    onClick={() => {
-                      setIsEdit(!isEdit);
-                    }}
-                  >
-                    {notes}
-                  </Typography>
-                </>
+              //   <input
+              //     type="text"
+              //     value={notes}
+              //     onChange={(e) => setNotes(e.target.value)}
+              //     onBlur={saveNotes}
+              //   />
+              // ) : (
+              //   // Render the round title
+              //   <>
+              //     {/* <GameTimer /> gameId={game_id} */}
+              //     <Typography
+              //       variant="h7"
+              //       onClick={() => {
+              //         setIsEdit(!isEdit);
+              //       }}
+              //     >
+              //       {notes}
+              //     </Typography>
+              //   </>
+              <TextField
+                    type="text"
+                    label="Game Notes"
+                    placeholder="Game Notes"
+                    value={notes}
+                    onChange={(e) => setGameNotes(e.target.value)}
+                    onBlur={saveNotes}
+                  />
+                ) : (
+                  // Render the round title
+                  <>
+                    {/* <GameTimer /> gameId={game_id} */}
+                    <Typography
+                      id="notes-edit"
+                      variant="h7"
+                      onClick={() => {
+                        setIsEdit(!isEdit);
+                      }}
+                    >
+                      {notes}
+                    </Typography>
+                  </>
+                
               )}
             </>
           )}
