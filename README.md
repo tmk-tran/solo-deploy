@@ -16,6 +16,7 @@ Some features:
 ## T Mark Schisel ##
 
 ## Table of Contents
+- [Updates](#updates)
 - [About](#usage)
 - [Games](#games)
 - [Install](#getting-started)
@@ -27,6 +28,10 @@ Some features:
 This application was developed to address the need for a way to track my scores while at the shooting range, as well as have the ability to visualize personal improvement. This was also created as my Solo Project for my course work at Emerging Digital Academy.
 
 Emerging Digital Academy is an immersive 20-week program that empowers learners to begin their new careers in the technology industry. This full-time, classroom-based coding school provides small cohort sizes, one-on-one instructor support, weekly presentations by local industry professionals, and project-based learning principles. Students graduate the program with a portfolio of unique and meaningful projects to demonstrate their talents. You can learn more about Emerging Digital Academy at http://www.emergingacademy.org.
+
+## Updates
+
+I am currently updating this application to clean up my components, and to clean up the code within. If you are here to view the project: Welcome! and thank you for visiting. Most components in this project need some revisiting, and to make the overall project more DRY.  Excuse the dust, and again, thanks for the visit!
 
 ## Usage
 
