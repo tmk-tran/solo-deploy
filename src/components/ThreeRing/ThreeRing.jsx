@@ -122,23 +122,6 @@ export default function ThreeRing() {
     setTotalScore
   );
 
-  // const resetScore = () => {
-  //   // Clear the cookies related to the score (e.g., outer, inner, bulls)
-  //   document.cookie = "outer=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-  //   document.cookie = "inner=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-  //   document.cookie = "bulls=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-  //   document.cookie = "notes=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-  //   document.cookie = "round=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-
-  //   // Reset the related state variables if needed
-  //   setPointsOuter(0);
-  //   setPointsInner(0);
-  //   setBulls(0);
-  //   setTotalScore(0);
-  //   setRoundScores([]);
-  //   setRoundHeaders([]);
-  // };
-
   const resetScore = () => {
     const cookiesToClear = ["outer", "inner", "bulls", "notes", "round"];
     const stateToReset = [ setPointsOuter, setPointsInner, setBulls, setTotalScore, setRoundScores, setRoundHeaders ]
