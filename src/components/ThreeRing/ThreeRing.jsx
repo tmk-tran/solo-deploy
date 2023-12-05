@@ -2,25 +2,22 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 // import GameTimer from "../GameTimer/GameTimer"; // timer keeps resetting, figure out issue
 import { useDispatch } from "react-redux";
-import "./ThreeRing.css";
+// ~~~~~~~~~~~~~~~ Style ~~~~~~~~~~~~~~~~~~
 import { Card, CardContent } from "@mui/material";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import EditIcon from "@mui/icons-material/Edit";
-import ClearAllIcon from "@mui/icons-material/ClearAll";
-import QueryStatsIcon from "@mui/icons-material/QueryStats";
+import "./ThreeRing.css";
 // ~~~~~~~~~~~~~~~ Hooks ~~~~~~~~~~~~~~~~~~
 import getCookie from "../../hooks/cookie";
 import useRoundId from "../../hooks/roundId";
 import useGameId from "../../hooks/gameId";
-// import Swal from "sweetalert2";
 // ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
-import { formatDate, buttonLabel } from "../Utils/helpers";
+import { formatDate, buttonLabel, handleAddRound } from "../Utils/helpers";
 import {
   handleOuterClick,
   handleInnerClick,
   handleBullClick,
   handleToggleSettings,
   handleSaveNotes,
+  handleSaveName,
 } from "../Utils/targetZones";
 import { savedAlert } from "../Utils/sweetAlerts";
 // ~~~~~~~~~~~~~~~ Components ~~~~~~~~~~~~~~~~~~
@@ -107,63 +104,32 @@ export default function ThreeRing() {
   // Utils / Settings
   const toggleSettings = handleToggleSettings(showSettings, setShowSettings);
 
-  // const saveNotes = (e) => {
-  //   e.preventDefault();
-  //   document.cookie = `notes=${gameNotes}`;
-  //   setIsEdit(false);
-  // };
+  // Utils / Notes
   const saveNotes = handleSaveNotes(gameNotes, setIsEdit);
 
-  const saveName = (e) => {
-    e.preventDefault();
-    document.cookie = `round=${targetName}`;
-    setReplaceName(false);
-  };
+  // Utils / Round Name
+  const saveName = handleSaveName(targetName, setReplaceName);
 
-  const addRound = (e) => {
-    e.preventDefault();
-    //  Ensure there's a game_id before adding rounds
-    //   if (newGameId) {
-
-    // Calculate the total score for the current round
-    const newRoundScore =
-      Number(pointsOuter) + Number(pointsInner) + Number(bulls);
-    // Create a new array of round scores with the current total score
-    const newRoundScores = [...roundScores, totalScore];
-    console.log("NEW ROUND SCORES: ", newRoundScores); // confirmed
-
-    const sumRoundScores = newRoundScores.reduce(
-      (accumulator, currentValue) => {
-        return accumulator + currentValue;
-      },
-      0
-    );
-
-    console.log("Sum of round scores:", sumRoundScores);
-    setTotalRoundScores(sumRoundScores);
-
-    // Increment the round header
-    const newRoundHeader = roundHeaders.length + 1;
-
-    const roundData = {
-      game_id: newGameId,
-      round_number: roundNumber,
-      round_score: newRoundScore,
-    };
-    console.log("ROUND DATA IS: ", roundData); // remove after confirmation
-
-    dispatch({ type: "ADD_ROUND", payload: roundData }); // --> send to a new reducer?
-
-    setRoundNumber(roundNumber + 1);
-    console.log("ROUND NUMBER IS: ", roundNumber); // remove after confirmation
-
-    setRoundScores(newRoundScores);
-    setRoundHeaders([...roundHeaders, newRoundHeader]);
-    setPointsOuter(0);
-    setPointsInner(0);
-    setBulls(0);
-    setTotalScore(0);
-  };
+  // Utils / Add Round
+  const addRound = handleAddRound(
+    pointsOuter,
+    pointsInner,
+    bulls,
+    roundScores,
+    totalScore,
+    setRoundScores,
+    roundHeaders,
+    setRoundHeaders,
+    setTotalRoundScores,
+    roundNumber,
+    setRoundNumber,
+    newGameId,
+    dispatch,
+    setPointsOuter,
+    setPointsInner,
+    setBulls,
+    setTotalScore
+  );
 
   const addGame = () => {
     const gameData = {

@@ -36,8 +36,16 @@ const handleSaveNotes = (gameNotes, setIsEdit) => (e) => {
   setIsEdit(false);
 };
 
+// Name
+const handleSaveName = (targetName, setReplaceName) => (e) => {
+  e.preventDefault();
+  document.cookie = `round=${targetName}`;
+  setReplaceName(false);
+};
+
 export { handleBullClick };
 export { handleInnerClick };
 export { handleOuterClick };
 export { handleToggleSettings };
 export { handleSaveNotes };
+export { handleSaveName };
