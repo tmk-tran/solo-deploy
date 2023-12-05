@@ -15,7 +15,11 @@ import useGameId from "../../hooks/gameId";
 // import Swal from "sweetalert2";
 // ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
 import { formatDate, buttonLabel } from "../Utils/helpers";
-import { handleBullClick } from "../Utils/targetZones";
+import {
+  handleOuterClick,
+  handleInnerClick,
+  handleBullClick,
+} from "../Utils/targetZones";
 import { savedAlert } from "../Utils/sweetAlerts";
 // ~~~~~~~~~~~~~~~ Components ~~~~~~~~~~~~~~~~~~
 import GameHeader from "../GameHeader/GameHeader";
@@ -89,30 +93,13 @@ export default function ThreeRing() {
     // alert("Added Target!");
   };
 
-  // Function to handle clicking on the zone and recording points
-  const clickOuter = () => {
-    const newCount = Number(pointsOuter) + 8;
+  // Utils / Outer Zone
+  const handleClickOuter = handleOuterClick(pointsOuter, setPointsOuter);
 
-    // This is making a cookie called count with the newCount amount
-    // It will replace anything called count
-    document.cookie = `outer=${newCount}`;
-    setPointsOuter(newCount);
-  };
+  // Utils / Inner Zone
+  const handleClickInner = handleInnerClick(pointsInner, setPointsInner);
 
-  const clickInner = (e) => {
-    e.stopPropagation(); // Stop event propagation to prevent outer zone click action
-    const newCount = Number(pointsInner) + 9;
-    document.cookie = `inner=${newCount}`;
-    setPointsInner(newCount);
-  };
-
-  // const clickBull = (e) => {
-  //   e.stopPropagation(); // Stop event propagation to prevent outer zone click action
-  //   const newCount = Number(bulls) + 10;
-  //   document.cookie = `bulls=${newCount}`;
-  //   setBulls(newCount);
-  // };
-  // Utils
+  // Utils / Bulls
   const handleClickBull = handleBullClick(bulls, setBulls);
 
   const toggleSettings = (e) => {
@@ -294,8 +281,8 @@ export default function ThreeRing() {
 
         {/* Target */}
         <ThreeRingTarget
-          clickOuter={clickOuter}
-          clickInner={clickInner}
+          clickOuter={handleClickOuter}
+          clickInner={handleClickInner}
           clickBull={handleClickBull}
         />
       </div>
