@@ -1,7 +1,4 @@
-import {
-  TableRow,
-  TableCell,
-} from "@mui/material";
+import { TableRow, TableCell } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { tableCellClasses } from "@mui/material/TableCell";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";

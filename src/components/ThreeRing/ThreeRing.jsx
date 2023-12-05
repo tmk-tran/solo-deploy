@@ -1,27 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 // import GameTimer from "../GameTimer/GameTimer"; // timer keeps resetting, figure out issue
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import "./ThreeRing.css";
-import {
-  Card,
-  CardContent,
-  TextField,
-  FormControl,
-  Button,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import EditIcon from "@mui/icons-material/Edit";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 // ~~~~~~~~~~~~~~~ Hooks ~~~~~~~~~~~~~~~~~~
 import getCookie from "../../hooks/cookie";
-import useRoundId from "../../hooks/roundId"
-import useGameId from "../../hooks/gameId"
+import useRoundId from "../../hooks/roundId";
+import useGameId from "../../hooks/gameId";
 // import Swal from "sweetalert2";
 // ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
 import { formatDate, buttonLabel } from "../Utils/helpers";
+import { handleBullClick } from "../Utils/targetZones";
 import { savedAlert } from "../Utils/sweetAlerts";
 // ~~~~~~~~~~~~~~~ Components ~~~~~~~~~~~~~~~~~~
 import GameHeader from "../GameHeader/GameHeader";
@@ -38,7 +32,7 @@ import RoundEdit from "../RoundEdit/RoundEdit";
 export default function ThreeRing() {
   const dispatch = useDispatch();
   const history = useHistory();
-  
+
   // Hooks
   const roundId = useRoundId();
   const newGameId = useGameId();
@@ -112,12 +106,14 @@ export default function ThreeRing() {
     setPointsInner(newCount);
   };
 
-  const clickBull = (e) => {
-    e.stopPropagation(); // Stop event propagation to prevent outer zone click action
-    const newCount = Number(bulls) + 10;
-    document.cookie = `bulls=${newCount}`;
-    setBulls(newCount);
-  };
+  // const clickBull = (e) => {
+  //   e.stopPropagation(); // Stop event propagation to prevent outer zone click action
+  //   const newCount = Number(bulls) + 10;
+  //   document.cookie = `bulls=${newCount}`;
+  //   setBulls(newCount);
+  // };
+  // Utils
+  const handleClickBull = handleBullClick(bulls, setBulls);
 
   const toggleSettings = (e) => {
     e.preventDefault();
@@ -221,7 +217,6 @@ export default function ThreeRing() {
     setRoundHeaders([]);
   };
 
-  // const buttonLabel = <QueryStatsIcon />;
   const targetOptions = [
     `8's: ${pointsOuter}`,
     `9's: ${pointsInner}`,
@@ -244,15 +239,22 @@ export default function ThreeRing() {
       <div>
         <Card>
           <CardContent>
-
             {/* Game Header */}
-            <GameHeader replaceName={replaceName} targetName={targetName} setTargetName={setTargetName} saveName={saveName} toggleSettings={toggleSettings}  />
-            
+            <GameHeader
+              replaceName={replaceName}
+              targetName={targetName}
+              setTargetName={setTargetName}
+              saveName={saveName}
+              toggleSettings={toggleSettings}
+            />
+
             {showSettings ? (
               <div className="settings-div">
-                
                 {/* Round Edit */}
-                <RoundEdit replaceName={replaceName} setReplaceName={setReplaceName} />
+                <RoundEdit
+                  replaceName={replaceName}
+                  setReplaceName={setReplaceName}
+                />
 
                 {/* Round Table */}
                 <RoundTable
@@ -294,7 +296,7 @@ export default function ThreeRing() {
         <ThreeRingTarget
           clickOuter={clickOuter}
           clickInner={clickInner}
-          clickBull={clickBull}
+          clickBull={handleClickBull}
         />
       </div>
 
