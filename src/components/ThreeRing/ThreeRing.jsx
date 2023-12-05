@@ -20,6 +20,7 @@ import {
   handleInnerClick,
   handleBullClick,
   handleToggleSettings,
+  handleSaveNotes,
 } from "../Utils/targetZones";
 import { savedAlert } from "../Utils/sweetAlerts";
 // ~~~~~~~~~~~~~~~ Components ~~~~~~~~~~~~~~~~~~
@@ -106,11 +107,12 @@ export default function ThreeRing() {
   // Utils / Settings
   const toggleSettings = handleToggleSettings(showSettings, setShowSettings);
 
-  const saveNotes = (e) => {
-    e.preventDefault();
-    document.cookie = `notes=${gameNotes}`;
-    setIsEdit(false);
-  };
+  // const saveNotes = (e) => {
+  //   e.preventDefault();
+  //   document.cookie = `notes=${gameNotes}`;
+  //   setIsEdit(false);
+  // };
+  const saveNotes = handleSaveNotes(gameNotes, setIsEdit);
 
   const saveName = (e) => {
     e.preventDefault();

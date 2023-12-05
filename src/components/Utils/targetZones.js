@@ -29,7 +29,15 @@ const handleToggleSettings = (showSettings, setShowSettings) => (e) => {
   setShowSettings(!showSettings);
 };
 
+// Notes
+const handleSaveNotes = (gameNotes, setIsEdit) => (e) => {
+  e.preventDefault();
+  document.cookie = `notes=${gameNotes}`;
+  setIsEdit(false);
+};
+
 export { handleBullClick };
 export { handleInnerClick };
 export { handleOuterClick };
 export { handleToggleSettings };
+export { handleSaveNotes };
