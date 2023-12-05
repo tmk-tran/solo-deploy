@@ -18,7 +18,7 @@ import QueryStatsIcon from "@mui/icons-material/QueryStats";
 // ~~~~~~~~~~~~~~~ Hooks ~~~~~~~~~~~~~~~~~~
 import getCookie from "../../hooks/cookie";
 import useRoundId from "../../hooks/roundId"
-import useGames from "../../hooks/games"
+import useGameId from "../../hooks/gameId"
 // import Swal from "sweetalert2";
 // ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
 import { formatDate, buttonLabel } from "../Utils/helpers";
@@ -41,7 +41,7 @@ export default function ThreeRing() {
   
   // Hooks
   const roundId = useRoundId();
-  const games = useGames();
+  const newGameId = useGameId();
 
   const [pointsOuter, setPointsOuter] = useState(getCookie("outer") || 0);
   const [pointsInner, setPointsInner] = useState(getCookie("inner") || 0);
@@ -75,36 +75,9 @@ export default function ThreeRing() {
   }, [pointsOuter, pointsInner, bulls]);
 
   // Bring in Rounds
-  // console.log("ROUNDS store in ThreeRing: ", rounds);
-  // const roundIds = rounds.map((round, i) => {
-  //   // Check if it's the last score in the array
-  //   if (i === rounds.length - 1) {
-  //     // You've reached the last score, so you can extract the ID
-  //     const rId = round.round_id;
-  //     return rId;
-  //   }
-  //   // If it's not the last object, return null or undefined, or handle it as needed.
-  //   return null;
-  // });
-  // Extract the last round's ID
-  // const roundId = roundIds.filter((round_id) => round_id !== null)[0];
   console.log("Round ID = ", roundId);
 
   // Bring in Games
-  console.log("GAMES: ", games);
-  const gameIds = games.map((game, i) => {
-    // Check if it's the last game in the array
-    if (i === games.length - 1) {
-      // You've reached the last game, so you can extract the ID
-      const newId = game.game_id;
-      return newId;
-    }
-    // If it's not the last game, return null or undefined, or handle it as needed.
-    return null;
-  });
-
-  // Extract the last game's ID
-  const newGameId = gameIds.filter((game_id) => game_id !== null)[0];
   console.log("New Game ID:", newGameId);
 
   const clearScores = (e) => {
