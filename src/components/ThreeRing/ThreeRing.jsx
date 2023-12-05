@@ -19,6 +19,7 @@ import {
   handleOuterClick,
   handleInnerClick,
   handleBullClick,
+  handleToggleSettings,
 } from "../Utils/targetZones";
 import { savedAlert } from "../Utils/sweetAlerts";
 // ~~~~~~~~~~~~~~~ Components ~~~~~~~~~~~~~~~~~~
@@ -94,18 +95,16 @@ export default function ThreeRing() {
   };
 
   // Utils / Outer Zone
-  const handleClickOuter = handleOuterClick(pointsOuter, setPointsOuter);
+  const clickOuter = handleOuterClick(pointsOuter, setPointsOuter);
 
   // Utils / Inner Zone
-  const handleClickInner = handleInnerClick(pointsInner, setPointsInner);
+  const clickInner = handleInnerClick(pointsInner, setPointsInner);
 
   // Utils / Bulls
-  const handleClickBull = handleBullClick(bulls, setBulls);
+  const clickBull = handleBullClick(bulls, setBulls);
 
-  const toggleSettings = (e) => {
-    e.preventDefault();
-    setShowSettings(!showSettings);
-  };
+  // Utils / Settings
+  const toggleSettings = handleToggleSettings(showSettings, setShowSettings);
 
   const saveNotes = (e) => {
     e.preventDefault();
@@ -281,9 +280,9 @@ export default function ThreeRing() {
 
         {/* Target */}
         <ThreeRingTarget
-          clickOuter={handleClickOuter}
-          clickInner={handleClickInner}
-          clickBull={handleClickBull}
+          clickOuter={clickOuter}
+          clickInner={clickInner}
+          clickBull={clickBull}
         />
       </div>
 

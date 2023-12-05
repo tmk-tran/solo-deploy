@@ -23,6 +23,13 @@ const handleBullClick = (bulls, setBulls) => (e) => {
   setBulls(newCount);
 };
 
+// Settings
+const handleToggleSettings = (showSettings, setShowSettings) => (e) => {
+  e.preventDefault();
+  setShowSettings(!showSettings);
+};
+
 export { handleBullClick };
 export { handleInnerClick };
 export { handleOuterClick };
+export { handleToggleSettings };
