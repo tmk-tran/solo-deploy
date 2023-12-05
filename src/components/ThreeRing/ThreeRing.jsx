@@ -17,7 +17,7 @@ import ClearAllIcon from "@mui/icons-material/ClearAll";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 // ~~~~~~~~~~~~~~~ Hooks ~~~~~~~~~~~~~~~~~~
 import getCookie from "../../hooks/cookie";
-import useRounds from "../../hooks/rounds"
+import useRoundId from "../../hooks/roundId"
 import useGames from "../../hooks/games"
 // import Swal from "sweetalert2";
 // ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
@@ -39,7 +39,8 @@ export default function ThreeRing() {
   const dispatch = useDispatch();
   const history = useHistory();
   
-  const rounds = useRounds();
+  // Hooks
+  const roundId = useRoundId();
   const games = useGames();
 
   const [pointsOuter, setPointsOuter] = useState(getCookie("outer") || 0);
@@ -48,16 +49,13 @@ export default function ThreeRing() {
   const [showSettings, setShowSettings] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [replaceName, setReplaceName] = useState(false);
-  // Define state to manage round scores and round headers
+  // State to manage round scores and round headers
   const [roundScores, setRoundScores] = useState([]); // Array to store round scores
   const [roundHeaders, setRoundHeaders] = useState([]); // Array to store round headers
   const [totalRoundScores, setTotalRoundScores] = useState(0);
-  // console.log("TOTAL SCORES OF ROUNDS = ", totalRoundScores);
-
   // State to manage round numbers
   const [roundNumber, setRoundNumber] = useState(1);
-
-  // from Games ~~~~~~~~~~~~~~~~~~~~~~~~~
+  // From Games ~~~~~~~~~~~~~~~~~~~~~~~~~
   const [totalScore, setTotalScore] = useState(
     pointsOuter + pointsInner + bulls
   );
@@ -77,24 +75,22 @@ export default function ThreeRing() {
   }, [pointsOuter, pointsInner, bulls]);
 
   // Bring in Rounds
-  // const rounds = useSelector((store) => store.roundReducer);
-  console.log("ROUNDS store in ThreeRing: ", rounds);
-  const roundIds = rounds.map((round, i) => {
-    // Check if it's the last score in the array
-    if (i === rounds.length - 1) {
-      // You've reached the last score, so you can extract the ID
-      const rId = round.round_id;
-      return rId;
-    }
-    // If it's not the last object, return null or undefined, or handle it as needed.
-    return null;
-  });
+  // console.log("ROUNDS store in ThreeRing: ", rounds);
+  // const roundIds = rounds.map((round, i) => {
+  //   // Check if it's the last score in the array
+  //   if (i === rounds.length - 1) {
+  //     // You've reached the last score, so you can extract the ID
+  //     const rId = round.round_id;
+  //     return rId;
+  //   }
+  //   // If it's not the last object, return null or undefined, or handle it as needed.
+  //   return null;
+  // });
   // Extract the last round's ID
-  const roundId = roundIds.filter((round_id) => round_id !== null)[0];
+  // const roundId = roundIds.filter((round_id) => round_id !== null)[0];
   console.log("Round ID = ", roundId);
 
   // Bring in Games
-  // const games = useSelector((store) => store.gamesReducer);
   console.log("GAMES: ", games);
   const gameIds = games.map((game, i) => {
     // Check if it's the last game in the array
