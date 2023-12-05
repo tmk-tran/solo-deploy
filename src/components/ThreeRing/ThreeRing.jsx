@@ -15,6 +15,8 @@ import {
   buttonLabel,
   handleAddRound,
   handleAddGame,
+  handleClearScores,
+  handleResetScore,
 } from "../Utils/helpers";
 import {
   handleOuterClick,
@@ -65,7 +67,7 @@ export default function ThreeRing() {
   // console.log("GAME DATE IS:", gameDate);
   const [gameNotes, setGameNotes] = useState(getCookie("notes") || "Notes");
   const [targetName, setTargetName] = useState("3-Ring");
-  const [targetScore, setTargetScore] = useState(0); // update this when we decide what it is for
+  const [targetScore, setTargetScore] = useState(0);
 
   useEffect(() => {
     // Calculate the total score whenever any of the individual scores change
@@ -76,45 +78,30 @@ export default function ThreeRing() {
     setTotalScore(totalScore);
   }, [pointsOuter, pointsInner, bulls]);
 
-  // Bring in Rounds
+  // Bring in Rounds ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   console.log("Round ID = ", roundId);
-
-  // Bring in Games
+  // Bring in Games ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   console.log("New Game ID:", newGameId);
 
-  const clearScores = (e) => {
-    e.preventDefault();
-
-    // Clear the input fields
-    setGameDate(gameDate);
-    setGameNotes("Notes");
-    setPointsOuter(0);
-    setPointsInner(0);
-    setBulls(0);
-    setTotalScore(0);
-    setRoundNumber(1);
-    resetScore();
-  };
-
-  // Utils / Outer Zone
+  // Utils / Outer Zone ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const clickOuter = handleOuterClick(pointsOuter, setPointsOuter);
 
-  // Utils / Inner Zone
+  // Utils / Inner Zone ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const clickInner = handleInnerClick(pointsInner, setPointsInner);
 
-  // Utils / Bulls
+  // Utils / Bulls ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const clickBull = handleBullClick(bulls, setBulls);
 
-  // Utils / Settings
+  // Utils / Settings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const toggleSettings = handleToggleSettings(showSettings, setShowSettings);
 
   // Utils / Notes
   const saveNotes = handleSaveNotes(gameNotes, setIsEdit);
 
-  // Utils / Round Name
+  // Utils / Round Name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const saveName = handleSaveName(targetName, setReplaceName);
 
-  // Utils / Add Round
+  // Utils / Add Round ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const addRound = handleAddRound(
     pointsOuter,
     pointsInner,
@@ -135,23 +122,30 @@ export default function ThreeRing() {
     setTotalScore
   );
 
-  const resetScore = () => {
-    // Clear the cookies related to the score (e.g., outer, inner, bulls)
-    document.cookie = "outer=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    document.cookie = "inner=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    document.cookie = "bulls=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    document.cookie = "notes=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    document.cookie = "round=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+  // const resetScore = () => {
+  //   // Clear the cookies related to the score (e.g., outer, inner, bulls)
+  //   document.cookie = "outer=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+  //   document.cookie = "inner=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+  //   document.cookie = "bulls=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+  //   document.cookie = "notes=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+  //   document.cookie = "round=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
 
-    // Reset the related state variables if needed
-    setPointsOuter(0);
-    setPointsInner(0);
-    setBulls(0);
-    setTotalScore(0);
-    setRoundScores([]);
-    setRoundHeaders([]);
+  //   // Reset the related state variables if needed
+  //   setPointsOuter(0);
+  //   setPointsInner(0);
+  //   setBulls(0);
+  //   setTotalScore(0);
+  //   setRoundScores([]);
+  //   setRoundHeaders([]);
+  // };
+
+  const resetScore = () => {
+    const cookiesToClear = ["outer", "inner", "bulls", "notes", "round"];
+    const stateToReset = [ setPointsOuter, setPointsInner, setBulls, setTotalScore, setRoundScores, setRoundHeaders ]
+    handleResetScore(cookiesToClear, ...stateToReset);
   };
 
+  // Add Game ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const addGame = handleAddGame(
     newGameId,
     formatDate,
@@ -167,6 +161,19 @@ export default function ThreeRing() {
     setTotalScore,
     setTargetName,
     history,
+    resetScore
+  );
+
+  // Clear Scores ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const clearScores = handleClearScores(
+    gameDate,
+    setGameDate,
+    setGameNotes,
+    setPointsOuter,
+    setPointsInner,
+    setBulls,
+    setTotalScore,
+    setRoundNumber,
     resetScore
   );
 

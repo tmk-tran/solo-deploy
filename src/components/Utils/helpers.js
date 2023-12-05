@@ -31,7 +31,7 @@ export const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export function formatDate(inputDate) {
   const date = new Date(inputDate);
   return date.toLocaleDateString("en-US");
-};
+}
 
 // Icon for GameMenu
 export const buttonLabel = <QueryStatsIcon />;
@@ -117,8 +117,9 @@ export const handleAddGame =
     setTotalScore,
     setTargetName,
     history,
-    resetScore,
-  ) => () => {
+    resetScore
+  ) =>
+  () => {
     const gameData = {
       game_id: newGameId,
       game_date: formatDate(gameDate),
@@ -140,3 +141,43 @@ export const handleAddGame =
     history.push("/results");
     resetScore();
   };
+
+// Clear Scores
+export const handleClearScores =
+  (
+    gameDate,
+    setGameDate,
+    setGameNotes,
+    setPointsOuter,
+    setPointsInner,
+    setBulls,
+    setTotalScore,
+    setRoundNumber,
+    resetScore
+  ) =>
+  (e) => {
+    e.preventDefault();
+
+    // Clear the input fields
+    setGameDate(gameDate);
+    setGameNotes("Notes");
+    setPointsOuter(0);
+    setPointsInner(0);
+    setBulls(0);
+    setTotalScore(0);
+    setRoundNumber(1);
+    resetScore();
+  };
+
+// Reset Scores and Cookies
+export const handleResetScore = (cookiesToClear, ...stateToReset) => {
+  // Clear the specified cookies
+  cookiesToClear.forEach((cookieName) => {
+    document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC`;
+  });
+
+  // Reset the specified state variables
+  stateToReset.forEach((resetTarget) => {
+    resetTarget([]);
+  });
+};

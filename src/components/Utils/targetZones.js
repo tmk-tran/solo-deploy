@@ -20,6 +20,7 @@ const handleInnerClick = (pointsInner, setPointsInner) => (e) => {
 const handleBullClick = (bulls, setBulls) => (e) => {
   e.stopPropagation(); // Stop event propagation to prevent outer zone click action
   const newCount = Number(bulls) + 10;
+  document.cookie = `bulls=${newCount}`;
   setBulls(newCount);
 };
 
