@@ -10,7 +10,12 @@ import getCookie from "../../hooks/cookie";
 import useRoundId from "../../hooks/roundId";
 import useGameId from "../../hooks/gameId";
 // ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
-import { formatDate, buttonLabel, handleAddRound } from "../Utils/helpers";
+import {
+  formatDate,
+  buttonLabel,
+  handleAddRound,
+  handleAddGame,
+} from "../Utils/helpers";
 import {
   handleOuterClick,
   handleInnerClick,
@@ -89,7 +94,6 @@ export default function ThreeRing() {
     setTotalScore(0);
     setRoundNumber(1);
     resetScore();
-    // alert("Added Target!");
   };
 
   // Utils / Outer Zone
@@ -131,29 +135,6 @@ export default function ThreeRing() {
     setTotalScore
   );
 
-  const addGame = () => {
-    const gameData = {
-      game_id: newGameId,
-      game_date: formatDate(gameDate),
-      game_notes: gameNotes,
-      target_name: targetName,
-      target_score_value: targetScore, // what is this representing??? -- decide later
-      total_game_score: totalRoundScores, // this is representing the total score of all the rounds for the game
-    };
-
-    savedAlert();
-    // Dispatch the action with the new target data
-    dispatch({ type: "EDIT_GAME", payload: gameData });
-
-    // Clear the fields
-    setGameDate(gameDate);
-    setGameNotes("Notes");
-    setTotalScore(0);
-    setTargetName("");
-    history.push("/results");
-    resetScore();
-  };
-
   const resetScore = () => {
     // Clear the cookies related to the score (e.g., outer, inner, bulls)
     document.cookie = "outer=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
@@ -170,6 +151,24 @@ export default function ThreeRing() {
     setRoundScores([]);
     setRoundHeaders([]);
   };
+
+  const addGame = handleAddGame(
+    newGameId,
+    formatDate,
+    gameDate,
+    gameNotes,
+    targetName,
+    targetScore,
+    totalRoundScores,
+    savedAlert,
+    dispatch,
+    setGameDate,
+    setGameNotes,
+    setTotalScore,
+    setTargetName,
+    history,
+    resetScore
+  );
 
   const targetOptions = [
     `8's: ${pointsOuter}`,

@@ -31,69 +31,112 @@ export const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export function formatDate(inputDate) {
   const date = new Date(inputDate);
   return date.toLocaleDateString("en-US");
-}
+};
 
 // Icon for GameMenu
 export const buttonLabel = <QueryStatsIcon />;
 
 // Adding Rounds
-export const handleAddRound = (
-  pointsOuter,
-  pointsInner,
-  bulls,
-  roundScores,
-  totalScore,
-  setRoundScores,
-  roundHeaders,
-  setRoundHeaders,
-  setTotalRoundScores,
-  roundNumber,
-  setRoundNumber,
-  newGameId,
-  dispatch,
-  setPointsOuter,
-  setPointsInner,
-  setBulls,
-  setTotalScore
-) => (e) => {
-  e.preventDefault();
+export const handleAddRound =
+  (
+    pointsOuter,
+    pointsInner,
+    bulls,
+    roundScores,
+    totalScore,
+    setRoundScores,
+    roundHeaders,
+    setRoundHeaders,
+    setTotalRoundScores,
+    roundNumber,
+    setRoundNumber,
+    newGameId,
+    dispatch,
+    setPointsOuter,
+    setPointsInner,
+    setBulls,
+    setTotalScore
+  ) =>
+  (e) => {
+    e.preventDefault();
 
-  // Calculate the total score for the current round
-  const newRoundScore =
-    Number(pointsOuter) + Number(pointsInner) + Number(bulls);
-  // Create a new array of round scores with the current total score
-  const newRoundScores = [...roundScores, totalScore];
-  console.log("NEW ROUND SCORES: ", newRoundScores); // confirmed
+    // Calculate the total score for the current round
+    const newRoundScore =
+      Number(pointsOuter) + Number(pointsInner) + Number(bulls);
+    // Create a new array of round scores with the current total score
+    const newRoundScores = [...roundScores, totalScore];
+    console.log("NEW ROUND SCORES: ", newRoundScores); // confirmed
 
-  const sumRoundScores = newRoundScores.reduce(
-    (accumulator, currentValue) => {
-      return accumulator + currentValue;
-    },
-    0
-  );
+    const sumRoundScores = newRoundScores.reduce(
+      (accumulator, currentValue) => {
+        return accumulator + currentValue;
+      },
+      0
+    );
 
-  console.log("Sum of round scores:", sumRoundScores);
-  setTotalRoundScores(sumRoundScores);
+    console.log("Sum of round scores:", sumRoundScores);
+    setTotalRoundScores(sumRoundScores);
 
-  // Increment the round header
-  const newRoundHeader = roundHeaders.length + 1;
+    // Increment the round header
+    const newRoundHeader = roundHeaders.length + 1;
 
-  const roundData = {
-    game_id: newGameId,
-    round_number: roundNumber,
-    round_score: newRoundScore,
+    const roundData = {
+      game_id: newGameId,
+      round_number: roundNumber,
+      round_score: newRoundScore,
+    };
+    console.log("ROUND DATA IS: ", roundData); // remove after confirmation
+
+    dispatch({ type: "ADD_ROUND", payload: roundData }); // --> send to a new reducer?
+
+    setRoundNumber(roundNumber + 1);
+    console.log("ROUND NUMBER IS: ", roundNumber); // remove after confirmation
+
+    setRoundScores(newRoundScores);
+    setRoundHeaders([...roundHeaders, newRoundHeader]);
+    setPointsOuter(0);
+    setPointsInner(0);
+    setBulls(0);
+    setTotalScore(0);
   };
-  console.log("ROUND DATA IS: ", roundData); // remove after confirmation
 
-  dispatch({ type: "ADD_ROUND", payload: roundData }); // --> send to a new reducer?
+// Add Game
+export const handleAddGame =
+  (
+    newGameId,
+    formatDate,
+    gameDate,
+    gameNotes,
+    targetName,
+    targetScore,
+    totalRoundScores,
+    savedAlert,
+    dispatch,
+    setGameDate,
+    setGameNotes,
+    setTotalScore,
+    setTargetName,
+    history,
+    resetScore,
+  ) => () => {
+    const gameData = {
+      game_id: newGameId,
+      game_date: formatDate(gameDate),
+      game_notes: gameNotes,
+      target_name: targetName,
+      target_score_value: targetScore, // what is this representing??? -- decide later
+      total_game_score: totalRoundScores, // this is representing the total score of all the rounds for the game
+    };
 
-  setRoundNumber(roundNumber + 1);
-  console.log("ROUND NUMBER IS: ", roundNumber); // remove after confirmation
+    savedAlert();
+    // Dispatch the action with the new target data
+    dispatch({ type: "EDIT_GAME", payload: gameData });
 
-  setRoundScores(newRoundScores);
-  setRoundHeaders([...roundHeaders, newRoundHeader]);
-  setPointsOuter(0);
-  setPointsInner(0);
-  setBulls(0);
-  setTotalScore(0);
-};
+    // Clear the fields
+    setGameDate(gameDate);
+    setGameNotes("Notes");
+    setTotalScore(0);
+    setTargetName("");
+    history.push("/results");
+    resetScore();
+  };
