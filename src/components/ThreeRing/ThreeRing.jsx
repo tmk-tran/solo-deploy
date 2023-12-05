@@ -17,6 +17,7 @@ import ClearAllIcon from "@mui/icons-material/ClearAll";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 // ~~~~~~~~~~~~~~~ Hooks ~~~~~~~~~~~~~~~~~~
 import getCookie from "../../hooks/cookie";
+import useRounds from "../../hooks/rounds"
 // import Swal from "sweetalert2";
 // ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
 import { formatDate, buttonLabel } from "../Utils/helpers";
@@ -36,6 +37,7 @@ import RoundEdit from "../RoundEdit/RoundEdit";
 export default function ThreeRing() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const rounds = useRounds();
 
   const [pointsOuter, setPointsOuter] = useState(getCookie("outer") || 0);
   const [pointsInner, setPointsInner] = useState(getCookie("inner") || 0);
@@ -72,7 +74,7 @@ export default function ThreeRing() {
   }, [pointsOuter, pointsInner, bulls]);
 
   // Bring in Rounds
-  const rounds = useSelector((store) => store.roundReducer);
+  // const rounds = useSelector((store) => store.roundReducer);
   console.log("ROUNDS store in ThreeRing: ", rounds);
   const roundIds = rounds.map((round, i) => {
     // Check if it's the last score in the array
