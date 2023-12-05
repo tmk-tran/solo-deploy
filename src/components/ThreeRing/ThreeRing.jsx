@@ -18,6 +18,7 @@ import QueryStatsIcon from "@mui/icons-material/QueryStats";
 // ~~~~~~~~~~~~~~~ Hooks ~~~~~~~~~~~~~~~~~~
 import getCookie from "../../hooks/cookie";
 import useRounds from "../../hooks/rounds"
+import useGames from "../../hooks/games"
 // import Swal from "sweetalert2";
 // ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
 import { formatDate, buttonLabel } from "../Utils/helpers";
@@ -37,7 +38,9 @@ import RoundEdit from "../RoundEdit/RoundEdit";
 export default function ThreeRing() {
   const dispatch = useDispatch();
   const history = useHistory();
+  
   const rounds = useRounds();
+  const games = useGames();
 
   const [pointsOuter, setPointsOuter] = useState(getCookie("outer") || 0);
   const [pointsInner, setPointsInner] = useState(getCookie("inner") || 0);
@@ -91,7 +94,7 @@ export default function ThreeRing() {
   console.log("Round ID = ", roundId);
 
   // Bring in Games
-  const games = useSelector((store) => store.gamesReducer);
+  // const games = useSelector((store) => store.gamesReducer);
   console.log("GAMES: ", games);
   const gameIds = games.map((game, i) => {
     // Check if it's the last game in the array
