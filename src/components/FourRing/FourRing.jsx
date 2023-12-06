@@ -29,6 +29,7 @@ import { savedAlert } from "../Utils/sweetAlerts";
 // ~~~~~~~~~~~~~~~ Components ~~~~~~~~~~~~~
 import GameInfo from "../GameInfo/GameInfo";
 import GameMenu from "../GameMenu/GameMenu";
+import TopButtonsGame from "../TopButtonsGame/TopButtonsGame";
 
 export default function FourRing() {
   const dispatch = useDispatch();
@@ -274,7 +275,7 @@ export default function FourRing() {
       className="page-container"
       style={{ backgroundImage: "none", position: "relative", top: "10px" }}
     >
-      <div className="top-buttons">
+      {/* <div className="top-buttons">
         <Button
           id="cancel-button"
           variant="outlined"
@@ -289,7 +290,13 @@ export default function FourRing() {
         <Button id="finish-btn" variant="outlined" onClick={addGame}>
           Finish
         </Button>
-      </div>
+      </div> */}
+            {/* Top Buttons Control */}
+            <TopButtonsGame
+        resetScore={resetScore}
+        addGame={addGame}
+        newGameId={newGameId}
+      />
       <div>
         <Card>
           <CardContent>
