@@ -27,9 +27,16 @@ import Swal from "sweetalert2";
 import { StyledTableCell, StyledTableRow, formatDate } from "../Utils/helpers";
 import { savedAlert } from "../Utils/sweetAlerts";
 // ~~~~~~~~~~~~~~~ Components ~~~~~~~~~~~~~
+import TopButtonsGame from "../TopButtonsGame/TopButtonsGame";
+import GameHeader from "../GameHeader/GameHeader";
+import RoundEdit from "../RoundEdit/RoundEdit";
+import RoundTable from "../RoundTable/RoundTable";
+import FourRingPoints from "../FourRingPoints/FourRingPoints";
+import GameNotes from "../GameNotes/GameNotes";
 import GameInfo from "../GameInfo/GameInfo";
 import GameMenu from "../GameMenu/GameMenu";
-import TopButtonsGame from "../TopButtonsGame/TopButtonsGame";
+import FourRingTarget from "../FourRingTarget/FourRingTarget";
+import AddRoundButton from "../AddRoundButton/AddRoundButton";
 
 export default function FourRing() {
   const dispatch = useDispatch();
@@ -275,129 +282,63 @@ export default function FourRing() {
       className="page-container"
       style={{ backgroundImage: "none", position: "relative", top: "10px" }}
     >
-      {/* <div className="top-buttons">
-        <Button
-          id="cancel-button"
-          variant="outlined"
-          onClick={() => {
-            resetScore();
-            dispatch({ type: "DELETE_GAME", payload: newGameId });
-            history.push("/games");
-          }}
-        >
-          Cancel
-        </Button>{" "}
-        <Button id="finish-btn" variant="outlined" onClick={addGame}>
-          Finish
-        </Button>
-      </div> */}
-            {/* Top Buttons Control */}
-            <TopButtonsGame
+      {/* Top Buttons Control */}
+      <TopButtonsGame
         resetScore={resetScore}
         addGame={addGame}
         newGameId={newGameId}
       />
+
       <div>
         <Card>
           <CardContent>
-            <div className="game-header">
-              {!replaceName ? (
-                <div>
-                  <Typography variant="h6">{targetName}</Typography>
-                </div>
-              ) : (
-                <input
-                  type="text"
-                  value={targetName}
-                  onChange={(e) => setTargetName(e.target.value)}
-                  onBlur={saveName}
-                />
-              )}
-              <Button variant="contained" onClick={toggleSettings}>
-                <MoreHorizIcon />
-              </Button>
-            </div>
+            {/* Game Header */}
+            <GameHeader
+              replaceName={replaceName}
+              targetName={targetName}
+              setTargetName={setTargetName}
+              saveName={saveName}
+              toggleSettings={toggleSettings}
+            />
+
             {showSettings ? (
               <div className="settings-div">
-                <div className="round-edit">
-                  <Button
-                    variant="outlined"
-                    onClick={() => setReplaceName(!replaceName)}
-                    style={{ fontSize: "10px" }}
-                  >
-                    <EditIcon />
-                    Edit Name
-                  </Button>
-                  <br />
-                </div>
-                <div className="round-table">
-                  <Table sx={{ minWidth: 250 }} size="small">
-                    <TableHead>
-                      <TableRow sx={{ "&:last-child th": { border: 0 } }}>
-                        {roundHeaders.map((header) => (
-                          <StyledTableCell key={header} className="header">
-                            Round {header}
-                          </StyledTableCell>
-                        ))}
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <StyledTableRow>
-                        {roundScores.map((score, index) => (
-                          <td key={index} className="score">
-                            {score}
-                          </td>
-                        ))}
-                      </StyledTableRow>
-                    </TableBody>
-                  </Table>
-                </div>
-                <div style={{ textAlign: "right", fontSize: "12px" }}>
-                  <p>7's: {pointsFourth}</p>
-                  <p>8's: {pointsOuter}</p>
-                  <p>9's: {pointsInner}</p>
-                  <p>Bull's: {bulls}</p>
-                  <p style={{ fontWeight: "bold" }}>
-                    Total: {totalScore} points
-                  </p>
-                  <Button onClick={clearScores} style={{ color: "red" }}>
-                    <ClearAllIcon /> Clear
-                  </Button>{" "}
-                </div>
+                {/* Round Edit */}
+                <RoundEdit
+                  replaceName={replaceName}
+                  setReplaceName={setReplaceName}
+                />
+
+                {/* Round Table */}
+                <RoundTable
+                  roundHeaders={roundHeaders}
+                  roundScores={roundScores}
+                />
+
+                {/* Points for Four Ring Target */}
+                <FourRingPoints
+                  pointsFourth={pointsFourth}
+                  pointsOuter={pointsOuter}
+                  pointsInner={pointsInner}
+                  bulls={bulls}
+                  totalScore={totalScore}
+                  clearScores={clearScores}
+                />
               </div>
             ) : (
-              <>
-                {isEdit ? (
-                  // Render an input field in edit mode
-                  <TextField
-                    type="text"
-                    label="Game Notes"
-                    // value={gameNotes}
-                    onChange={(e) => setGameNotes(e.target.value)}
-                    onBlur={saveNotes}
-                  />
-                ) : (
-                  // Render the round title
-                  <>
-                    {/* <GameTimer /> gameId={game_id} */}
-                    <Typography
-                      id="notes-edit"
-                      variant="h7"
-                      onClick={() => {
-                        setIsEdit(!isEdit);
-                      }}
-                    >
-                      {gameNotes}
-                    </Typography>
-                  </>
-                )}
-              </>
+              <GameNotes
+                isEdit={isEdit}
+                saveNotes={saveNotes}
+                setGameNotes={setGameNotes}
+                gameNotes={gameNotes}
+                setIsEdit={setIsEdit}
+              />
             )}
           </CardContent>
         </Card>
       </div>
       <div className="container">
-        <div className="game-menu">
+        {/* <div className="game-menu">
           <GameInfo />
         </div>
         <div className="game-menu2">
@@ -419,7 +360,24 @@ export default function FourRing() {
         >
           Add Round
         </Button>
-      </FormControl>
+      </FormControl> */}
+        {/* Game Info Menu */}
+        <GameInfo />
+
+        {/* Game Points Menu */}
+        <GameMenu buttonLabel={buttonLabel} targetOptions={targetOptions} />
+
+        {/* Target */}
+        <FourRingTarget
+          clickFourth={clickFourth}
+          clickOuter={clickOuter}
+          clickInner={clickInner}
+          clickBull={clickBull}
+        />
+      </div>
+
+      {/* Add Round Button */}
+      <AddRoundButton addRound={addRound} />
     </div>
   );
 }
