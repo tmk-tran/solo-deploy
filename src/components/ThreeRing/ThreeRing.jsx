@@ -46,25 +46,24 @@ export default function ThreeRing() {
   // Hooks
   const roundId = useRoundId();
   const newGameId = useGameId();
-
+  // State 
   const [pointsOuter, setPointsOuter] = useState(getCookie("outer") || 0);
   const [pointsInner, setPointsInner] = useState(getCookie("inner") || 0);
   const [bulls, setBulls] = useState(getCookie("bulls") || 0);
   const [showSettings, setShowSettings] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [replaceName, setReplaceName] = useState(false);
-  // State to manage round scores and round headers
+  // Round scores and round headers
   const [roundScores, setRoundScores] = useState([]); // Array to store round scores
   const [roundHeaders, setRoundHeaders] = useState([]); // Array to store round headers
   const [totalRoundScores, setTotalRoundScores] = useState(0);
-  // State to manage round numbers
+  // Round numbers
   const [roundNumber, setRoundNumber] = useState(1);
   // From Games ~~~~~~~~~~~~~~~~~~~~~~~~~
   const [totalScore, setTotalScore] = useState(
     pointsOuter + pointsInner + bulls
   );
   const [gameDate, setGameDate] = useState(new Date()); // Initialize with the current date
-  // console.log("GAME DATE IS:", gameDate);
   const [gameNotes, setGameNotes] = useState(getCookie("notes") || "Notes");
   const [targetName, setTargetName] = useState("3-Ring");
   const [targetScore, setTargetScore] = useState(0);
@@ -78,9 +77,9 @@ export default function ThreeRing() {
     setTotalScore(totalScore);
   }, [pointsOuter, pointsInner, bulls]);
 
-  // Bring in Rounds ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // Rounds ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   console.log("Round ID = ", roundId);
-  // Bring in Games ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // Games ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   console.log("New Game ID:", newGameId);
 
   // Utils / Outer Zone ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
