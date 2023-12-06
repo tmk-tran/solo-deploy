@@ -237,11 +237,11 @@ export default function ThreeRing() {
         </Card>
       </div>
       <div className="container">
-        <div className="game-menu">
-          <GameInfo />
-        </div>
+        {/* Game Info Menu */}
+        <GameInfo />
 
-          <GameMenu buttonLabel={buttonLabel} targetOptions={targetOptions} />
+        {/* Game Points Menu */}
+        <GameMenu buttonLabel={buttonLabel} targetOptions={targetOptions} />
 
         {/* Target */}
         <ThreeRingTarget

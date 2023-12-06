@@ -31,13 +31,7 @@
 // }
 
 import React, { useState } from "react";
-import {
-  Box,
-  Drawer,
-  Button,
-  List,
-  Divider,
-} from "@mui/material";
+import { Box, Drawer, Button, List, Divider } from "@mui/material";
 import GameHowTo from "../ThreeRing/GameHowTo";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import "./GameInfo.css";
@@ -77,25 +71,27 @@ export default function GameInfo() {
   );
 
   return (
-    <div>
-      {["left"].map((anchor) => (
-        <React.Fragment key={anchor}>
-          <Button
-            id="game-howto-btn"
-            variant="contained"
-            onClick={toggleDrawer(anchor, true)}
-          >
-            <HelpOutlineIcon />
-          </Button>
-          <Drawer
-            anchor={anchor}
-            open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
-          >
-            {list(anchor)}
-          </Drawer>
-        </React.Fragment>
-      ))}
+    <div className="game-menu">
+      <div>
+        {["left"].map((anchor) => (
+          <React.Fragment key={anchor}>
+            <Button
+              id="game-howto-btn"
+              variant="contained"
+              onClick={toggleDrawer(anchor, true)}
+            >
+              <HelpOutlineIcon />
+            </Button>
+            <Drawer
+              anchor={anchor}
+              open={state[anchor]}
+              onClose={toggleDrawer(anchor, false)}
+            >
+              {list(anchor)}
+            </Drawer>
+          </React.Fragment>
+        ))}
+      </div>
     </div>
   );
 }
