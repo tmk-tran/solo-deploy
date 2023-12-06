@@ -13,6 +13,7 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
     fontSize: 14,
   },
 }));
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 export const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
@@ -26,15 +27,18 @@ export const StyledTableRow = styled(TableRow)(({ theme }) => ({
   //   borderBottom: '1px solid white', // Add a border to the last row
   // },
 }));
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // Format the date to mm/dd/yyyy
 export function formatDate(inputDate) {
   const date = new Date(inputDate);
   return date.toLocaleDateString("en-US");
 }
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // Icon for GameMenu
 export const buttonLabel = <QueryStatsIcon />;
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // Adding Rounds
 export const handleAddRound =
@@ -99,6 +103,7 @@ export const handleAddRound =
     setBulls(0);
     setTotalScore(0);
   };
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // Add Game
 export const handleAddGame =
@@ -141,6 +146,7 @@ export const handleAddGame =
     history.push("/results");
     resetScore();
   };
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // Clear Scores
 export const handleClearScores =
@@ -168,6 +174,7 @@ export const handleClearScores =
     setRoundNumber(1);
     resetScore();
   };
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // Reset Scores and Cookies
 export const handleResetScore = (cookiesToClear, ...stateToReset) => {
@@ -181,3 +188,10 @@ export const handleResetScore = (cookiesToClear, ...stateToReset) => {
     resetTarget([]);
   });
 };
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// Format Targets
+export const formatTargets = (targets) => {
+  return targets.map((target) => `${target.label}: ${target.points}`);
+};
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

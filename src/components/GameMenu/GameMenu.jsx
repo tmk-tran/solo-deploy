@@ -44,67 +44,69 @@ const CustomTargetMenu = ({ buttonLabel, targetOptions }) => {
   }, [open]);
 
   return (
-    <Stack direction="row" spacing={2}>
-      <div id="game-menu">
-        <Button
-          ref={anchorRef}
-          id="game-score-button"
-          aria-controls={open ? "custom-target-menu" : undefined}
-          aria-expanded={open ? "true" : undefined}
-          aria-haspopup="true"
-          onClick={handleToggle}
-          variant="contained"
-        >
-          {buttonLabel}
-        </Button>
-        <Popper
-          open={open}
-          anchorEl={anchorRef.current}
-          role={undefined}
-          placement="bottom-start"
-          transition
-          disablePortal
-        >
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              style={{
-                transformOrigin:
-                  placement === "bottom-start" ? "left top" : "left bottom",
-              }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList
-                    autoFocusItem={open}
-                    id="custom-target-menu"
-                    aria-labelledby="custom-target-button"
-                    onKeyDown={handleListKeyDown}
-                  >
-                    {targetOptions.map((option, index) => (
-                      <MenuItem
-                        key={index}
-                        onClick={handleClose}
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <span>{option.split(":")[0]}</span>
-                        <span style={{ textAlign: "right" }}>
-                          {option.split(":")[1]}
-                        </span>
-                      </MenuItem>
-                    ))}
-                    <MenuItem onClick={handleClose}>Close</MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper>
-      </div>
-    </Stack>
+    <div className="game-menu2">
+      <Stack direction="row" spacing={2}>
+        <div id="game-menu">
+          <Button
+            ref={anchorRef}
+            id="game-score-button"
+            aria-controls={open ? "custom-target-menu" : undefined}
+            aria-expanded={open ? "true" : undefined}
+            aria-haspopup="true"
+            onClick={handleToggle}
+            variant="contained"
+          >
+            {buttonLabel}
+          </Button>
+          <Popper
+            open={open}
+            anchorEl={anchorRef.current}
+            role={undefined}
+            placement="bottom-start"
+            transition
+            disablePortal
+          >
+            {({ TransitionProps, placement }) => (
+              <Grow
+                {...TransitionProps}
+                style={{
+                  transformOrigin:
+                    placement === "bottom-start" ? "left top" : "left bottom",
+                }}
+              >
+                <Paper>
+                  <ClickAwayListener onClickAway={handleClose}>
+                    <MenuList
+                      autoFocusItem={open}
+                      id="custom-target-menu"
+                      aria-labelledby="custom-target-button"
+                      onKeyDown={handleListKeyDown}
+                    >
+                      {targetOptions.map((option, index) => (
+                        <MenuItem
+                          key={index}
+                          onClick={handleClose}
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <span>{option.split(":")[0]}</span>
+                          <span style={{ textAlign: "right" }}>
+                            {option.split(":")[1]}
+                          </span>
+                        </MenuItem>
+                      ))}
+                      <MenuItem onClick={handleClose}>Close</MenuItem>
+                    </MenuList>
+                  </ClickAwayListener>
+                </Paper>
+              </Grow>
+            )}
+          </Popper>
+        </div>
+      </Stack>
+    </div>
   );
 };
 

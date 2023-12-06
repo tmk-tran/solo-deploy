@@ -17,6 +17,7 @@ import {
   handleAddGame,
   handleClearScores,
   handleResetScore,
+  formatTargets,
 } from "../Utils/helpers";
 import {
   handleOuterClick,
@@ -46,7 +47,7 @@ export default function ThreeRing() {
   // Hooks
   const roundId = useRoundId();
   const newGameId = useGameId();
-  // State 
+  // State
   const [pointsOuter, setPointsOuter] = useState(getCookie("outer") || 0);
   const [pointsInner, setPointsInner] = useState(getCookie("inner") || 0);
   const [bulls, setBulls] = useState(getCookie("bulls") || 0);
@@ -94,7 +95,7 @@ export default function ThreeRing() {
   // Utils / Settings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const toggleSettings = handleToggleSettings(showSettings, setShowSettings);
 
-  // Utils / Notes
+  // Utils / Notes  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const saveNotes = handleSaveNotes(gameNotes, setIsEdit);
 
   // Utils / Round Name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -123,7 +124,14 @@ export default function ThreeRing() {
 
   const resetScore = () => {
     const cookiesToClear = ["outer", "inner", "bulls", "notes", "round"];
-    const stateToReset = [ setPointsOuter, setPointsInner, setBulls, setTotalScore, setRoundScores, setRoundHeaders ]
+    const stateToReset = [
+      setPointsOuter,
+      setPointsInner,
+      setBulls,
+      setTotalScore,
+      setRoundScores,
+      setRoundHeaders,
+    ];
     handleResetScore(cookiesToClear, ...stateToReset);
   };
 
@@ -159,12 +167,15 @@ export default function ThreeRing() {
     resetScore
   );
 
-  const targetOptions = [
-    `8's: ${pointsOuter}`,
-    `9's: ${pointsInner}`,
-    `10's: ${bulls}`,
-    `Total = ${totalScore}`,
+  // Target Point Assignment ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const targets = [
+    { label: "8's", points: pointsOuter },
+    { label: "9's", points: pointsInner },
+    { label: "10's", points: bulls },
+    { label: "Total", points: totalScore },
   ];
+
+  const targetOptions = formatTargets(targets);
 
   return (
     <div
@@ -229,10 +240,8 @@ export default function ThreeRing() {
         <div className="game-menu">
           <GameInfo />
         </div>
-        <div className="game-menu2">
-          {" "}
+
           <GameMenu buttonLabel={buttonLabel} targetOptions={targetOptions} />
-        </div>
 
         {/* Target */}
         <ThreeRingTarget
