@@ -1,3 +1,11 @@
+// Fifth Ring
+const handleClickFifth = (pointsFifth, setPointsFifth) => (e) => {
+  e.stopPropagation();
+  const newCount = Number(pointsFifth) + 6;
+  document.cookie = `fifth=${newCount}`;
+  setPointsFifth(newCount);
+};
+
 // Fourth Ring
 const handleFourthClick = (pointsFourth, setPointsFourth) => (e) => {
   e.stopPropagation();
@@ -6,7 +14,7 @@ const handleFourthClick = (pointsFourth, setPointsFourth) => (e) => {
   setPointsFourth(newCount);
 };
 
-// Outer Zone
+// Outer Zone (third ring)
 const handleOuterClick = (pointsOuter, setPointsOuter) => (e) => {
   const newCount = Number(pointsOuter) + 8;
   e.stopPropagation();
@@ -16,7 +24,7 @@ const handleOuterClick = (pointsOuter, setPointsOuter) => (e) => {
   setPointsOuter(newCount);
 };
 
-// Inner Zone
+// Inner Zone (second ring)
 const handleInnerClick = (pointsInner, setPointsInner) => (e) => {
   e.stopPropagation(); // Stop event propagation to prevent outer zone click action
   const newCount = Number(pointsInner) + 9;
@@ -52,6 +60,7 @@ const handleSaveName = (targetName, setReplaceName) => (e) => {
   setReplaceName(false);
 };
 
+export { handleClickFifth };
 export { handleFourthClick };
 export { handleOuterClick };
 export { handleInnerClick };

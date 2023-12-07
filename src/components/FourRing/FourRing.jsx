@@ -85,6 +85,7 @@ export default function FourRing() {
 
   // Utils / Fourth Ring ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const clickFourth = handleFourthClick(pointsFourth, setPointsFourth);
+  
   // Utils / Outer Zone ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const clickOuter = handleOuterClick(pointsOuter, setPointsOuter);
 
