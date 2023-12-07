@@ -131,46 +131,46 @@ export default function FourRing() {
     setTotalScore
   );
 
-  const addGame = () => {
-    const gameData = {
-      game_id: newGameId,
-      game_date: formatDate(gameDate),
-      game_notes: gameNotes,
-      target_name: targetName,
-      target_score_value: targetScore, // what is this representing??? -- decide later
-      total_game_score: totalRoundScores, // this is representing the total score of all the rounds for the game
-    };
-
-    savedAlert();
-    // Dispatch the action with the new target data
-    dispatch({ type: "EDIT_GAME", payload: gameData });
-
-    // Clear the input fields
-    setGameDate(gameDate);
-    setGameNotes("Notes");
-    setTotalScore(0);
-    setTargetName("");
-    history.push("/results");
-    resetScore();
-  };
-
+  // Utils / Reset ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const resetScore = () => {
-    // Clear the cookies related to the score
-    document.cookie = "fourth=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    document.cookie = "outer=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    document.cookie = "inner=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    document.cookie = "bulls=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    document.cookie = "notes=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    document.cookie = "round=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-
-    setPointsFourth(0);
-    setPointsOuter(0);
-    setPointsInner(0);
-    setBulls(0);
-    setTotalScore(0);
-    setRoundScores([]);
-    setRoundHeaders([]);
+    const cookiesToClear = [
+      "fourth",
+      "outer",
+      "inner",
+      "bulls",
+      "notes",
+      "round",
+    ];
+    const stateToReset = [
+      setPointsFourth,
+      setPointsOuter,
+      setPointsInner,
+      setBulls,
+      setTotalScore,
+      setRoundScores,
+      setRoundHeaders,
+    ];
+    handleResetScore(cookiesToClear, ...stateToReset);
   };
+
+  // Add Game ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const addGame = handleAddGame(
+    newGameId,
+    formatDate,
+    gameDate,
+    gameNotes,
+    targetName,
+    targetScore,
+    totalRoundScores,
+    savedAlert,
+    dispatch,
+    setGameDate,
+    setGameNotes,
+    setTotalScore,
+    setTargetName,
+    history,
+    resetScore
+  );
 
   // Clear Scores ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const clearScores = handleClearScores(
@@ -186,14 +186,16 @@ export default function FourRing() {
     setTotalScore
   );
 
-  const buttonLabel = <QueryStatsIcon />;
-  const targetOptions = [
-    `7's: ${pointsFourth}`,
-    `8's: ${pointsOuter}`,
-    `9's: ${pointsInner}`,
-    `10's: ${bulls}`,
-    `Total = ${totalScore}`,
+  // Target Point Assignment ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const targets = [
+    { label: "7's", points: pointsFourth },
+    { label: "8's", points: pointsOuter },
+    { label: "9's", points: pointsInner },
+    { label: "10's", points: bulls },
+    { label: "Total", points: totalScore },
   ];
+
+  const targetOptions = formatTargets(targets);
 
   return (
     <div

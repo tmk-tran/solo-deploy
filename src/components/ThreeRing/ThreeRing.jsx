@@ -103,7 +103,7 @@ export default function ThreeRing() {
 
   // Utils / Add Round ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const addRound = handleAddRound(
-    [pointsOuter, pointsInner, bulls],    
+    [pointsOuter, pointsInner, bulls],
     roundScores,
     totalScore,
     setRoundScores,
@@ -120,6 +120,7 @@ export default function ThreeRing() {
     setTotalScore
   );
 
+  // Utils / Reset ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const resetScore = () => {
     const cookiesToClear = ["outer", "inner", "bulls", "notes", "round"];
     const stateToReset = [
@@ -162,7 +163,7 @@ export default function ThreeRing() {
     setPointsOuter,
     setPointsInner,
     setBulls,
-    setTotalScore,
+    setTotalScore
   );
 
   // Target Point Assignment ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
