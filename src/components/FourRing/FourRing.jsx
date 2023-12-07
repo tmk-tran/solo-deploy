@@ -91,86 +91,6 @@ export default function FourRing() {
     setTotalScore(totalScore);
   }, [pointsFourth, pointsOuter, pointsInner, bulls]);
 
-  // // Bring in Rounds
-  // const rounds = useSelector((store) => store.roundReducer);
-  // console.log("SCORES: ", rounds);
-  // const roundIds = rounds.map((round, i) => {
-  //   // Check if it's the last score in the array
-  //   if (i === rounds.length - 1) {
-  //     // You've reached the last score, so you can extract the ID
-  //     const rId = round.round_id;
-  //     return rId;
-  //   }
-  //   // If it's not the last object, return null or undefined, or handle it as needed.
-  //   return null;
-  // });
-  // // Extract the last round's ID
-  // const roundId = roundIds.filter((round_id) => round_id !== null)[0];
-  // console.log("Round ID = ", roundId);
-
-  // // Bring in Games
-  // const games = useSelector((store) => store.gamesReducer);
-  // console.log("GAMES: ", games);
-  // const gameIds = games.map((game, i) => {
-  //   // Check if it's the last game in the array
-  //   if (i === games.length - 1) {
-  //     // You've reached the last game, so you can extract the ID
-  //     const newId = game.game_id;
-  //     return newId;
-  //   }
-  //   // If it's not the last game, return null or undefined, or handle it as needed.
-  //   return null;
-  // });
-
-  // // Extract the last game's ID
-  // const newGameId = gameIds.filter((game_id) => game_id !== null)[0];
-  // console.log("New Game ID:", newGameId);
-
-  // const clearScores = (e) => {
-  //   e.preventDefault();
-
-  //   // Clear the input fields
-  //   setGameDate(gameDate);
-  //   setGameNotes("Notes");
-  //   setPointsFourth(0);
-  //   setPointsOuter(0);
-  //   setPointsInner(0);
-  //   setBulls(0);
-  //   setTotalScore(0);
-  //   setRoundNumber(1);
-  //   resetScore();
-  // };
-
-  // const clickFourth = (e) => {
-  //   const newCount = Number(pointsFourth) + 7;
-  //   document.cookie = `fourth=${newCount}`;
-  //   setPointsFourth(newCount);
-  // };
-
-  // // Function to handle clicking on the zone and recording points
-  // const clickOuter = (e) => {
-  //   e.stopPropagation(); // Stop event propagation to prevent outer zone click action
-  //   const newCount = Number(pointsOuter) + 8;
-
-  //   // This is making a cookie called count with the newCount amount
-  //   // It will replace anything called count
-  //   document.cookie = `outer=${newCount}`;
-  //   setPointsOuter(newCount);
-  // };
-
-  // const clickInner = (e) => {
-  //   e.stopPropagation(); // Stop event propagation to prevent outer zone click action
-  //   const newCount = Number(pointsInner) + 9;
-  //   document.cookie = `inner=${newCount}`;
-  //   setPointsInner(newCount);
-  // };
-
-  // const clickBull = (e) => {
-  //   e.stopPropagation(); // Stop event propagation to prevent outer zone click action
-  //   const newCount = Number(bulls) + 10;
-  //   document.cookie = `bulls=${newCount}`;
-  //   setBulls(newCount);
-  // };
   // Utils / Fourth Ring ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const clickFourth = handleFourthClick(pointsFourth, setPointsFourth);
   // Utils / Outer Zone ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -182,24 +102,9 @@ export default function FourRing() {
   // Utils / Bulls ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const clickBull = handleBullClick(bulls, setBulls);
 
-  // const toggleSettings = (e) => {
-  //   e.preventDefault();
-  //   setShowSettings(!showSettings);
-  // };
   // Utils / Settings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const toggleSettings = handleToggleSettings(showSettings, setShowSettings);
 
-  // const saveNotes = (e) => {
-  //   e.preventDefault();
-  //   document.cookie = `notes=${gameNotes}`;
-  //   setIsEdit(false);
-  // };
-
-  // const saveName = (e) => {
-  //   e.preventDefault();
-  //   document.cookie = `round=${targetName}`;
-  //   setReplaceName(false);
-  // };
   // Utils / Notes  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const saveNotes = handleSaveNotes(gameNotes, setIsEdit);
 
