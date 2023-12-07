@@ -7,7 +7,6 @@ import { Card, CardContent } from "@mui/material";
 import "./FourRing.css";
 // ~~~~~~~~~~~~~~~ Hooks ~~~~~~~~~~~~~~~~~~
 import getCookie from "../../hooks/cookie";
-import useRoundId from "../../hooks/roundId";
 import useGameId from "../../hooks/gameId";
 // ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
 import {
@@ -45,8 +44,7 @@ export default function FourRing() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  // Hooks
-  const roundId = useRoundId();
+  // ~~~~~~~~~~ Hooks ~~~~~~~~~~
   const newGameId = useGameId();
 
   // ~~~~~~~~~~ Fourth Ring State ~~~~~~~~~~
@@ -58,21 +56,17 @@ export default function FourRing() {
   const [showSettings, setShowSettings] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [replaceName, setReplaceName] = useState(false);
-  // Round scores and round headers
+  // ~~~~~~~~~~ Round scores and round headers ~~~~~~~~~~
   const [roundScores, setRoundScores] = useState([]); // Array to store round scores
   const [roundHeaders, setRoundHeaders] = useState([1]); // Array to store round headers
   const [totalRoundScores, setTotalRoundScores] = useState(0);
-  console.log("TOTAL SCORES OF ROUNDS = ", totalRoundScores);
-
-  // Round numbers
+  // ~~~~~~~~~~ Round numbers ~~~~~~~~~~
   const [roundNumber, setRoundNumber] = useState(1);
-
-  // Game State ~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~ Game State ~~~~~~~~~~
   const [totalScore, setTotalScore] = useState(
     pointsFourth + pointsOuter + pointsInner + bulls
   );
   const [gameDate, setGameDate] = useState(new Date()); // Initialize with the current date
-  console.log("GAME DATE IS:", gameDate);
   const [gameNotes, setGameNotes] = useState(getCookie("notes") || "Notes");
   const [targetName, setTargetName] = useState("4-Ring");
   const [targetScore, setTargetScore] = useState(0); // update this when we decide what it is for
@@ -206,7 +200,7 @@ export default function FourRing() {
         addGame={addGame}
         newGameId={newGameId}
       />
-      
+
       <div>
         <Card>
           <CardContent>
