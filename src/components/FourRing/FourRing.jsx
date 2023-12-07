@@ -4,8 +4,6 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 // ~~~~~~~~~~~~~~~ Style ~~~~~~~~~~~~~~~~~~
 import { Card, CardContent } from "@mui/material";
-
-import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import "./FourRing.css";
 // ~~~~~~~~~~~~~~~ Hooks ~~~~~~~~~~~~~~~~~~
 import getCookie from "../../hooks/cookie";
@@ -208,7 +206,7 @@ export default function FourRing() {
         addGame={addGame}
         newGameId={newGameId}
       />
-
+      
       <div>
         <Card>
           <CardContent>
