@@ -111,51 +111,25 @@ export default function FourRing() {
   // Utils / Round Name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const saveName = handleSaveName(targetName, setReplaceName);
 
-  const addRound = (e) => {
-    e.preventDefault();
-    //  Ensure there's a game_id before adding rounds
-    //   if (newGameId) {
-
-    // Calculate the total score for the current round
-    const newRoundScore =
-      Number(pointsOuter) + Number(pointsInner) + Number(bulls);
-    // Create a new array of round scores with the current total score
-    const newRoundScores = [...roundScores, totalScore];
-    console.log("NEW ROUND SCORES: ", newRoundScores); // confirmed
-
-    const sumRoundScores = newRoundScores.reduce(
-      (accumulator, currentValue) => {
-        return accumulator + currentValue;
-      },
-      0
-    );
-
-    console.log("Sum of round scores:", sumRoundScores);
-    setTotalRoundScores(sumRoundScores);
-
-    // Increment the round header
-    const newRoundHeader = roundHeaders.length + 1;
-
-    const roundData = {
-      game_id: newGameId,
-      round_number: roundNumber,
-      round_score: newRoundScore,
-    };
-    console.log("ROUND DATA IS: ", roundData); // remove after confirmation
-
-    dispatch({ type: "ADD_ROUND", payload: roundData });
-
-    setRoundNumber(roundNumber + 1);
-    console.log("ROUND NUMBER IS: ", roundNumber); // remove after confirmation
-
-    setRoundScores(newRoundScores);
-    setRoundHeaders([...roundHeaders, newRoundHeader]);
-    setPointsFourth(0);
-    setPointsOuter(0);
-    setPointsInner(0);
-    setBulls(0);
-    setTotalScore(0);
-  };
+  // Utils / Add Round ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const addRound = handleAddRound(
+    [pointsFourth, pointsOuter, pointsInner, bulls],
+    roundScores,
+    totalScore,
+    setRoundScores,
+    roundHeaders,
+    setRoundHeaders,
+    setTotalRoundScores,
+    roundNumber,
+    setRoundNumber,
+    newGameId,
+    dispatch,
+    setPointsFourth,
+    setPointsOuter,
+    setPointsInner,
+    setBulls,
+    setTotalScore
+  );
 
   const addGame = () => {
     const gameData = {

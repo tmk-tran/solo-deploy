@@ -43,9 +43,7 @@ export const buttonLabel = <QueryStatsIcon />;
 // Adding Rounds
 export const handleAddRound =
   (
-    pointsOuter,
-    pointsInner,
-    bulls,
+    ringPoints,
     roundScores,
     totalScore,
     setRoundScores,
@@ -64,9 +62,12 @@ export const handleAddRound =
   (e) => {
     e.preventDefault();
 
-    // Calculate the total score for the current round
-    const newRoundScore =
-      Number(pointsOuter) + Number(pointsInner) + Number(bulls);
+    // Calculate the total score for the current round with additional rings
+    const newRoundScore = ringPoints.reduce(
+      (sum, points) => sum + Number(points),
+      0
+    );
+
     // Create a new array of round scores with the current total score
     const newRoundScores = [...roundScores, totalScore];
     console.log("NEW ROUND SCORES: ", newRoundScores); // confirmed
@@ -149,33 +150,15 @@ export const handleAddGame =
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // Clear Scores
-// export const handleClearScores =
-//   (
-//     gameDate,
-//     setGameDate,
-//     setGameNotes,
-//     setPointsOuter,
-//     setPointsInner,
-//     setBulls,
-//     setTotalScore,
-//     setRoundNumber,
-//     resetScore
-//   ) =>
-//   (e) => {
-//     e.preventDefault();
-
-//     // Clear the input fields
-//     setGameDate(gameDate);
-//     setGameNotes("Notes");
-//     setPointsOuter(0);
-//     setPointsInner(0);
-//     setBulls(0);
-//     setTotalScore(0);
-//     setRoundNumber(1);
-//     resetScore();
-//   };
 export const handleClearScores =
-  (gameDate, setGameDate, setGameNotes, setRoundNumber, resetScore, ...stateSetters) =>
+  (
+    gameDate,
+    setGameDate,
+    setGameNotes,
+    setRoundNumber,
+    resetScore,
+    ...stateSetters
+  ) =>
   (e) => {
     e.preventDefault();
     // Additional resets
@@ -183,10 +166,9 @@ export const handleClearScores =
     setGameNotes("Notes");
     setRoundNumber(1);
     resetScore();
-    
+
     // Clear the input fields
     stateSetters.forEach((setter) => setter(0));
-
   };
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

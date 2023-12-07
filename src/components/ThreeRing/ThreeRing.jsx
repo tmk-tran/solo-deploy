@@ -103,9 +103,7 @@ export default function ThreeRing() {
 
   // Utils / Add Round ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const addRound = handleAddRound(
-    pointsOuter,
-    pointsInner,
-    bulls,
+    [pointsOuter, pointsInner, bulls],    
     roundScores,
     totalScore,
     setRoundScores,
