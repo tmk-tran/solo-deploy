@@ -1,7 +1,15 @@
+// Fourth Ring
+const handleFourthClick = (pointsFourth, setPointsFourth) => (e) => {
+  e.stopPropagation();
+  const newCount = Number(pointsFourth) + 7;
+  document.cookie = `fourth=${newCount}`;
+  setPointsFourth(newCount);
+};
+
 // Outer Zone
 const handleOuterClick = (pointsOuter, setPointsOuter) => (e) => {
   const newCount = Number(pointsOuter) + 8;
-
+  e.stopPropagation();
   // This is making a cookie called count with the newCount amount
   // It will replace anything called count
   document.cookie = `outer=${newCount}`;
@@ -44,9 +52,10 @@ const handleSaveName = (targetName, setReplaceName) => (e) => {
   setReplaceName(false);
 };
 
-export { handleBullClick };
-export { handleInnerClick };
+export { handleFourthClick };
 export { handleOuterClick };
+export { handleInnerClick };
+export { handleBullClick };
 export { handleToggleSettings };
 export { handleSaveNotes };
 export { handleSaveName };

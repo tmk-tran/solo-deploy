@@ -149,31 +149,46 @@ export const handleAddGame =
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // Clear Scores
+// export const handleClearScores =
+//   (
+//     gameDate,
+//     setGameDate,
+//     setGameNotes,
+//     setPointsOuter,
+//     setPointsInner,
+//     setBulls,
+//     setTotalScore,
+//     setRoundNumber,
+//     resetScore
+//   ) =>
+//   (e) => {
+//     e.preventDefault();
+
+//     // Clear the input fields
+//     setGameDate(gameDate);
+//     setGameNotes("Notes");
+//     setPointsOuter(0);
+//     setPointsInner(0);
+//     setBulls(0);
+//     setTotalScore(0);
+//     setRoundNumber(1);
+//     resetScore();
+//   };
 export const handleClearScores =
-  (
-    gameDate,
-    setGameDate,
-    setGameNotes,
-    setPointsOuter,
-    setPointsInner,
-    setBulls,
-    setTotalScore,
-    setRoundNumber,
-    resetScore
-  ) =>
+  (gameDate, setGameDate, setGameNotes, setRoundNumber, resetScore, ...stateSetters) =>
   (e) => {
     e.preventDefault();
-
-    // Clear the input fields
+    // Additional resets
     setGameDate(gameDate);
     setGameNotes("Notes");
-    setPointsOuter(0);
-    setPointsInner(0);
-    setBulls(0);
-    setTotalScore(0);
     setRoundNumber(1);
     resetScore();
+    
+    // Clear the input fields
+    stateSetters.forEach((setter) => setter(0));
+
   };
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // Reset Scores and Cookies

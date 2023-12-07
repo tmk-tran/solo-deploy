@@ -3,28 +3,33 @@ import { useHistory } from "react-router-dom";
 // import GameTimer from "../GameTimer/GameTimer"; // timer keeps resetting, figure out issue
 import { useDispatch, useSelector } from "react-redux";
 // ~~~~~~~~~~~~~~~ Style ~~~~~~~~~~~~~~~~~~
-import {
-  Card,
-  CardContent,
-  TextField,
-  FormControl,
-  Button,
-  Typography,
-  Table,
-  TableBody,
-  TableHead,
-  TableRow,
-} from "@mui/material";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import EditIcon from "@mui/icons-material/Edit";
-import ClearAllIcon from "@mui/icons-material/ClearAll";
+import { Card, CardContent } from "@mui/material";
+
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import "./FourRing.css";
 // ~~~~~~~~~~~~~~~ Hooks ~~~~~~~~~~~~~~~~~~
 import getCookie from "../../hooks/cookie";
-import Swal from "sweetalert2";
+import useRoundId from "../../hooks/roundId";
+import useGameId from "../../hooks/gameId";
 // ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
-import { StyledTableCell, StyledTableRow, formatDate } from "../Utils/helpers";
+import {
+  formatDate,
+  buttonLabel,
+  handleAddRound,
+  handleAddGame,
+  handleClearScores,
+  handleResetScore,
+  formatTargets,
+} from "../Utils/helpers";
+import {
+  handleFourthClick,
+  handleOuterClick,
+  handleInnerClick,
+  handleBullClick,
+  handleToggleSettings,
+  handleSaveNotes,
+  handleSaveName,
+} from "../Utils/targetZones";
 import { savedAlert } from "../Utils/sweetAlerts";
 // ~~~~~~~~~~~~~~~ Components ~~~~~~~~~~~~~
 import TopButtonsGame from "../TopButtonsGame/TopButtonsGame";
@@ -41,6 +46,10 @@ import AddRoundButton from "../AddRoundButton/AddRoundButton";
 export default function FourRing() {
   const dispatch = useDispatch();
   const history = useHistory();
+
+  // Hooks
+  const roundId = useRoundId();
+  const newGameId = useGameId();
 
   // ~~~~~~~~~~ Fourth Ring State ~~~~~~~~~~
   const [pointsFourth, setPointsFourth] = useState(getCookie("fourth") || 0);
@@ -82,104 +91,120 @@ export default function FourRing() {
     setTotalScore(totalScore);
   }, [pointsFourth, pointsOuter, pointsInner, bulls]);
 
-  // Bring in Rounds
-  const rounds = useSelector((store) => store.roundReducer);
-  console.log("SCORES: ", rounds);
-  const roundIds = rounds.map((round, i) => {
-    // Check if it's the last score in the array
-    if (i === rounds.length - 1) {
-      // You've reached the last score, so you can extract the ID
-      const rId = round.round_id;
-      return rId;
-    }
-    // If it's not the last object, return null or undefined, or handle it as needed.
-    return null;
-  });
-  // Extract the last round's ID
-  const roundId = roundIds.filter((round_id) => round_id !== null)[0];
-  console.log("Round ID = ", roundId);
+  // // Bring in Rounds
+  // const rounds = useSelector((store) => store.roundReducer);
+  // console.log("SCORES: ", rounds);
+  // const roundIds = rounds.map((round, i) => {
+  //   // Check if it's the last score in the array
+  //   if (i === rounds.length - 1) {
+  //     // You've reached the last score, so you can extract the ID
+  //     const rId = round.round_id;
+  //     return rId;
+  //   }
+  //   // If it's not the last object, return null or undefined, or handle it as needed.
+  //   return null;
+  // });
+  // // Extract the last round's ID
+  // const roundId = roundIds.filter((round_id) => round_id !== null)[0];
+  // console.log("Round ID = ", roundId);
 
-  // Bring in Games
-  const games = useSelector((store) => store.gamesReducer);
-  console.log("GAMES: ", games);
-  const gameIds = games.map((game, i) => {
-    // Check if it's the last game in the array
-    if (i === games.length - 1) {
-      // You've reached the last game, so you can extract the ID
-      const newId = game.game_id;
-      return newId;
-    }
-    // If it's not the last game, return null or undefined, or handle it as needed.
-    return null;
-  });
+  // // Bring in Games
+  // const games = useSelector((store) => store.gamesReducer);
+  // console.log("GAMES: ", games);
+  // const gameIds = games.map((game, i) => {
+  //   // Check if it's the last game in the array
+  //   if (i === games.length - 1) {
+  //     // You've reached the last game, so you can extract the ID
+  //     const newId = game.game_id;
+  //     return newId;
+  //   }
+  //   // If it's not the last game, return null or undefined, or handle it as needed.
+  //   return null;
+  // });
 
-  // Extract the last game's ID
-  const newGameId = gameIds.filter((game_id) => game_id !== null)[0];
-  console.log("New Game ID:", newGameId);
+  // // Extract the last game's ID
+  // const newGameId = gameIds.filter((game_id) => game_id !== null)[0];
+  // console.log("New Game ID:", newGameId);
 
-  const clearScores = (e) => {
-    e.preventDefault();
+  // const clearScores = (e) => {
+  //   e.preventDefault();
 
-    // Clear the input fields
-    setGameDate(gameDate);
-    setGameNotes("Notes");
-    setPointsFourth(0);
-    setPointsOuter(0);
-    setPointsInner(0);
-    setBulls(0);
-    setTotalScore(0);
-    setRoundNumber(1);
-    resetScore();
-    // alert("Added Target!");
-  };
+  //   // Clear the input fields
+  //   setGameDate(gameDate);
+  //   setGameNotes("Notes");
+  //   setPointsFourth(0);
+  //   setPointsOuter(0);
+  //   setPointsInner(0);
+  //   setBulls(0);
+  //   setTotalScore(0);
+  //   setRoundNumber(1);
+  //   resetScore();
+  // };
 
-  const clickFourth = () => {
-    const newCount = Number(pointsFourth) + 7;
-    document.cookie = `fourth=${newCount}`;
-    setPointsFourth(newCount);
-  };
+  // const clickFourth = (e) => {
+  //   const newCount = Number(pointsFourth) + 7;
+  //   document.cookie = `fourth=${newCount}`;
+  //   setPointsFourth(newCount);
+  // };
 
-  // Function to handle clicking on the zone and recording points
-  const clickOuter = (e) => {
-    e.stopPropagation(); // Stop event propagation to prevent outer zone click action
-    const newCount = Number(pointsOuter) + 8;
+  // // Function to handle clicking on the zone and recording points
+  // const clickOuter = (e) => {
+  //   e.stopPropagation(); // Stop event propagation to prevent outer zone click action
+  //   const newCount = Number(pointsOuter) + 8;
 
-    // This is making a cookie called count with the newCount amount
-    // It will replace anything called count
-    document.cookie = `outer=${newCount}`;
-    setPointsOuter(newCount);
-  };
+  //   // This is making a cookie called count with the newCount amount
+  //   // It will replace anything called count
+  //   document.cookie = `outer=${newCount}`;
+  //   setPointsOuter(newCount);
+  // };
 
-  const clickInner = (e) => {
-    e.stopPropagation(); // Stop event propagation to prevent outer zone click action
-    const newCount = Number(pointsInner) + 9;
-    document.cookie = `inner=${newCount}`;
-    setPointsInner(newCount);
-  };
+  // const clickInner = (e) => {
+  //   e.stopPropagation(); // Stop event propagation to prevent outer zone click action
+  //   const newCount = Number(pointsInner) + 9;
+  //   document.cookie = `inner=${newCount}`;
+  //   setPointsInner(newCount);
+  // };
 
-  const clickBull = (e) => {
-    e.stopPropagation(); // Stop event propagation to prevent outer zone click action
-    const newCount = Number(bulls) + 10;
-    document.cookie = `bulls=${newCount}`;
-    setBulls(newCount);
-  };
+  // const clickBull = (e) => {
+  //   e.stopPropagation(); // Stop event propagation to prevent outer zone click action
+  //   const newCount = Number(bulls) + 10;
+  //   document.cookie = `bulls=${newCount}`;
+  //   setBulls(newCount);
+  // };
+  // Utils / Fourth Ring ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const clickFourth = handleFourthClick(pointsFourth, setPointsFourth);
+  // Utils / Outer Zone ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const clickOuter = handleOuterClick(pointsOuter, setPointsOuter);
 
-  const toggleSettings = (e) => {
-    e.preventDefault();
-    setShowSettings(!showSettings);
-  };
+  // Utils / Inner Zone ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const clickInner = handleInnerClick(pointsInner, setPointsInner);
 
-  const saveNotes = (e) => {
-    e.preventDefault();
-    document.cookie = `notes=${gameNotes}`;
-    setIsEdit(false);
-  };
+  // Utils / Bulls ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const clickBull = handleBullClick(bulls, setBulls);
 
-  const saveName = (e) => {
-    e.preventDefault();
-    document.cookie = `round=${targetName}`;
-    setReplaceName(false);
-  };
+  // const toggleSettings = (e) => {
+  //   e.preventDefault();
+  //   setShowSettings(!showSettings);
+  // };
+  // Utils / Settings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const toggleSettings = handleToggleSettings(showSettings, setShowSettings);
+
+  // const saveNotes = (e) => {
+  //   e.preventDefault();
+  //   document.cookie = `notes=${gameNotes}`;
+  //   setIsEdit(false);
+  // };
+
+  // const saveName = (e) => {
+  //   e.preventDefault();
+  //   document.cookie = `round=${targetName}`;
+  //   setReplaceName(false);
+  // };
+  // Utils / Notes  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const saveNotes = handleSaveNotes(gameNotes, setIsEdit);
+
+  // Utils / Round Name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const saveName = handleSaveName(targetName, setReplaceName);
 
   const addRound = (e) => {
     e.preventDefault();
@@ -268,6 +293,20 @@ export default function FourRing() {
     setRoundHeaders([]);
   };
 
+  // Clear Scores ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const clearScores = handleClearScores(
+    gameDate,
+    setGameDate,
+    setGameNotes,
+    setRoundNumber,
+    resetScore,
+    setPointsFourth,
+    setPointsOuter,
+    setPointsInner,
+    setBulls,
+    setTotalScore
+  );
+
   const buttonLabel = <QueryStatsIcon />;
   const targetOptions = [
     `7's: ${pointsFourth}`,
@@ -338,29 +377,6 @@ export default function FourRing() {
         </Card>
       </div>
       <div className="container">
-        {/* <div className="game-menu">
-          <GameInfo />
-        </div>
-        <div className="game-menu2">
-          {" "}
-          <GameMenu buttonLabel={buttonLabel} targetOptions={targetOptions} />
-        </div>
-        <div className="fourth-ring" onClick={clickFourth}>
-          <div className="third-ring" onClick={clickOuter}>
-            <div className="three-ring-inner" onClick={clickInner}>
-              <div className="three-ring-bulls" onClick={clickBull}></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <FormControl className="form-control" fullWidth>
-        <Button
-          variant="contained"
-          onClick={addRound} // Make sure the button adds a round
-        >
-          Add Round
-        </Button>
-      </FormControl> */}
         {/* Game Info Menu */}
         <GameInfo />
 

@@ -29,16 +29,16 @@ import {
 } from "../Utils/targetZones";
 import { savedAlert } from "../Utils/sweetAlerts";
 // ~~~~~~~~~~~~~~~ Components ~~~~~~~~~~~~~~~~~~
-import GameHeader from "../GameHeader/GameHeader";
-import GameInfo from "../GameInfo/GameInfo";
-import GameMenu from "../GameMenu/GameMenu";
-import RoundTable from "../RoundTable/RoundTable";
-import ThreeRingTarget from "../ThreeRingTarget/ThreeRingTarget";
-import AddRoundButton from "../AddRoundButton/AddRoundButton";
 import TopButtonsGame from "../TopButtonsGame/TopButtonsGame";
+import GameHeader from "../GameHeader/GameHeader";
+import RoundEdit from "../RoundEdit/RoundEdit";
+import RoundTable from "../RoundTable/RoundTable";
 import ThreeRingPoints from "../ThreeRingPoints/ThreeRingPoints";
 import GameNotes from "../GameNotes/GameNotes";
-import RoundEdit from "../RoundEdit/RoundEdit";
+import GameInfo from "../GameInfo/GameInfo";
+import GameMenu from "../GameMenu/GameMenu";
+import ThreeRingTarget from "../ThreeRingTarget/ThreeRingTarget";
+import AddRoundButton from "../AddRoundButton/AddRoundButton";
 
 export default function ThreeRing() {
   const dispatch = useDispatch();
@@ -159,12 +159,12 @@ export default function ThreeRing() {
     gameDate,
     setGameDate,
     setGameNotes,
+    setRoundNumber,
+    resetScore,
     setPointsOuter,
     setPointsInner,
     setBulls,
     setTotalScore,
-    setRoundNumber,
-    resetScore
   );
 
   // Target Point Assignment ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
