@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 // import GameTimer from "../GameTimer/GameTimer"; // timer keeps resetting, figure out issue
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 // ~~~~~~~~~~~~~~~ Style ~~~~~~~~~~~~~~~~~~
 import { Card, CardContent } from "@mui/material";
 import "./FourRing.css";
@@ -43,7 +43,6 @@ import AddRoundButton from "../AddRoundButton/AddRoundButton";
 export default function FourRing() {
   const dispatch = useDispatch();
   const history = useHistory();
-
   // ~~~~~~~~~~ Hooks ~~~~~~~~~~
   const newGameId = useGameId();
 
@@ -85,22 +84,16 @@ export default function FourRing() {
 
   // Utils / Fourth Ring ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const clickFourth = handleFourthClick(pointsFourth, setPointsFourth);
-  
   // Utils / Outer Zone ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const clickOuter = handleOuterClick(pointsOuter, setPointsOuter);
-
   // Utils / Inner Zone ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const clickInner = handleInnerClick(pointsInner, setPointsInner);
-
   // Utils / Bulls ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const clickBull = handleBullClick(bulls, setBulls);
-
   // Utils / Settings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const toggleSettings = handleToggleSettings(showSettings, setShowSettings);
-
   // Utils / Notes  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const saveNotes = handleSaveNotes(gameNotes, setIsEdit);
-
   // Utils / Round Name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const saveName = handleSaveName(targetName, setReplaceName);
 

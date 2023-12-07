@@ -1,38 +1,51 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 // import GameTimer from "../GameTimer/GameTimer"; // timer keeps resetting, figure out issue
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 // ~~~~~~~~ Style ~~~~~~~~
+import { Card, CardContent } from "@mui/material";
 import "./FiveRing.css";
-import {
-  Card,
-  CardContent,
-  FormControl,
-  Button,
-  TextField,
-  Typography,
-  Table,
-  TableBody,
-  TableHead,
-  TableRow,
-} from "@mui/material";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import EditIcon from "@mui/icons-material/Edit";
-import ClearAllIcon from "@mui/icons-material/ClearAll";
-import QueryStatsIcon from "@mui/icons-material/QueryStats";
 // ~~~~~~~~~~~~~~~ Hooks ~~~~~~~~~~~~~~~~~~
 import getCookie from "../../hooks/cookie";
-import Swal from "sweetalert2";
+import useGameId from "../../hooks/gameId";
 // ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
-import { StyledTableCell, StyledTableRow } from "../Utils/helpers";
-// import { savedAlert } from "../../hooks/sweetAlerts";
+import {
+  formatDate,
+  buttonLabel,
+  handleAddRound,
+  handleAddGame,
+  handleClearScores,
+  handleResetScore,
+  formatTargets,
+} from "../Utils/helpers";
+import {
+  handleFifthClick,
+  handleFourthClick,
+  handleOuterClick,
+  handleInnerClick,
+  handleBullClick,
+  handleToggleSettings,
+  handleSaveNotes,
+  handleSaveName,
+} from "../Utils/targetZones";
+import { savedAlert } from "../Utils/sweetAlerts";
 // ~~~~~~~~~~~~~~~ Components ~~~~~~~~~~~~~
+import TopButtonsGame from "../TopButtonsGame/TopButtonsGame";
+import GameHeader from "../GameHeader/GameHeader";
+import RoundEdit from "../RoundEdit/RoundEdit";
+import RoundTable from "../RoundTable/RoundTable";
+import FiveRingPoints from "../FiveRingPoints/FiveRingPoints";
+import GameNotes from "../GameNotes/GameNotes";
 import GameInfo from "../GameInfo/GameInfo";
 import GameMenu from "../GameMenu/GameMenu";
+import FiveRingTarget from "../FiveRingTarget/FiveRingTarget";
+import AddRoundButton from "../AddRoundButton/AddRoundButton";
 
 export default function FourRing() {
   const dispatch = useDispatch();
   const history = useHistory();
+  // ~~~~~~~~~~ Hooks ~~~~~~~~~~
+  const newGameId = useGameId();
 
   // ~~~~~~~~~~ Fifth Ring State ~~~~~~~~~~
   const [pointsFifth, setPointsFifth] = useState(getCookie("fifth") || 0);
@@ -45,22 +58,18 @@ export default function FourRing() {
   const [showSettings, setShowSettings] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [replaceName, setReplaceName] = useState(false);
-  const [roundName, setRoundName] = useState(getCookie("round") || "5-Ring");
-  // Round scores and round headers
+  // ~~~~~~~~~~ Round scores and round headers ~~~~~~~~~~
   const [roundScores, setRoundScores] = useState([]); // Array to store round scores
   const [roundHeaders, setRoundHeaders] = useState([1]); // Array to store round headers
   const [totalRoundScores, setTotalRoundScores] = useState(0);
   console.log("TOTAL SCORES OF ROUNDS = ", totalRoundScores);
-
-  // Round numbers
+  // ~~~~~~~~~~ Round numbers ~~~~~~~~~~
   const [roundNumber, setRoundNumber] = useState(1);
-
-  // Game State ~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~ Game State ~~~~~~~~~~
   const [totalScore, setTotalScore] = useState(
     pointsFifth + pointsFourth + pointsOuter + pointsInner + bulls
   );
   const [gameDate, setGameDate] = useState(new Date()); // Initialize with the current date
-  console.log("GAME DATE IS:", gameDate);
   const [gameNotes, setGameNotes] = useState(getCookie("notes") || "Notes");
   const [targetName, setTargetName] = useState("5-Ring");
   const [targetScore, setTargetScore] = useState(0); // update this when we decide what it is for
@@ -78,382 +87,190 @@ export default function FourRing() {
     setTotalScore(totalScore);
   }, [pointsFifth, pointsFourth, pointsOuter, pointsInner, bulls]);
 
-  // Bring in Rounds
-  const rounds = useSelector((store) => store.roundReducer);
-  console.log("SCORES: ", rounds);
-  const roundIds = rounds.map((round, i) => {
-    // Check if it's the last score in the array
-    if (i === rounds.length - 1) {
-      // You've reached the last score, so you can extract the ID
-      const rId = round.round_id;
-      return rId;
-    }
-    // If it's not the last object, return null or undefined, or handle it as needed.
-    return null;
-  });
-  // Extract the last round's ID
-  const roundId = roundIds.filter((round_id) => round_id !== null)[0];
-  console.log("Round ID = ", roundId);
+  // Utils / Fifth Ring ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const clickFifth = handleFifthClick(pointsFifth, setPointsFifth);
+  // Utils / Fourth Ring ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const clickFourth = handleFourthClick(pointsFourth, setPointsFourth);
+  // Utils / Outer Zone ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const clickOuter = handleOuterClick(pointsOuter, setPointsOuter);
+  // Utils / Inner Zone ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const clickInner = handleInnerClick(pointsInner, setPointsInner);
+  // Utils / Bulls ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const clickBull = handleBullClick(bulls, setBulls);
+  // Utils / Settings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const toggleSettings = handleToggleSettings(showSettings, setShowSettings);
+  // Utils / Notes  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const saveNotes = handleSaveNotes(gameNotes, setIsEdit);
+  // Utils / Round Name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const saveName = handleSaveName(targetName, setReplaceName);
 
-  // Bring in Games
-  const games = useSelector((store) => store.gamesReducer);
-  console.log("GAMES: ", games);
-  const gameIds = games.map((game, i) => {
-    // Check if it's the last game in the array
-    if (i === games.length - 1) {
-      // You've reached the last game, so you can extract the ID
-      const newId = game.game_id;
-      return newId;
-    }
-    // If it's not the last game, return null or undefined, or handle it as needed.
-    return null;
-  });
+  // Utils / Add Round ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const addRound = handleAddRound(
+    [pointsFifth, pointsFourth, pointsOuter, pointsInner, bulls],
+    roundScores,
+    totalScore,
+    setRoundScores,
+    roundHeaders,
+    setRoundHeaders,
+    setTotalRoundScores,
+    roundNumber,
+    setRoundNumber,
+    newGameId,
+    dispatch,
+    setPointsFourth,
+    setPointsOuter,
+    setPointsInner,
+    setBulls,
+    setTotalScore
+  );
 
-  // Extract the last game's ID
-  const newGameId = gameIds.filter((game_id) => game_id !== null)[0];
-  console.log("New Game ID:", newGameId);
-
-  // format the date to mm/dd/yyyy
-  function formatDate(inputDate) {
-    const date = new Date(inputDate);
-    return date.toLocaleDateString("en-US");
-  }
-
-  const clearScores = (e) => {
-    e.preventDefault();
-
-    // Clear the input fields
-    setGameDate(gameDate);
-    setGameNotes("Notes");
-    setPointsFifth(0);
-    setPointsFourth(0);
-    setPointsOuter(0);
-    setPointsInner(0);
-    setBulls(0);
-    setTotalScore(0);
-    setRoundNumber(1);
-    resetScore();
-    // alert("Added Target!");
-  };
-
-  // State for fifth ring
-  const clickFifth = (e) => {
-    e.stopPropagation(); // Stop event propagation to prevent outer zone click action
-    const newCount = Number(pointsFifth) + 6;
-    document.cookie = `fifth=${newCount}`;
-    setPointsFifth(newCount);
-  };
-
-  const clickFourth = (e) => {
-    e.stopPropagation(); // Stop event propagation to prevent outer zone click action
-    const newCount = Number(pointsFourth) + 7;
-    document.cookie = `fourth=${newCount}`;
-    setPointsFourth(newCount);
-  };
-
-  // Function to handle clicking on the zone and recording points
-  const clickOuter = (e) => {
-    e.stopPropagation();
-    const newCount = Number(pointsOuter) + 8;
-    // This is making a cookie called count with the newCount amount
-    // It will replace anything called count
-    document.cookie = `outer=${newCount}`;
-    setPointsOuter(newCount);
-  };
-
-  const clickInner = (e) => {
-    e.stopPropagation(); // Stop event propagation to prevent outer zone click action
-    const newCount = Number(pointsInner) + 9;
-    document.cookie = `inner=${newCount}`;
-    setPointsInner(newCount);
-  };
-
-  const clickBull = (e) => {
-    e.stopPropagation(); // Stop event propagation to prevent outer zone click action
-    const newCount = Number(bulls) + 10;
-    document.cookie = `bulls=${newCount}`;
-    setBulls(newCount);
-  };
-
-  const toggleSettings = (e) => {
-    e.preventDefault();
-    setShowSettings(!showSettings);
-  };
-
-  const saveNotes = (e) => {
-    e.preventDefault();
-    document.cookie = `notes=${gameNotes}`;
-    setIsEdit(false);
-  };
-
-  const saveName = (e) => {
-    e.preventDefault();
-    document.cookie = `round=${targetName}`;
-    setReplaceName(false);
-  };
-
-  const addRound = (e) => {
-    e.preventDefault();
-    //  Ensure there's a game_id before adding rounds
-    //   if (newGameId) {
-
-    // Calculate the total score for the current round
-    const newRoundScore =
-      Number(pointsFifth) +
-      Number(pointsFourth) +
-      Number(pointsOuter) +
-      Number(pointsInner) +
-      Number(bulls);
-    // Create a new array of round scores with the current total score
-    const newRoundScores = [...roundScores, totalScore];
-    console.log("NEW ROUND SCORES: ", newRoundScores); // confirmed
-
-    const sumRoundScores = newRoundScores.reduce(
-      (accumulator, currentValue) => {
-        return accumulator + currentValue;
-      },
-      0
-    );
-
-    console.log("Sum of round scores:", sumRoundScores);
-    setTotalRoundScores(sumRoundScores);
-
-    // Increment the round header
-    const newRoundHeader = roundHeaders.length + 1;
-
-    const roundData = {
-      game_id: newGameId,
-      round_number: roundNumber,
-      round_score: newRoundScore,
-    };
-    console.log("ROUND DATA IS: ", roundData); // remove after confirmation
-
-    dispatch({ type: "ADD_ROUND", payload: roundData });
-
-    setRoundNumber(roundNumber + 1);
-    console.log("ROUND NUMBER IS: ", roundNumber); // remove after confirmation
-
-    setRoundScores(newRoundScores);
-    setRoundHeaders([...roundHeaders, newRoundHeader]);
-    setPointsFifth(0);
-    setPointsFourth(0);
-    setPointsOuter(0);
-    setPointsInner(0);
-    setBulls(0);
-    setTotalScore(0);
-  };
-
-  const addGame = () => {
-    const gameData = {
-      game_id: newGameId,
-      game_date: formatDate(gameDate),
-      game_notes: gameNotes,
-      target_name: targetName,
-      target_score_value: targetScore, // what is this representing??? -- decide later
-      total_game_score: totalRoundScores, // this is representing the total score of all the rounds for the game
-    };
-
-    savedAlert();
-    // Dispatch the action with the new target data
-    dispatch({ type: "EDIT_GAME", payload: gameData });
-
-    // Clear the input fields
-    setGameDate(gameDate);
-    setGameNotes("Notes");
-    setTotalScore(0);
-    setTargetName("");
-    setTargetScore(0);
-    history.push("/results");
-    resetScore();
-  };
-
+  // Utils / Reset ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const resetScore = () => {
-    // Clear the cookies related to the score
-    document.cookie = "fifth=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    document.cookie = "fourth=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    document.cookie = "outer=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    document.cookie = "inner=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    document.cookie = "bulls=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    document.cookie = "notes=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    document.cookie = "round=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-
-    setPointsFifth(0);
-    setPointsFourth(0);
-    setPointsOuter(0);
-    setPointsInner(0);
-    setBulls(0);
-    setTotalScore(0);
-    setRoundScores([]);
-    setRoundHeaders([]);
+    const cookiesToClear = [
+      "fifth",
+      "fourth",
+      "outer",
+      "inner",
+      "bulls",
+      "notes",
+      "round",
+    ];
+    const stateToReset = [
+      setPointsFifth,
+      setPointsFourth,
+      setPointsOuter,
+      setPointsInner,
+      setBulls,
+      setTotalScore,
+      setRoundScores,
+      setRoundHeaders,
+    ];
+    handleResetScore(cookiesToClear, ...stateToReset);
   };
 
-  const savedAlert = () => {
-    Swal.fire({
-      title: "Game Saved!",
-      showClass: {
-        popup: "animate__animated animate__fadeInDown",
-      },
-      hideClass: {
-        popup: "animate__animated animate__fadeOutUp",
-      },
-      confirmButtonColor: "#3085d6",
-    });
-  };
+  // Add Game ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const addGame = handleAddGame(
+    newGameId,
+    formatDate,
+    gameDate,
+    gameNotes,
+    targetName,
+    targetScore,
+    totalRoundScores,
+    savedAlert,
+    dispatch,
+    setGameDate,
+    setGameNotes,
+    setTotalScore,
+    setTargetName,
+    history,
+    resetScore
+  );
+  // Clear Scores ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const clearScores = handleClearScores(
+    gameDate,
+    setGameDate,
+    setGameNotes,
+    setRoundNumber,
+    resetScore,
+    setPointsFourth,
+    setPointsOuter,
+    setPointsInner,
+    setBulls,
+    setTotalScore
+  );
 
-  const buttonLabel = <QueryStatsIcon />;
-  const targetOptions = [
-    `6's: ${pointsFifth}`,
-    `7's: ${pointsFourth}`,
-    `8's: ${pointsOuter}`,
-    `9's: ${pointsInner}`,
-    `10's: ${bulls}`,
-    `Total = ${totalScore}`,
+  // Target Point Assignment ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const targets = [
+    { label: "6's", points: pointsFifth },
+    { label: "7's", points: pointsFourth },
+    { label: "8's", points: pointsOuter },
+    { label: "9's", points: pointsInner },
+    { label: "10's", points: bulls },
+    { label: "Total", points: totalScore },
   ];
+
+  const targetOptions = formatTargets(targets);
 
   return (
     <div
       className="page-container"
       style={{ backgroundImage: "none", position: "relative", top: "10px" }}
     >
-      <div className="top-buttons">
-        <Button
-          id="cancel-button"
-          variant="outlined"
-          onClick={() => {
-            resetScore();
-            dispatch({ type: "DELETE_GAME", payload: newGameId });
-            history.push("/games");
-          }}
-        >
-          Cancel
-        </Button>{" "}
-        <Button id="finish-btn" variant="outlined" onClick={addGame}>
-          Finish
-        </Button>
-      </div>
+      {/* Top Buttons Control */}
+      <TopButtonsGame
+        resetScore={resetScore}
+        addGame={addGame}
+        newGameId={newGameId}
+      />
+
       <div>
         <Card>
           <CardContent>
-            <div className="game-header">
-              {!replaceName ? (
-                <div>
-                  <Typography variant="h6">{targetName}</Typography>
-                </div>
-              ) : (
-                <input
-                  type="text"
-                  value={targetName}
-                  onChange={(e) => setTargetName(e.target.value)}
-                  onBlur={saveName}
-                />
-              )}
-              <Button variant="contained" onClick={toggleSettings}>
-                <MoreHorizIcon />
-              </Button>
-            </div>
+            {/* Game Header */}
+            <GameHeader
+              replaceName={replaceName}
+              targetName={targetName}
+              setTargetName={setTargetName}
+              saveName={saveName}
+              toggleSettings={toggleSettings}
+            />
+
             {showSettings ? (
               <div className="settings-div">
-                <div className="round-edit">
-                  <Button
-                    variant="outlined"
-                    onClick={() => setReplaceName(!replaceName)}
-                    style={{ fontSize: "10px" }}
-                  >
-                    <EditIcon />
-                    Edit Name
-                  </Button>
-                  <br />
-                </div>
-                <div className="round-table">
-                  <Table sx={{ minWidth: 250 }} size="small">
-                    <TableHead>
-                      <TableRow sx={{ "&:last-child th": { border: 0 } }}>
-                        {roundHeaders.map((header) => (
-                          <StyledTableCell key={header} className="header">
-                            Round {header}
-                          </StyledTableCell>
-                        ))}
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <StyledTableRow>
-                        {roundScores.map((score, index) => (
-                          <td key={index} className="score">
-                            {score}
-                          </td>
-                        ))}
-                      </StyledTableRow>
-                    </TableBody>
-                  </Table>
-                </div>
-                <div style={{ textAlign: "right", fontSize: "12px" }}>
-                  <p>6's: {pointsFifth}</p>
-                  <p>7's: {pointsFourth}</p>
-                  <p>8's: {pointsOuter}</p>
-                  <p>9's: {pointsInner}</p>
-                  <p>Bull's: {bulls}</p>
-                  <p style={{ fontWeight: "bold" }}>
-                    Total: {totalScore} points
-                  </p>
-                  <Button onClick={clearScores} style={{ color: "red" }}>
-                    <ClearAllIcon /> Clear
-                  </Button>{" "}
-                </div>
+                {/* Round Edit */}
+                <RoundEdit
+                  replaceName={replaceName}
+                  setReplaceName={setReplaceName}
+                />
+
+                {/* Round Table */}
+                <RoundTable
+                  roundHeaders={roundHeaders}
+                  roundScores={roundScores}
+                />
+
+                {/* Points for Five Ring Target */}
+                <FiveRingPoints
+                  pointsFifth={pointsFifth}
+                  pointsFourth={pointsFourth}
+                  pointsOuter={pointsOuter}
+                  pointsInner={pointsInner}
+                  bulls={bulls}
+                  totalScore={totalScore}
+                  clearScores={clearScores}
+                />
               </div>
             ) : (
-              <>
-                {isEdit ? (
-                  // Render an input field in edit mode
-                  <TextField
-                    type="text"
-                    label="Game Notes"
-                    // value={gameNotes}
-                    onChange={(e) => setGameNotes(e.target.value)}
-                    onBlur={saveNotes}
-                  />
-                ) : (
-                  // Render the round title
-                  <>
-                    {/* <GameTimer /> gameId={game_id} */}
-                    <Typography
-                      id="notes-edit"
-                      variant="h7"
-                      onClick={() => {
-                        setIsEdit(!isEdit);
-                      }}
-                    >
-                      {gameNotes}
-                    </Typography>
-                  </>
-                )}
-              </>
+              <GameNotes
+                isEdit={isEdit}
+                saveNotes={saveNotes}
+                setGameNotes={setGameNotes}
+                gameNotes={gameNotes}
+                setIsEdit={setIsEdit}
+              />
             )}
           </CardContent>
         </Card>
       </div>
       <div className="container">
-        <div className="game-menu">
-          <GameInfo />
-        </div>
-        <div className="game-menu2">
-          {" "}
-          <GameMenu buttonLabel={buttonLabel} targetOptions={targetOptions} />
-        </div>
-        <div className="fifth-ring" onClick={clickFifth}>
-          <div className="fourth-ring2" onClick={clickFourth}>
-            <div className="third-ring2" onClick={clickOuter}>
-              <div className="three-ring-inner" onClick={clickInner}>
-                <div className="fifth-bulls" onClick={clickBull}></div>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Game Info Menu */}
+        <GameInfo />
+
+        {/* Game Points Menu */}
+        <GameMenu buttonLabel={buttonLabel} targetOptions={targetOptions} />
+
+        {/* Target */}
+        <FiveRingTarget
+          clickFifth={clickFifth}
+          clickFourth={clickFourth}
+          clickOuter={clickOuter}
+          clickInner={clickInner}
+          clickBull={clickBull}
+        />
       </div>
-      <FormControl className="form-control" fullWidth>
-        <Button variant="contained" onClick={addRound}>
-          Add Round
-        </Button>
-      </FormControl>
+      {/* Add Round Button */}
+      <AddRoundButton addRound={addRound} />
     </div>
   );
 }

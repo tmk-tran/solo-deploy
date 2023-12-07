@@ -1,5 +1,5 @@
 // Fifth Ring
-const handleClickFifth = (pointsFifth, setPointsFifth) => (e) => {
+const handleFifthClick = (pointsFifth, setPointsFifth) => (e) => {
   e.stopPropagation();
   const newCount = Number(pointsFifth) + 6;
   document.cookie = `fifth=${newCount}`;
@@ -60,7 +60,7 @@ const handleSaveName = (targetName, setReplaceName) => (e) => {
   setReplaceName(false);
 };
 
-export { handleClickFifth };
+export { handleFifthClick };
 export { handleFourthClick };
 export { handleOuterClick };
 export { handleInnerClick };

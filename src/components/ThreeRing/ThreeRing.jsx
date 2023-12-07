@@ -7,7 +7,6 @@ import { Card, CardContent } from "@mui/material";
 import "./ThreeRing.css";
 // ~~~~~~~~~~~~~~~ Hooks ~~~~~~~~~~~~~~~~~~
 import getCookie from "../../hooks/cookie";
-import useRoundId from "../../hooks/roundId";
 import useGameId from "../../hooks/gameId";
 // ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
 import {
@@ -43,24 +42,23 @@ import AddRoundButton from "../AddRoundButton/AddRoundButton";
 export default function ThreeRing() {
   const dispatch = useDispatch();
   const history = useHistory();
-
-  // Hooks
-  const roundId = useRoundId();
+  // ~~~~~~~~~~ Hooks ~~~~~~~~~~
   const newGameId = useGameId();
-  // State
+
+  // ~~~~~~~~~~ State ~~~~~~~~~~
   const [pointsOuter, setPointsOuter] = useState(getCookie("outer") || 0);
   const [pointsInner, setPointsInner] = useState(getCookie("inner") || 0);
   const [bulls, setBulls] = useState(getCookie("bulls") || 0);
   const [showSettings, setShowSettings] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [replaceName, setReplaceName] = useState(false);
-  // Round scores and round headers
+  // ~~~~~~~~~~ Round scores and round headers ~~~~~~~~~~
   const [roundScores, setRoundScores] = useState([]); // Array to store round scores
   const [roundHeaders, setRoundHeaders] = useState([]); // Array to store round headers
   const [totalRoundScores, setTotalRoundScores] = useState(0);
-  // Round numbers
+  // ~~~~~~~~~~ Round numbers ~~~~~~~~~~
   const [roundNumber, setRoundNumber] = useState(1);
-  // From Games ~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~ Game State ~~~~~~~~~~
   const [totalScore, setTotalScore] = useState(
     pointsOuter + pointsInner + bulls
   );
@@ -78,26 +76,16 @@ export default function ThreeRing() {
     setTotalScore(totalScore);
   }, [pointsOuter, pointsInner, bulls]);
 
-  // Rounds ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  console.log("Round ID = ", roundId);
-  // Games ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  console.log("New Game ID:", newGameId);
-
   // Utils / Outer Zone ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const clickOuter = handleOuterClick(pointsOuter, setPointsOuter);
-
   // Utils / Inner Zone ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const clickInner = handleInnerClick(pointsInner, setPointsInner);
-
   // Utils / Bulls ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const clickBull = handleBullClick(bulls, setBulls);
-
   // Utils / Settings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const toggleSettings = handleToggleSettings(showSettings, setShowSettings);
-
   // Utils / Notes  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const saveNotes = handleSaveNotes(gameNotes, setIsEdit);
-
   // Utils / Round Name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const saveName = handleSaveName(targetName, setReplaceName);
 
