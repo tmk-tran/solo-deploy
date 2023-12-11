@@ -92,6 +92,7 @@ const CustomTargetMenu = ({ buttonLabel, targetOptions }) => {
                           }}
                         >
                           <span>{option.split(":")[0]}</span>
+                          &nbsp;
                           <span style={{ textAlign: "right" }}>
                             {option.split(":")[1]}
                           </span>

@@ -193,7 +193,7 @@ export default function Bulls() {
     setTotalScore
   );
 
-  const targets = [{ label: "Bullseyes Only", points: bulls }];
+  const targets = [{ label: "Bulls", points: bulls }];
   const targetOptions = formatTargets(targets);
 
   return (
