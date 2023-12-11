@@ -60,21 +60,17 @@ export const handleAddRound =
   ) =>
   (e) => {
     e.preventDefault();
-    console.log("NAME IS: ", componentName);
 
-    // Calculate the total score for the current round with additional rings
-    // const newRoundScore = ringPoints.reduce(
-    //   (sum, points) => sum + Number(points),
-    //   0
-    // );
+    const newRoundScore =
+      componentName === "Trap"
+        ? Number(ringPoints)
+        : ringPoints.reduce((sum, points) => sum + Number(points), 0);
 
-    const newRoundScore = componentName === 'Trap' ? Number(ringPoints) : ringPoints.reduce((sum, points) => sum + Number(points), 0);
-    // console.log("ringPoints = ", ringPoints);
-    // console.log("NEW ROUND SCORE: ", newRoundScore);
-
-    // // Create a new array of round scores with the current total score
-    // const newRoundScores = [...roundScores, totalScore];
-    const newRoundScores = componentName === 'Trap' ? [...roundScores, newRoundScore] : [...roundScores, totalScore];
+    // Create a new array of round scores with the current total score (with conditions)
+    const newRoundScores =
+      componentName === "Trap"
+        ? [...roundScores, newRoundScore]
+        : [...roundScores, totalScore];
 
     console.log("NEW ROUND SCORES: ", newRoundScores); // confirmed
 
@@ -85,7 +81,6 @@ export const handleAddRound =
       0
     );
 
-    console.log("Sum of round scores:", sumRoundScores);
     setTotalRoundScores(sumRoundScores);
 
     // Increment the round header
@@ -96,19 +91,13 @@ export const handleAddRound =
       round_number: roundNumber,
       round_score: newRoundScore,
     };
-    console.log("ROUND DATA IS: ", roundData); // remove after confirmation
 
     dispatch({ type: "ADD_ROUND", payload: roundData }); // --> send to a new reducer?
 
     setRoundNumber(roundNumber + 1);
-    console.log("ROUND NUMBER IS: ", roundNumber); // remove after confirmation
-
     setRoundScores(newRoundScores);
     setRoundHeaders([...roundHeaders, newRoundHeader]);
-    // setPointsOuter(0);
-    // setPointsInner(0);
-    // setBulls(0);
-    // setTotalScore(0);
+
     // Apply additional custom logic via the callback
     if (additionalCallback) {
       additionalCallback();

@@ -118,9 +118,11 @@ export default function FourRing() {
     newGameId,
     dispatch,
     () => {
-      setTotalScore(pointsFifth + pointsFourth + pointsOuter + pointsInner + bulls);
+      setTotalScore(
+        pointsFifth + pointsFourth + pointsOuter + pointsInner + bulls
+      );
     },
-    'FiveRing',
+    "FiveRing",
     setPointsFifth,
     setPointsFourth,
     setPointsOuter,

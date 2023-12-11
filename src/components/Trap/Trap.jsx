@@ -153,10 +153,9 @@ export default function Trap() {
     newGameId,
     dispatch,
     () => {
-      // Custom logic for updating state variables
       setTargetScore(targetScore + 25);
     },
-    'Trap',
+    "Trap",
     setTrapHit,
     setTotalScore
   );

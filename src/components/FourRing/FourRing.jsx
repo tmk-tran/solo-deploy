@@ -113,7 +113,7 @@ export default function FourRing() {
     () => {
       setTotalScore(pointsFourth + pointsOuter + pointsInner + bulls);
     },
-    'FourRing',
+    "FourRing",
     setPointsFourth,
     setPointsOuter,
     setPointsInner,
