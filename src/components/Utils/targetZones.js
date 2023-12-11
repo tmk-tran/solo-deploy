@@ -1,4 +1,6 @@
-// Fifth Ring
+/* --------------------------------------------------------------------------------
+Fifth Ring
+-------------------------------------------------------------------------------- */
 const handleFifthClick = (pointsFifth, setPointsFifth) => (e) => {
   e.stopPropagation();
   const newCount = Number(pointsFifth) + 6;
@@ -6,7 +8,9 @@ const handleFifthClick = (pointsFifth, setPointsFifth) => (e) => {
   setPointsFifth(newCount);
 };
 
-// Fourth Ring
+/* --------------------------------------------------------------------------------
+Fourth Ring
+-------------------------------------------------------------------------------- */
 const handleFourthClick = (pointsFourth, setPointsFourth) => (e) => {
   e.stopPropagation();
   const newCount = Number(pointsFourth) + 7;
@@ -14,7 +18,9 @@ const handleFourthClick = (pointsFourth, setPointsFourth) => (e) => {
   setPointsFourth(newCount);
 };
 
-// Outer Zone (third ring)
+/* --------------------------------------------------------------------------------
+Outer Zone (third ring)
+-------------------------------------------------------------------------------- */
 const handleOuterClick = (pointsOuter, setPointsOuter) => (e) => {
   const newCount = Number(pointsOuter) + 8;
   e.stopPropagation();
@@ -24,7 +30,9 @@ const handleOuterClick = (pointsOuter, setPointsOuter) => (e) => {
   setPointsOuter(newCount);
 };
 
-// Inner Zone (second ring)
+/* --------------------------------------------------------------------------------
+Inner Zone (second ring)
+-------------------------------------------------------------------------------- */
 const handleInnerClick = (pointsInner, setPointsInner) => (e) => {
   e.stopPropagation(); // Stop event propagation to prevent outer zone click action
   const newCount = Number(pointsInner) + 9;
@@ -32,7 +40,9 @@ const handleInnerClick = (pointsInner, setPointsInner) => (e) => {
   setPointsInner(newCount);
 };
 
-// Bullseye Zone
+/* --------------------------------------------------------------------------------
+Bullseye Zone
+-------------------------------------------------------------------------------- */
 const handleBullClick = (bulls, setBulls) => (e) => {
   e.stopPropagation(); // Stop event propagation to prevent outer zone click action
   const newCount = Number(bulls) + 10;
@@ -40,7 +50,9 @@ const handleBullClick = (bulls, setBulls) => (e) => {
   setBulls(newCount);
 };
 
-// Trap Hits
+/* --------------------------------------------------------------------------------
+Trap Hits
+-------------------------------------------------------------------------------- */
 import { perfectGame } from "./sweetAlerts";
 
 const handleHit = (trapHit, setTrapHit) => (e) => {
@@ -53,20 +65,26 @@ const handleHit = (trapHit, setTrapHit) => (e) => {
   }
 };
 
-// Settings
+/* --------------------------------------------------------------------------------
+Settings
+-------------------------------------------------------------------------------- */
 const handleToggleSettings = (showSettings, setShowSettings) => (e) => {
   e.preventDefault();
   setShowSettings(!showSettings);
 };
 
-// Notes
+/* --------------------------------------------------------------------------------
+Notes
+-------------------------------------------------------------------------------- */
 const handleSaveNotes = (gameNotes, setIsEdit) => (e) => {
   e.preventDefault();
   document.cookie = `notes=${gameNotes}`;
   setIsEdit(false);
 };
 
-// Name
+/* --------------------------------------------------------------------------------
+Game Session Name
+-------------------------------------------------------------------------------- */
 const handleSaveName = (targetName, setReplaceName) => (e) => {
   e.preventDefault();
   document.cookie = `round=${targetName}`;
