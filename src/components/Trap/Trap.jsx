@@ -99,6 +99,7 @@ export default function Trap() {
   // Record Trap Hits
   const hit = () => {
     setTrapHit(trapHit + 1);
+    document.cookie = `hits=${trapHit}`;
     if (trapHit >= 25) {
       setTrapHit(25);
       perfectGame();
@@ -199,29 +200,6 @@ export default function Trap() {
     handleResetScore(cookiesToClear, ...stateToReset);
   };
 
-  // const addGame = () => {
-  //   const newGame = {
-  //     game_id: newGameId,
-  //     game_date: formatDate(gameDate),
-  //     game_notes: gameNotes,
-  //     target_name: targetName,
-  //     target_score_value: targetScore, // what is this representing??? -- decide later
-  //     total_game_score: totalRoundScores, // this is representing the total score of all the rounds for the game
-  //   };
-
-  //   savedAlert();
-  //   // Dispatch the action with the new target data
-  //   dispatch({ type: "EDIT_GAME", payload: newGame });
-
-  //   // Clear the input fields
-  //   setGameDate(gameDate);
-  //   setGameNotes("Notes");
-  //   setTotalScore(0);
-  //   setTargetName("");
-  //   setTargetScore(0);
-  //   history.push("/results");
-  //   resetScore();
-  // };
   // Add Game ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const addGame = handleAddGame(
     newGameId,
@@ -241,19 +219,6 @@ export default function Trap() {
     resetScore
   );
 
-  // const clearScores = (e) => {
-  //   e.preventDefault();
-
-  //   // Clear the input fields
-  //   setGameDate(gameDate);
-  //   setGameNotes("Notes");
-  //   setTrapHit(0);
-  //   setTotalScore(0);
-  //   setTargetScore(0);
-  //   setRoundNumber(1);
-  //   resetScore();
-  //   // alert("Added Target!");
-  // };
   // Clear Scores ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const clearScores = handleClearScores(
     gameDate,
@@ -275,19 +240,6 @@ export default function Trap() {
   //   // Reset the related state variables if needed
   //   setRoundScores([]);
   //   setRoundHeaders([]);
-  // };
-
-  // const savedAlert = () => {
-  //   Swal.fire({
-  //     title: "Game Saved!",
-  //     showClass: {
-  //       popup: "animate__animated animate__fadeInDown",
-  //     },
-  //     hideClass: {
-  //       popup: "animate__animated animate__fadeOutUp",
-  //     },
-  //     confirmButtonColor: "#3085d6",
-  //   });
   // };
 
   const perfectGame = () => {
