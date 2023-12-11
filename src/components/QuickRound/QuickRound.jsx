@@ -28,6 +28,7 @@ import DoDisturbAltIcon from "@mui/icons-material/DoDisturbAlt";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 // ~~~~~~~~~~~~~~~ Hooks ~~~~~~~~~~~~~~~~~~
 import getCookie from "../../hooks/cookie";
+import useGameId from "../../hooks/gameId";
 import Swal from "sweetalert2";
 // ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
 import { StyledTableCell, StyledTableRow } from "../Utils/helpers";
@@ -35,6 +36,8 @@ import { StyledTableCell, StyledTableRow } from "../Utils/helpers";
 export default function QuickRound() {
   const dispatch = useDispatch();
   const history = useHistory();
+  // ~~~~~~~~~~ Hooks ~~~~~~~~~~
+  const newGameId = useGameId();
 
   const [showSettings, setShowSettings] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -77,22 +80,6 @@ export default function QuickRound() {
   const roundId = roundIds.filter((round_id) => round_id !== null)[0];
   console.log("Round ID = ", roundId);
 
-  // Bring in Games
-  const games = useSelector((store) => store.gamesReducer);
-  console.log("GAMES: ", games);
-  const gameIds = games.map((game, i) => {
-    // Check if it's the last game in the array
-    if (i === games.length - 1) {
-      // You've reached the last game, so you can extract the ID
-      const newId = game.game_id;
-      return newId;
-    }
-    // If it's not the last game, return null or undefined, or handle it as needed.
-    return null;
-  });
-
-  // Extract the last game's ID
-  const newGameId = gameIds.filter((game_id) => game_id !== null)[0];
   console.log("New Game ID:", newGameId); // not logging correctly right now
 
   // format the date to mm/dd/yyyy
