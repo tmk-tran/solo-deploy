@@ -8,9 +8,6 @@ export default function TestComp() {
   const [showSettings, setShowSettings] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [replaceName, setReplaceName] = useState(false);
-  const [roundName, setRoundName] = useState(
-    getCookie("round") || "Test Round"
-  );
   // Define state to manage round scores and round headers
   const [roundScores, setRoundScores] = useState([]); // Array to store round scores
   const [roundHeaders, setRoundHeaders] = useState([1]); // Array to store round headers
@@ -21,7 +18,6 @@ export default function TestComp() {
   const [roundNumber, setRoundNumber] = useState(1);
 
   // from Games ~~~~~~~~~~~~~~~~~~~~~~~~~
-  const [notes, setNotes] = useState(getCookie("notes") || "Notes");
   const [totalScore, setTotalScore] = useState(0);
   const [gameDate, setGameDate] = useState(new Date()); // Initialize with the current date
   console.log("GAME DATE IS:", gameDate);
@@ -38,8 +34,6 @@ export default function TestComp() {
         setIsEdit={setIsEdit}
         replaceName={replaceName}
         setReplaceName={setReplaceName}
-        roundName={roundName}
-        setRoundName={setRoundName}
         roundScores={roundScores}
         setRoundScores={setRoundScores}
         roundHeaders={roundHeaders}
@@ -48,8 +42,6 @@ export default function TestComp() {
         setTotalRoundScores={setTotalRoundScores}
         roundNumber={roundNumber}
         setRoundNumber={setRoundNumber}
-        notes={notes}
-        setNotes={setNotes}
         totalScore={totalScore}
         setTotalScore={setTotalScore}
         gameDate={gameDate}
