@@ -55,20 +55,27 @@ export const handleAddRound =
     newGameId,
     dispatch,
     additionalCallback,
-    // componentName,
+    componentName,
     ...stateSetters
   ) =>
   (e) => {
     e.preventDefault();
+    console.log("NAME IS: ", componentName);
 
     // Calculate the total score for the current round with additional rings
-    const newRoundScore = ringPoints.reduce(
-      (sum, points) => sum + Number(points),
-      0
-    );
+    // const newRoundScore = ringPoints.reduce(
+    //   (sum, points) => sum + Number(points),
+    //   0
+    // );
+
+    const newRoundScore = componentName === 'Trap' ? Number(ringPoints) : ringPoints.reduce((sum, points) => sum + Number(points), 0);
+    // console.log("ringPoints = ", ringPoints);
+    // console.log("NEW ROUND SCORE: ", newRoundScore);
 
     // // Create a new array of round scores with the current total score
-    const newRoundScores = [...roundScores, totalScore];
+    // const newRoundScores = [...roundScores, totalScore];
+    const newRoundScores = componentName === 'Trap' ? [...roundScores, newRoundScore] : [...roundScores, totalScore];
+
     console.log("NEW ROUND SCORES: ", newRoundScores); // confirmed
 
     const sumRoundScores = newRoundScores.reduce(

@@ -105,7 +105,7 @@ export default function ThreeRing() {
     () => {
       setTotalScore(pointsOuter + pointsInner + bulls);
     },
-    // true,
+    'ThreeRing',
     setPointsOuter,
     setPointsInner,
     setBulls,

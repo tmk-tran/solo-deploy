@@ -141,7 +141,7 @@ export default function Trap() {
   // };
   // Utils / Add Round ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const addRound = handleAddRound(
-    [trapHit, totalRoundScores],
+    [trapHit],
     roundScores,
     totalScore,
     setRoundScores,
@@ -156,7 +156,7 @@ export default function Trap() {
       // Custom logic for updating state variables
       setTargetScore(targetScore + 25);
     },
-    // 'Trap',
+    'Trap',
     setTrapHit,
     setTotalScore
   );
