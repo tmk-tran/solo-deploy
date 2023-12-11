@@ -22,9 +22,27 @@ import ClearAllIcon from "@mui/icons-material/ClearAll";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 // ~~~~~~~~~~~~~~~ Hooks ~~~~~~~~~~~~~~~~~~
 import getCookie from "../../hooks/cookie";
+import useGameId from "../../hooks/gameId";
 import Swal from "sweetalert2";
 // ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
 import { StyledTableCell, StyledTableRow } from "../Utils/helpers";
+// ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
+import {
+  formatDate,
+  buttonLabel,
+  handleAddRound,
+  handleAddGame,
+  handleClearScores,
+  handleResetScore,
+  formatTargets,
+} from "../Utils/helpers";
+import {
+  handleBullClick,
+  handleToggleSettings,
+  handleSaveNotes,
+  handleSaveName,
+} from "../Utils/targetZones";
+import { savedAlert } from "../Utils/sweetAlerts";
 // ~~~~~~~~~~~~~~~ Components ~~~~~~~~~~~~~~~~~~
 import GameInfo from "../GameInfo/GameInfo";
 import GameMenu from "../GameMenu/GameMenu";
@@ -32,24 +50,25 @@ import GameMenu from "../GameMenu/GameMenu";
 export default function Bulls() {
   const dispatch = useDispatch();
   const history = useHistory();
-
+  // ~~~~~~~~~~ Hooks ~~~~~~~~~~
+  const newGameId = useGameId();
+  // ~~~~~~~~~~ State ~~~~~~~~~~
   const [pointsOuter, setPointsOuter] = useState(getCookie("outer") || 0);
   const [pointsInner, setPointsInner] = useState(getCookie("inner") || 0);
   const [bulls, setBulls] = useState(getCookie("bulls") || 0);
   const [showSettings, setShowSettings] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [replaceName, setReplaceName] = useState(false);
-  const [roundName, setRoundName] = useState(getCookie("round") || "Bulls");
-  // Define state to manage round scores and round headers
+  // ~~~~~~~~~~ Round scores and round headers ~~~~~~~~~~
   const [roundScores, setRoundScores] = useState([]); // Array to store round scores
   const [roundHeaders, setRoundHeaders] = useState([]); // Array to store round headers
   const [totalRoundScores, setTotalRoundScores] = useState(0);
   // console.log("TOTAL SCORES OF ROUNDS = ", totalRoundScores);
 
-  // State to manage round numbers
+  // ~~~~~~~~~~ Round numbers ~~~~~~~~~~
   const [roundNumber, setRoundNumber] = useState(1);
 
-  // from Games ~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~ Game State ~~~~~~~~~~
   const [totalScore, setTotalScore] = useState(
     pointsOuter + pointsInner + bulls
   );
@@ -85,167 +104,119 @@ export default function Bulls() {
   const roundId = roundIds.filter((round_id) => round_id !== null)[0];
   console.log("Round ID = ", roundId);
 
-  // Bring in Games
-  const games = useSelector((store) => store.gamesReducer);
-  console.log("GAMES: ", games);
-  const gameIds = games.map((game, i) => {
-    // Check if it's the last game in the array
-    if (i === games.length - 1) {
-      // You've reached the last game, so you can extract the ID
-      const newId = game.game_id;
-      return newId;
-    }
-    // If it's not the last game, return null or undefined, or handle it as needed.
-    return null;
-  });
-
-  // Extract the last game's ID
-  const newGameId = gameIds.filter((game_id) => game_id !== null)[0];
   console.log("New Game ID:", newGameId);
 
-  // format the date to mm/dd/yyyy
-  function formatDate(inputDate) {
-    const date = new Date(inputDate);
-    return date.toLocaleDateString("en-US");
-  }
+  // const clearScores = (e) => {
+  //   e.preventDefault();
 
-  const clearScores = (e) => {
-    e.preventDefault();
+  //   // Clear the input fields
+  //   setGameDate(gameDate);
+  //   setGameNotes("Notes");
+  //   setPointsOuter(0);
+  //   setPointsInner(0);
+  //   setBulls(0);
+  //   setTotalScore(0);
+  //   setRoundNumber(1);
+  //   resetScore();
+  //   // alert("Added Target!");
+  // };
 
-    // Clear the input fields
-    setGameDate(gameDate);
-    setGameNotes("Notes");
-    setPointsOuter(0);
-    setPointsInner(0);
-    setBulls(0);
-    setTotalScore(0);
-    setRoundNumber(1);
-    resetScore();
-    // alert("Added Target!");
-  };
+  // Utils / Bulls ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const clickBull = handleBullClick(bulls, setBulls);
+  // Utils / Settings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const toggleSettings = handleToggleSettings(showSettings, setShowSettings);
+  // Utils / Notes  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const saveNotes = handleSaveNotes(gameNotes, setIsEdit);
+  // Utils / Round Name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const saveName = handleSaveName(targetName, setReplaceName);
 
-  const clickBull = (e) => {
-    e.stopPropagation(); // Stop event propagation to prevent outer zone click action
-    const newCount = Number(bulls) + 10;
-    document.cookie = `bulls=${newCount}`;
-    setBulls(newCount);
-  };
+  // Utils / Add Round ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const addRound = handleAddRound(
+    [bulls],
+    roundScores,
+    totalScore,
+    setRoundScores,
+    roundHeaders,
+    setRoundHeaders,
+    setTotalRoundScores,
+    roundNumber,
+    setRoundNumber,
+    newGameId,
+    dispatch,
+    () => {
+      setTotalScore(bulls);
+    },
+    "Bulls",
+    setBulls,
+    setTotalScore
+  );
 
-  const toggleSettings = (e) => {
-    e.preventDefault();
-    setShowSettings(!showSettings);
-  };
-
-  const saveNotes = (e) => {
-    e.preventDefault();
-    document.cookie = `notes=${gameNotes}`;
-    setIsEdit(false);
-  };
-
-  const saveName = (e) => {
-    e.preventDefault();
-    document.cookie = `round=${targetName}`;
-    setReplaceName(false);
-  };
-
-  const addRound = (e) => {
-    e.preventDefault();
-    //  Ensure there's a game_id before adding rounds
-    //   if (newGameId) {
-
-    // Calculate the total score for the current round
-    const newRoundScore =
-      Number(pointsOuter) + Number(pointsInner) + Number(bulls);
-    // Create a new array of round scores with the current total score
-    const newRoundScores = [...roundScores, totalScore];
-    console.log("NEW ROUND SCORES: ", newRoundScores); // confirmed
-
-    const sumRoundScores = newRoundScores.reduce(
-      (accumulator, currentValue) => {
-        return accumulator + currentValue;
-      },
-      0
-    );
-
-    console.log("Sum of round scores:", sumRoundScores);
-    setTotalRoundScores(sumRoundScores);
-
-    // Increment the round header
-    const newRoundHeader = roundHeaders.length + 1;
-
-    const roundData = {
-      game_id: newGameId,
-      round_number: roundNumber,
-      round_score: newRoundScore,
-    };
-    console.log("ROUND DATA IS: ", roundData); // remove after confirmation
-
-    dispatch({ type: "ADD_ROUND", payload: roundData }); // --> send to a new reducer?
-
-    setRoundNumber(roundNumber + 1);
-    console.log("ROUND NUMBER IS: ", roundNumber); // remove after confirmation
-
-    setRoundScores(newRoundScores);
-    setRoundHeaders([...roundHeaders, newRoundHeader]);
-    setPointsOuter(0);
-    setPointsInner(0);
-    setBulls(0);
-    setTotalScore(0);
-  };
-
-  const addGame = () => {
-    const gameData = {
-      game_id: newGameId,
-      game_date: formatDate(gameDate),
-      game_notes: gameNotes,
-      target_name: targetName,
-      target_score_value: targetScore, // what is this representing??? -- decide later
-      total_game_score: totalRoundScores, // this is representing the total score of all the rounds for the game
-    };
-
-    savedAlert();
-    // Dispatch the action with the new target data
-    dispatch({ type: "EDIT_GAME", payload: gameData });
-
-    // Clear the fields
-    setGameDate(gameDate);
-    setGameNotes("Notes");
-    setTotalScore(0);
-    setTargetName("");
-    history.push("/results");
-    resetScore();
-  };
-
+  // Utils / Reset ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const resetScore = () => {
-    // Clear the cookies related to the score (e.g., outer, inner, bulls)
-    document.cookie = "bulls=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    document.cookie = "notes=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    document.cookie = "round=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-
-    // Reset the related state variables if needed
-    setPointsOuter(0);
-    setPointsInner(0);
-    setBulls(0);
-    setTotalScore(0);
-    setRoundScores([]);
-    setRoundHeaders([]);
+    const cookiesToClear = ["bulls", "notes", "round"];
+    const stateToReset = [
+      setBulls,
+      setTotalScore,
+      setRoundScores,
+      setRoundHeaders,
+    ];
+    handleResetScore(cookiesToClear, ...stateToReset);
   };
 
-  const savedAlert = () => {
-    Swal.fire({
-      title: "Game Saved!",
-      showClass: {
-        popup: "animate__animated animate__fadeInDown",
-      },
-      hideClass: {
-        popup: "animate__animated animate__fadeOutUp",
-      },
-      confirmButtonColor: "#3085d6",
-    });
-  };
+  // const addGame = () => {
+  //   const gameData = {
+  //     game_id: newGameId,
+  //     game_date: formatDate(gameDate),
+  //     game_notes: gameNotes,
+  //     target_name: targetName,
+  //     target_score_value: targetScore, // what is this representing??? -- decide later
+  //     total_game_score: totalRoundScores, // this is representing the total score of all the rounds for the game
+  //   };
 
-  const buttonLabel = <QueryStatsIcon />;
-  const targetOptions = [`Bull's: ${bulls}`, `Total = ${totalScore}`];
+  //   savedAlert();
+  //   // Dispatch the action with the new target data
+  //   dispatch({ type: "EDIT_GAME", payload: gameData });
+
+  //   // Clear the fields
+  //   setGameDate(gameDate);
+  //   setGameNotes("Notes");
+  //   setTotalScore(0);
+  //   setTargetName("");
+  //   history.push("/results");
+  //   resetScore();
+  // };
+  // Add Game ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const addGame = handleAddGame(
+    newGameId,
+    formatDate,
+    gameDate,
+    gameNotes,
+    targetName,
+    targetScore,
+    totalRoundScores,
+    savedAlert,
+    dispatch,
+    setGameDate,
+    setGameNotes,
+    setTotalScore,
+    setTargetName,
+    history,
+    resetScore
+  );
+
+  // Clear Scores ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const clearScores = handleClearScores(
+    gameDate,
+    setGameDate,
+    setGameNotes,
+    setRoundNumber,
+    resetScore,
+    setBulls,
+    setTotalScore
+  );
+
+  const targets = [{ label: "Bullseyes Only", points: bulls }];
+  const targetOptions = formatTargets(targets);
 
   return (
     <div
