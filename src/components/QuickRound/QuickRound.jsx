@@ -31,6 +31,22 @@ import getCookie from "../../hooks/cookie";
 import useGameId from "../../hooks/gameId";
 import Swal from "sweetalert2";
 // ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
+import {
+  formatDate,
+  buttonLabel,
+  handleAddRound,
+  handleAddGame,
+  handleClearScores,
+  handleResetScore,
+  formatTargets,
+} from "../Utils/helpers";
+import {
+  handleToggleSettings,
+  handleSaveNotes,
+  handleSaveName,
+} from "../Utils/targetZones";
+import { savedAlert } from "../Utils/sweetAlerts";
+// ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
 import { StyledTableCell, StyledTableRow } from "../Utils/helpers";
 
 export default function QuickRound() {
@@ -80,14 +96,6 @@ export default function QuickRound() {
   const roundId = roundIds.filter((round_id) => round_id !== null)[0];
   console.log("Round ID = ", roundId);
 
-  console.log("New Game ID:", newGameId); // not logging correctly right now
-
-  // format the date to mm/dd/yyyy
-  function formatDate(inputDate) {
-    const date = new Date(inputDate);
-    return date.toLocaleDateString("en-US");
-  }
-
   // Record Hits
   const targetHit = () => {
     setHit(hit + 1);
@@ -112,22 +120,28 @@ export default function QuickRound() {
     // alert("Added Target!");
   };
 
-  const toggleSettings = (e) => {
-    e.preventDefault();
-    setShowSettings(!showSettings);
-  };
+  // const toggleSettings = (e) => {
+  //   e.preventDefault();
+  //   setShowSettings(!showSettings);
+  // };
 
-  const saveNotes = (e) => {
-    e.preventDefault();
-    document.cookie = `notes=${gameNotes}`;
-    setIsEdit(false);
-  };
+  // const saveNotes = (e) => {
+  //   e.preventDefault();
+  //   document.cookie = `notes=${gameNotes}`;
+  //   setIsEdit(false);
+  // };
 
-  const saveName = (e) => {
-    e.preventDefault();
-    document.cookie = `round=${targetName}`;
-    setReplaceName(false);
-  };
+  // const saveName = (e) => {
+  //   e.preventDefault();
+  //   document.cookie = `round=${targetName}`;
+  //   setReplaceName(false);
+  // };
+  // Utils / Settings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const toggleSettings = handleToggleSettings(showSettings, setShowSettings);
+  // Utils / Notes  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const saveNotes = handleSaveNotes(gameNotes, setIsEdit);
+  // Utils / Round Name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const saveName = handleSaveName(targetName, setReplaceName);
 
   const addRound = (e) => {
     e.preventDefault();
@@ -178,6 +192,13 @@ export default function QuickRound() {
   const shotTotal = Number(hit + miss);
   console.log("SHOT TOTAL IS: ", shotTotal);
 
+  // Utils / Reset ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const resetScore = () => {
+    const cookiesToClear = ["hit_quick", "miss_quick", "notes", "round"];
+    const stateToReset = [setRoundScores, setRoundHeaders];
+    handleResetScore(cookiesToClear, ...stateToReset);
+  };
+
   const addGame = () => {
     const newGame = {
       game_id: newGameId,
@@ -199,15 +220,6 @@ export default function QuickRound() {
     setTargetScore(0);
     history.push("/results");
     resetScore();
-  };
-
-  const resetScore = () => {
-    // Clear the cookies related to the score (e.g., hits)
-    document.cookie = "hit_quick=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    document.cookie = "miss_quick=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    // Reset the related state variables if needed
-    setRoundScores([]);
-    setRoundHeaders([]);
   };
 
   const saveTotalShots = (e) => {
