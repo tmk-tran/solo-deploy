@@ -54,10 +54,11 @@ export const handleAddRound =
     setRoundNumber,
     newGameId,
     dispatch,
-    setPointsOuter,
-    setPointsInner,
-    setBulls,
-    setTotalScore
+    // setPointsOuter,
+    // setPointsInner,
+    // setBulls,
+    // setTotalScore
+    ...stateSetters
   ) =>
   (e) => {
     e.preventDefault();
@@ -99,11 +100,14 @@ export const handleAddRound =
 
     setRoundScores(newRoundScores);
     setRoundHeaders([...roundHeaders, newRoundHeader]);
-    setPointsOuter(0);
-    setPointsInner(0);
-    setBulls(0);
-    setTotalScore(0);
+    // setPointsOuter(0);
+    // setPointsInner(0);
+    // setBulls(0);
+    // setTotalScore(0);
+    // Clear the input fields
+    stateSetters.forEach((setter) => setter(0));
   };
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // Add Game

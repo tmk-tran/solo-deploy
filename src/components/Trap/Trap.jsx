@@ -23,18 +23,41 @@ import ClearAllIcon from "@mui/icons-material/ClearAll";
 import "./Trap.css";
 // ~~~~~~~~~~~~~~~ Hooks ~~~~~~~~~~~~~~~~~~
 import getCookie from "../../hooks/cookie";
+import useGameId from "../../hooks/gameId";
+import useRoundId from "../../hooks/roundId";
 import Swal from "sweetalert2";
+// ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
+import {
+  formatDate,
+  buttonLabel,
+  handleAddRound,
+  handleAddGame,
+  handleClearScores,
+  handleResetScore,
+  formatTargets,
+} from "../Utils/helpers";
+import {
+  handleOuterClick,
+  handleInnerClick,
+  handleBullClick,
+  handleToggleSettings,
+  handleSaveNotes,
+  handleSaveName,
+} from "../Utils/targetZones";
+import { savedAlert } from "../Utils/sweetAlerts";
 // ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
 import { StyledTableCell, StyledTableRow } from "../Utils/helpers";
 
 export default function Trap() {
   const dispatch = useDispatch();
   const history = useHistory();
+  // ~~~~~~~~~~ Hooks ~~~~~~~~~~
+  const newGameId = useGameId();
+  const roundId = useRoundId();
 
   const [showSettings, setShowSettings] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [replaceName, setReplaceName] = useState(false);
-  const [roundName, setRoundName] = useState(getCookie("round") || "Trap");
   // Define state to manage round scores and round headers
   const [roundScores, setRoundScores] = useState([]); // Array to store round scores
   const [roundHeaders, setRoundHeaders] = useState([1]); // Array to store round headers
@@ -62,45 +85,16 @@ export default function Trap() {
   }, [trapHit]);
 
   // Bring in Rounds
-  const rounds = useSelector((store) => store.roundReducer);
-  console.log("SCORES: ", rounds);
-  const roundIds = rounds.map((round, i) => {
-    // Check if it's the last score in the array
-    if (i === rounds.length - 1) {
-      // You've reached the last score, so you can extract the ID
-      const rId = round.round_id;
-      return rId;
-    }
-    // If it's not the last object, return null or undefined, or handle it as needed.
-    return null;
-  });
-  // Extract the last round's ID
-  const roundId = roundIds.filter((round_id) => round_id !== null)[0];
   console.log("Round ID = ", roundId);
 
   // Bring in Games
-  const games = useSelector((store) => store.gamesReducer);
-  console.log("GAMES: ", games);
-  const gameIds = games.map((game, i) => {
-    // Check if it's the last game in the array
-    if (i === games.length - 1) {
-      // You've reached the last game, so you can extract the ID
-      const newId = game.game_id;
-      return newId;
-    }
-    // If it's not the last game, return null or undefined, or handle it as needed.
-    return null;
-  });
+  console.log("New Game ID:", newGameId);
 
-  // Extract the last game's ID
-  const newGameId = gameIds.filter((game_id) => game_id !== null)[0];
-  console.log("New Game ID:", newGameId); // not logging correctly right now
-
-  // format the date to mm/dd/yyyy
-  function formatDate(inputDate) {
-    const date = new Date(inputDate);
-    return date.toLocaleDateString("en-US");
-  }
+  // // format the date to mm/dd/yyyy
+  // function formatDate(inputDate) {
+  //   const date = new Date(inputDate);
+  //   return date.toLocaleDateString("en-US");
+  // }
 
   // Record Trap Hits
   const hit = () => {
@@ -111,36 +105,28 @@ export default function Trap() {
     }
   };
 
-  const clearScores = (e) => {
-    e.preventDefault();
+  // const toggleSettings = (e) => {
+  //   e.preventDefault();
+  //   setShowSettings(!showSettings);
+  // };
 
-    // Clear the input fields
-    setGameDate(gameDate);
-    setGameNotes("Notes");
-    setTrapHit(0);
-    setTotalScore(0);
-    setTargetScore(0);
-    setRoundNumber(1);
-    resetScore();
-    // alert("Added Target!");
-  };
+  // const saveNotes = (e) => {
+  //   e.preventDefault();
+  //   document.cookie = `notes=${gameNotes}`;
+  //   setIsEdit(false);
+  // };
 
-  const toggleSettings = (e) => {
-    e.preventDefault();
-    setShowSettings(!showSettings);
-  };
-
-  const saveNotes = (e) => {
-    e.preventDefault();
-    document.cookie = `notes=${gameNotes}`;
-    setIsEdit(false);
-  };
-
-  const saveName = (e) => {
-    e.preventDefault();
-    document.cookie = `round=${targetName}`;
-    setReplaceName(false);
-  };
+  // const saveName = (e) => {
+  //   e.preventDefault();
+  //   document.cookie = `round=${targetName}`;
+  //   setReplaceName(false);
+  // };
+  // Utils / Settings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const toggleSettings = handleToggleSettings(showSettings, setShowSettings);
+  // Utils / Notes  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const saveNotes = handleSaveNotes(gameNotes, setIsEdit);
+  // Utils / Round Name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const saveName = handleSaveName(targetName, setReplaceName);
 
   const addRound = (e) => {
     e.preventDefault();
@@ -184,54 +170,125 @@ export default function Trap() {
     setTargetScore(targetScore + 25);
     // setTotalScore(0);
   };
-
-  const addGame = () => {
-    const newGame = {
-      game_id: newGameId,
-      game_date: formatDate(gameDate),
-      game_notes: gameNotes,
-      target_name: targetName,
-      target_score_value: targetScore, // what is this representing??? -- decide later
-      total_game_score: totalRoundScores, // this is representing the total score of all the rounds for the game
-    };
-
-    savedAlert();
-    // Dispatch the action with the new target data
-    dispatch({ type: "EDIT_GAME", payload: newGame });
-
-    // Clear the input fields
-    setGameDate(gameDate);
-    setGameNotes("Notes");
-    setTotalScore(0);
-    setTargetName("");
-    setTargetScore(0);
-    history.push("/results");
-    resetScore();
-  };
-
+  // Utils / Add Round ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // const addRound = handleAddRound(
+  //   [trapHit, totalRoundScores],
+  //   roundScores,
+  //   totalScore,
+  //   setRoundScores,
+  //   roundHeaders,
+  //   setRoundHeaders,
+  //   setTotalRoundScores,
+  //   roundNumber,
+  //   setRoundNumber,
+  //   newGameId,
+  //   dispatch,
+  //   // setTargetScore(targetScore + 25),    
+  //   setTrapHit,
+  //   setTotalScore
+  // );
+  // Utils / Reset ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const resetScore = () => {
-    // Clear the cookies related to the score (e.g., hits)
-    document.cookie = "hits=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    document.cookie = "notes=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    document.cookie = "round=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-
-    // Reset the related state variables if needed
-    setRoundScores([]);
-    setRoundHeaders([]);
+    const cookiesToClear = ["hits", "notes", "round"];
+    const stateToReset = [
+      setTrapHit,
+      setTotalScore,
+      setRoundScores,
+      setRoundHeaders,
+    ];
+    handleResetScore(cookiesToClear, ...stateToReset);
   };
 
-  const savedAlert = () => {
-    Swal.fire({
-      title: "Game Saved!",
-      showClass: {
-        popup: "animate__animated animate__fadeInDown",
-      },
-      hideClass: {
-        popup: "animate__animated animate__fadeOutUp",
-      },
-      confirmButtonColor: "#3085d6",
-    });
-  };
+  // const addGame = () => {
+  //   const newGame = {
+  //     game_id: newGameId,
+  //     game_date: formatDate(gameDate),
+  //     game_notes: gameNotes,
+  //     target_name: targetName,
+  //     target_score_value: targetScore, // what is this representing??? -- decide later
+  //     total_game_score: totalRoundScores, // this is representing the total score of all the rounds for the game
+  //   };
+
+  //   savedAlert();
+  //   // Dispatch the action with the new target data
+  //   dispatch({ type: "EDIT_GAME", payload: newGame });
+
+  //   // Clear the input fields
+  //   setGameDate(gameDate);
+  //   setGameNotes("Notes");
+  //   setTotalScore(0);
+  //   setTargetName("");
+  //   setTargetScore(0);
+  //   history.push("/results");
+  //   resetScore();
+  // };
+  // Add Game ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const addGame = handleAddGame(
+    newGameId,
+    formatDate,
+    gameDate,
+    gameNotes,
+    targetName,
+    targetScore,
+    totalRoundScores,
+    savedAlert,
+    dispatch,
+    setGameDate,
+    setGameNotes,
+    setTotalScore,
+    setTargetName,
+    history,
+    resetScore
+  );
+
+  // const clearScores = (e) => {
+  //   e.preventDefault();
+
+  //   // Clear the input fields
+  //   setGameDate(gameDate);
+  //   setGameNotes("Notes");
+  //   setTrapHit(0);
+  //   setTotalScore(0);
+  //   setTargetScore(0);
+  //   setRoundNumber(1);
+  //   resetScore();
+  //   // alert("Added Target!");
+  // };
+  // Clear Scores ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const clearScores = handleClearScores(
+    gameDate,
+    setGameDate,
+    setGameNotes,
+    setRoundNumber,
+    resetScore,
+    setTrapHit,
+    setTotalScore,
+    setTargetScore,
+  );
+
+  // const resetScore = () => {
+  //   // Clear the cookies related to the score (e.g., hits)
+  //   document.cookie = "hits=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+  //   document.cookie = "notes=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+  //   document.cookie = "round=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+
+  //   // Reset the related state variables if needed
+  //   setRoundScores([]);
+  //   setRoundHeaders([]);
+  // };
+
+  // const savedAlert = () => {
+  //   Swal.fire({
+  //     title: "Game Saved!",
+  //     showClass: {
+  //       popup: "animate__animated animate__fadeInDown",
+  //     },
+  //     hideClass: {
+  //       popup: "animate__animated animate__fadeOutUp",
+  //     },
+  //     confirmButtonColor: "#3085d6",
+  //   });
+  // };
 
   const perfectGame = () => {
     Swal.fire({
