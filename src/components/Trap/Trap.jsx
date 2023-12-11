@@ -97,48 +97,6 @@ export default function Trap() {
   // Utils / Round Name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const saveName = handleSaveName(targetName, setReplaceName);
 
-  // const addRound = (e) => {
-  //   e.preventDefault();
-  //   //  Ensure there's a game_id before adding rounds
-  //   //   if (newGameId) {
-
-  //   // Calculate the total score for the current round
-  //   const newRoundScore = Number(trapHit);
-  //   // Create a new array of round scores with the current total score
-  //   const newRoundScores = [...roundScores, newRoundScore];
-  //   console.log("NEW ROUND SCORES: ", newRoundScores); // confirmed
-
-  //   const sumRoundScores = newRoundScores.reduce(
-  //     (accumulator, currentValue) => {
-  //       return accumulator + currentValue;
-  //     },
-  //     0
-  //   );
-
-  //   console.log("Sum of round scores:", sumRoundScores);
-  //   setTotalRoundScores(sumRoundScores);
-
-  //   // Increment the round header
-  //   const newRoundHeader = roundHeaders.length + 1;
-
-  //   const roundData = {
-  //     game_id: newGameId,
-  //     round_number: roundNumber,
-  //     round_score: newRoundScore,
-  //   };
-  //   console.log("ROUND DATA IS: ", roundData); // remove after confirmation
-
-  //   dispatch({ type: "ADD_ROUND", payload: roundData });
-
-  //   setRoundNumber(roundNumber + 1);
-  //   console.log("ROUND NUMBER IS: ", roundNumber); // remove after confirmation
-
-  //   setRoundScores(newRoundScores);
-  //   setRoundHeaders([...roundHeaders, newRoundHeader]);
-  //   setTrapHit(0);
-  //   setTargetScore(targetScore + 25);
-  //   // setTotalScore(0);
-  // };
   // Utils / Add Round ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const addRound = handleAddRound(
     [trapHit],
@@ -201,19 +159,6 @@ export default function Trap() {
     setTotalScore,
     setTargetScore
   );
-
-  // const perfectGame = () => {
-  //   Swal.fire({
-  //     title: "Perfect Score!",
-  //     showClass: {
-  //       popup: "animate__animated animate__fadeInDown",
-  //     },
-  //     hideClass: {
-  //       popup: "animate__animated animate__fadeOutUp",
-  //     },
-  //     confirmButtonColor: "#1976D2",
-  //   });
-  // };
 
   return (
     <div
