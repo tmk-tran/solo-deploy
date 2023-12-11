@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import GameTimer from "../GameTimer/GameTimer"; // timer keeps resetting, figure out issue
 import { useDispatch, useSelector } from "react-redux";
@@ -41,6 +41,8 @@ import {
   formatTargets,
 } from "../Utils/helpers";
 import {
+  handleTargetHit,
+  handleTargetMiss,
   handleToggleSettings,
   handleSaveNotes,
   handleSaveName,
@@ -66,7 +68,9 @@ export default function QuickRound() {
 
   // State to manage round numbers
   const [roundNumber, setRoundNumber] = useState(1);
-  // from Games ~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~ Game State ~~~~~~~~~~
+  const [totalScore, setTotalScore] = useState(0);
+  console.log(totalScore);
   const [gameDate, setGameDate] = useState(new Date()); // Initialize with the current date
   console.log("GAME DATE IS:", gameDate);
   const [gameNotes, setGameNotes] = useState(getCookie("notes") || "Notes");
@@ -75,10 +79,23 @@ export default function QuickRound() {
   console.log("TARGET SCORE = ", targetScore);
   // State for Quick Round Scoring ~~~~~~~~~~~~~~~~~~~~~~~~~
   const [hit, setHit] = useState(getCookie("hit_quick") || 0); // hit count for game
+  console.log("HIT COUNT = ", hit);
   const [hitDisplay, setHitDisplay] = useState(
     getCookie("hit_quick_display") || 0
   ); // hit count for display
+  console.log("HIT DISPLAY = ", hitDisplay);
   const [miss, setMiss] = useState(getCookie("miss_quick") || 0);
+
+  useEffect(() => {
+    // Calculate the total score whenever any of the individual scores change
+    const totalScore = Number(totalRoundScores) + Number(miss);
+
+    // Update the total score in the component state
+    setTotalScore(totalScore);
+  }, [hit, miss]);
+
+  console.log("TOTAL SCORE = ", totalScore); 
+
   // Bring in Rounds
   const rounds = useSelector((store) => store.roundReducer);
   console.log("SCORES: ", rounds);
@@ -96,46 +113,10 @@ export default function QuickRound() {
   const roundId = roundIds.filter((round_id) => round_id !== null)[0];
   console.log("Round ID = ", roundId);
 
-  // Record Hits
-  const targetHit = () => {
-    setHit(hit + 1);
-    setHitDisplay(hitDisplay + 1);
-  };
-
-  // Record Misses
-  const targetMiss = () => {
-    setMiss(miss + 1);
-  };
-
-  const clearScores = (e) => {
-    e.preventDefault();
-
-    // Clear the input fields
-    setGameDate(gameDate);
-    setGameNotes("Notes");
-    setHit(0);
-    setTargetScore(0);
-    setRoundNumber(1);
-    resetScore();
-    // alert("Added Target!");
-  };
-
-  // const toggleSettings = (e) => {
-  //   e.preventDefault();
-  //   setShowSettings(!showSettings);
-  // };
-
-  // const saveNotes = (e) => {
-  //   e.preventDefault();
-  //   document.cookie = `notes=${gameNotes}`;
-  //   setIsEdit(false);
-  // };
-
-  // const saveName = (e) => {
-  //   e.preventDefault();
-  //   document.cookie = `round=${targetName}`;
-  //   setReplaceName(false);
-  // };
+  // Utils / Hits ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const targetHit = handleTargetHit(hit, setHit, hitDisplay, setHitDisplay);
+  // Utils / Misses ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const targetMiss = handleTargetMiss(miss, setMiss);
   // Utils / Settings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const toggleSettings = handleToggleSettings(showSettings, setShowSettings);
   // Utils / Notes  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -189,6 +170,29 @@ export default function QuickRound() {
     setTargetScore(sumRoundScores);
   };
 
+  // // Utils / Add Round ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // const addRound = handleAddRound(
+  //   [hit],
+  //   roundScores,
+  //   totalScore,
+  //   setRoundScores,
+  //   roundHeaders,
+  //   setRoundHeaders,
+  //   totalRoundScores,
+  //   setTotalRoundScores,
+  //   roundNumber,
+  //   setRoundNumber,
+  //   newGameId,
+  //   dispatch,
+  //   () => {
+  //     // setTargetScore(targetScore);
+  //   },
+  //   "QuickRound",
+  //   // setHit,
+  //   setHitDisplay,
+  //   // setTotalScore,
+  // );
+
   const shotTotal = Number(hit + miss);
   console.log("SHOT TOTAL IS: ", shotTotal);
 
@@ -222,24 +226,17 @@ export default function QuickRound() {
     resetScore();
   };
 
-  const saveTotalShots = (e) => {
-    e.preventDefault();
-    document.cookie = "notes=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    document.cookie = "round=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-  };
-
-  const savedAlert = () => {
-    Swal.fire({
-      title: "Game Saved!",
-      showClass: {
-        popup: "animate__animated animate__fadeInDown",
-      },
-      hideClass: {
-        popup: "animate__animated animate__fadeOutUp",
-      },
-      confirmButtonColor: "#3085d6",
-    });
-  };
+  // Clear Scores ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const clearScores = handleClearScores(
+    gameDate,
+    setGameDate,
+    setGameNotes,
+    setRoundNumber,
+    resetScore,
+    setHit,
+    setMiss,
+    setTargetScore
+  );
 
   return (
     <div

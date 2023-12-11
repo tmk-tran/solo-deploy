@@ -66,6 +66,23 @@ const handleHit = (trapHit, setTrapHit) => (e) => {
 };
 
 /* --------------------------------------------------------------------------------
+QuickRound Hits
+-------------------------------------------------------------------------------- */
+const handleTargetHit = (hit, setHit, hitDisplay, setHitDisplay) => (e) => {
+  e.preventDefault();
+  setHit(hit + 1);
+  setHitDisplay(hitDisplay + 1);
+};
+
+/* --------------------------------------------------------------------------------
+QuickRound Misses
+-------------------------------------------------------------------------------- */
+const handleTargetMiss = (miss, setMiss) => (e) => {
+  e.preventDefault();
+  setMiss(miss + 1);
+};
+
+/* --------------------------------------------------------------------------------
 Settings
 -------------------------------------------------------------------------------- */
 const handleToggleSettings = (showSettings, setShowSettings) => (e) => {
@@ -97,6 +114,8 @@ export { handleOuterClick };
 export { handleInnerClick };
 export { handleBullClick };
 export { handleHit };
+export { handleTargetHit };
+export { handleTargetMiss };
 export { handleToggleSettings };
 export { handleSaveNotes };
 export { handleSaveName };
