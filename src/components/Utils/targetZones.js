@@ -40,6 +40,19 @@ const handleBullClick = (bulls, setBulls) => (e) => {
   setBulls(newCount);
 };
 
+// Trap Hits
+import { perfectGame } from "./sweetAlerts";
+
+const handleHit = (trapHit, setTrapHit) => (e) => {
+  e.preventDefault();
+  setTrapHit(trapHit + 1);
+  document.cookie = `hits=${trapHit}`;
+  if (trapHit >= 25) {
+    setTrapHit(25);
+    perfectGame();
+  }
+};
+
 // Settings
 const handleToggleSettings = (showSettings, setShowSettings) => (e) => {
   e.preventDefault();
@@ -65,6 +78,7 @@ export { handleFourthClick };
 export { handleOuterClick };
 export { handleInnerClick };
 export { handleBullClick };
+export { handleHit };
 export { handleToggleSettings };
 export { handleSaveNotes };
 export { handleSaveName };

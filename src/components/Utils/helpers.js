@@ -54,10 +54,8 @@ export const handleAddRound =
     setRoundNumber,
     newGameId,
     dispatch,
-    // setPointsOuter,
-    // setPointsInner,
-    // setBulls,
-    // setTotalScore
+    additionalCallback,
+    // componentName,
     ...stateSetters
   ) =>
   (e) => {
@@ -69,7 +67,7 @@ export const handleAddRound =
       0
     );
 
-    // Create a new array of round scores with the current total score
+    // // Create a new array of round scores with the current total score
     const newRoundScores = [...roundScores, totalScore];
     console.log("NEW ROUND SCORES: ", newRoundScores); // confirmed
 
@@ -104,6 +102,10 @@ export const handleAddRound =
     // setPointsInner(0);
     // setBulls(0);
     // setTotalScore(0);
+    // Apply additional custom logic via the callback
+    if (additionalCallback) {
+      additionalCallback();
+    }
     // Clear the input fields
     stateSetters.forEach((setter) => setter(0));
   };

@@ -37,9 +37,7 @@ import {
   formatTargets,
 } from "../Utils/helpers";
 import {
-  handleOuterClick,
-  handleInnerClick,
-  handleBullClick,
+  handleHit,
   handleToggleSettings,
   handleSaveNotes,
   handleSaveName,
@@ -90,38 +88,8 @@ export default function Trap() {
   // Bring in Games
   console.log("New Game ID:", newGameId);
 
-  // // format the date to mm/dd/yyyy
-  // function formatDate(inputDate) {
-  //   const date = new Date(inputDate);
-  //   return date.toLocaleDateString("en-US");
-  // }
-
-  // Record Trap Hits
-  const hit = () => {
-    setTrapHit(trapHit + 1);
-    document.cookie = `hits=${trapHit}`;
-    if (trapHit >= 25) {
-      setTrapHit(25);
-      perfectGame();
-    }
-  };
-
-  // const toggleSettings = (e) => {
-  //   e.preventDefault();
-  //   setShowSettings(!showSettings);
-  // };
-
-  // const saveNotes = (e) => {
-  //   e.preventDefault();
-  //   document.cookie = `notes=${gameNotes}`;
-  //   setIsEdit(false);
-  // };
-
-  // const saveName = (e) => {
-  //   e.preventDefault();
-  //   document.cookie = `round=${targetName}`;
-  //   setReplaceName(false);
-  // };
+  // Utils / Recored Trap Hits ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  const hit = handleHit(trapHit, setTrapHit);
   // Utils / Settings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const toggleSettings = handleToggleSettings(showSettings, setShowSettings);
   // Utils / Notes  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -129,65 +97,69 @@ export default function Trap() {
   // Utils / Round Name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const saveName = handleSaveName(targetName, setReplaceName);
 
-  const addRound = (e) => {
-    e.preventDefault();
-    //  Ensure there's a game_id before adding rounds
-    //   if (newGameId) {
+  // const addRound = (e) => {
+  //   e.preventDefault();
+  //   //  Ensure there's a game_id before adding rounds
+  //   //   if (newGameId) {
 
-    // Calculate the total score for the current round
-    const newRoundScore = Number(trapHit);
-    // Create a new array of round scores with the current total score
-    const newRoundScores = [...roundScores, newRoundScore];
-    console.log("NEW ROUND SCORES: ", newRoundScores); // confirmed
+  //   // Calculate the total score for the current round
+  //   const newRoundScore = Number(trapHit);
+  //   // Create a new array of round scores with the current total score
+  //   const newRoundScores = [...roundScores, newRoundScore];
+  //   console.log("NEW ROUND SCORES: ", newRoundScores); // confirmed
 
-    const sumRoundScores = newRoundScores.reduce(
-      (accumulator, currentValue) => {
-        return accumulator + currentValue;
-      },
-      0
-    );
+  //   const sumRoundScores = newRoundScores.reduce(
+  //     (accumulator, currentValue) => {
+  //       return accumulator + currentValue;
+  //     },
+  //     0
+  //   );
 
-    console.log("Sum of round scores:", sumRoundScores);
-    setTotalRoundScores(sumRoundScores);
+  //   console.log("Sum of round scores:", sumRoundScores);
+  //   setTotalRoundScores(sumRoundScores);
 
-    // Increment the round header
-    const newRoundHeader = roundHeaders.length + 1;
+  //   // Increment the round header
+  //   const newRoundHeader = roundHeaders.length + 1;
 
-    const roundData = {
-      game_id: newGameId,
-      round_number: roundNumber,
-      round_score: newRoundScore,
-    };
-    console.log("ROUND DATA IS: ", roundData); // remove after confirmation
+  //   const roundData = {
+  //     game_id: newGameId,
+  //     round_number: roundNumber,
+  //     round_score: newRoundScore,
+  //   };
+  //   console.log("ROUND DATA IS: ", roundData); // remove after confirmation
 
-    dispatch({ type: "ADD_ROUND", payload: roundData });
+  //   dispatch({ type: "ADD_ROUND", payload: roundData });
 
-    setRoundNumber(roundNumber + 1);
-    console.log("ROUND NUMBER IS: ", roundNumber); // remove after confirmation
+  //   setRoundNumber(roundNumber + 1);
+  //   console.log("ROUND NUMBER IS: ", roundNumber); // remove after confirmation
 
-    setRoundScores(newRoundScores);
-    setRoundHeaders([...roundHeaders, newRoundHeader]);
-    setTrapHit(0);
-    setTargetScore(targetScore + 25);
-    // setTotalScore(0);
-  };
+  //   setRoundScores(newRoundScores);
+  //   setRoundHeaders([...roundHeaders, newRoundHeader]);
+  //   setTrapHit(0);
+  //   setTargetScore(targetScore + 25);
+  //   // setTotalScore(0);
+  // };
   // Utils / Add Round ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  // const addRound = handleAddRound(
-  //   [trapHit, totalRoundScores],
-  //   roundScores,
-  //   totalScore,
-  //   setRoundScores,
-  //   roundHeaders,
-  //   setRoundHeaders,
-  //   setTotalRoundScores,
-  //   roundNumber,
-  //   setRoundNumber,
-  //   newGameId,
-  //   dispatch,
-  //   // setTargetScore(targetScore + 25),    
-  //   setTrapHit,
-  //   setTotalScore
-  // );
+  const addRound = handleAddRound(
+    [trapHit, totalRoundScores],
+    roundScores,
+    totalScore,
+    setRoundScores,
+    roundHeaders,
+    setRoundHeaders,
+    setTotalRoundScores,
+    roundNumber,
+    setRoundNumber,
+    newGameId,
+    dispatch,
+    () => {
+      // Custom logic for updating state variables
+      setTargetScore(targetScore + 25);
+    },
+    // 'Trap',
+    setTrapHit,
+    setTotalScore
+  );
   // Utils / Reset ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const resetScore = () => {
     const cookiesToClear = ["hits", "notes", "round"];
@@ -228,32 +200,21 @@ export default function Trap() {
     resetScore,
     setTrapHit,
     setTotalScore,
-    setTargetScore,
+    setTargetScore
   );
 
-  // const resetScore = () => {
-  //   // Clear the cookies related to the score (e.g., hits)
-  //   document.cookie = "hits=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-  //   document.cookie = "notes=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-  //   document.cookie = "round=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-
-  //   // Reset the related state variables if needed
-  //   setRoundScores([]);
-  //   setRoundHeaders([]);
+  // const perfectGame = () => {
+  //   Swal.fire({
+  //     title: "Perfect Score!",
+  //     showClass: {
+  //       popup: "animate__animated animate__fadeInDown",
+  //     },
+  //     hideClass: {
+  //       popup: "animate__animated animate__fadeOutUp",
+  //     },
+  //     confirmButtonColor: "#1976D2",
+  //   });
   // };
-
-  const perfectGame = () => {
-    Swal.fire({
-      title: "Perfect Score!",
-      showClass: {
-        popup: "animate__animated animate__fadeInDown",
-      },
-      hideClass: {
-        popup: "animate__animated animate__fadeOutUp",
-      },
-      confirmButtonColor: "#1976D2",
-    });
-  };
 
   return (
     <div

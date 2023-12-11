@@ -102,6 +102,10 @@ export default function ThreeRing() {
     setRoundNumber,
     newGameId,
     dispatch,
+    () => {
+      setTotalScore(pointsOuter + pointsInner + bulls);
+    },
+    // true,
     setPointsOuter,
     setPointsInner,
     setBulls,
