@@ -41,6 +41,7 @@ export default function Bulls() {
   const history = useHistory();
   // ~~~~~~~~~~ Hooks ~~~~~~~~~~
   const newGameId = useGameId();
+
   // ~~~~~~~~~~ State ~~~~~~~~~~
   const [pointsOuter, setPointsOuter] = useState(getCookie("outer") || 0);
   const [pointsInner, setPointsInner] = useState(getCookie("inner") || 0);
