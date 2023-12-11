@@ -163,28 +163,6 @@ export default function Bulls() {
     handleResetScore(cookiesToClear, ...stateToReset);
   };
 
-  // const addGame = () => {
-  //   const gameData = {
-  //     game_id: newGameId,
-  //     game_date: formatDate(gameDate),
-  //     game_notes: gameNotes,
-  //     target_name: targetName,
-  //     target_score_value: targetScore, // what is this representing??? -- decide later
-  //     total_game_score: totalRoundScores, // this is representing the total score of all the rounds for the game
-  //   };
-
-  //   savedAlert();
-  //   // Dispatch the action with the new target data
-  //   dispatch({ type: "EDIT_GAME", payload: gameData });
-
-  //   // Clear the fields
-  //   setGameDate(gameDate);
-  //   setGameNotes("Notes");
-  //   setTotalScore(0);
-  //   setTargetName("");
-  //   history.push("/results");
-  //   resetScore();
-  // };
   // Add Game ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const addGame = handleAddGame(
     newGameId,
