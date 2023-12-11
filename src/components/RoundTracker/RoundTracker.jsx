@@ -15,6 +15,7 @@ import AddRoundButton from "../AddRoundButton/AddRoundButton";
 // ~~~~~~~~~~~~~~~ Hooks ~~~~~~~~~~~~~~~~~~
 import getCookie from "../../hooks/cookie";
 import useGameId from "../../hooks/gameId";
+import useRoundId from "../../hooks/roundId";
 // ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
 import {
   formatDate,
@@ -62,94 +63,19 @@ export default function RoundTracker({
   const history = useHistory();
   // ~~~~~~~~~~ Hooks ~~~~~~~~~~
   const newGameId = useGameId();
-  // Bring in Rounds
-  const rounds = useSelector((store) => store.roundReducer);
-  console.log("SCORES: ", rounds);
-  const roundIds = rounds.map((round, i) => {
-    // Check if it's the last score in the array
-    if (i === rounds.length - 1) {
-      // You've reached the last score, so you can extract the ID
-      const rId = round.round_id;
-      return rId;
-    }
-    // If it's not the last object, return null or undefined, or handle it as needed.
-    return null;
-  });
-  // Extract the last round's ID
-  const roundId = roundIds.filter((round_id) => round_id !== null)[0];
+  const roundId = useRoundId();
   console.log("Round ID = ", roundId);
 
   // // Bring in Games
-  // const games = useSelector((store) => store.gamesReducer);
-  // console.log("GAMES: ", games);
-  // const gameIds = games.map((game, i) => {
-  //   // Check if it's the last game in the array
-  //   if (i === games.length - 1) {
-  //     // You've reached the last game, so you can extract the ID
-  //     const newId = game.game_id;
-  //     return newId;
-  //   }
-  //   // If it's not the last game, return null or undefined, or handle it as needed.
-  //   return null;
-  // });
+  console.log("New Game ID:", newGameId);
 
-  // // Extract the last game's ID
-  // const newGameId = gameIds.filter((game_id) => game_id !== null)[0];
-  console.log("New Game ID:", newGameId); // not logging correctly right now
-
-  // // format the date to mm/dd/yyyy
-  // function formatDate(inputDate) {
-  //   const date = new Date(inputDate);
-  //   return date.toLocaleDateString("en-US");
-  // }
-
-  // const clearScores = (e) => {
-  //   e.preventDefault();
-
-  //   // Clear the input fields
-  //   setGameDate(gameDate);
-  //   setNotes("Notes");
-  //   setTotalScore(0);
-  //   setTargetScore(0);
-  //   setRoundNumber(1);
-  //   resetScore();
-  //   // alert("Added Target!");
-  // };
-  // Clear Scores ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  // const clearScores = handleClearScores(
-  //   gameDate,
-  //   setGameDate,
-  //   setGameNotes,
-  //   setRoundNumber,
-  //   resetScore,
-  //   setPointsOuter,
-  //   setPointsInner,
-  //   setBulls,
-  //   setTotalScore
-  // );
-
-  // const toggleSettings = (e) => {
-  //   e.preventDefault();
-  //   setShowSettings(!showSettings);
-  // };
-
-  // const saveNotes = (e) => {
-  //   e.preventDefault();
-  //   document.cookie = `notes=${notes}`;
-  //   setIsEdit(false);
-  // };
-
-  // const saveName = (e) => {
-  //   e.preventDefault();
-  //   document.cookie = `round=${roundName}`;
-  //   setReplaceName(false);
-  // };
   // Utils / Settings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const toggleSettings = handleToggleSettings(showSettings, setShowSettings);
   // Utils / Notes  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const saveNotes = handleSaveNotes(gameNotes, setIsEdit);
   // Utils / Round Name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const saveName = handleSaveName(targetName, setReplaceName);
+
   const resetScore = () => {
     // Clear the cookies related to the score (e.g., hits)
     document.cookie = "hits=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
