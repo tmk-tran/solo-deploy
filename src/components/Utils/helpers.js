@@ -3,7 +3,9 @@ import { styled } from "@mui/material/styles";
 import { tableCellClasses } from "@mui/material/TableCell";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 
-// Styling for Rounds Table
+/* --------------------------------------------------------------------------------
+Styling for Rounds Table
+-------------------------------------------------------------------------------- */
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -13,7 +15,6 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
     fontSize: 14,
   },
 }));
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 export const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
@@ -29,18 +30,24 @@ export const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-// Format the date to mm/dd/yyyy
+/* --------------------------------------------------------------------------------
+Format the date to mm/dd/yyyy
+-------------------------------------------------------------------------------- */
 export function formatDate(inputDate) {
   const date = new Date(inputDate);
   return date.toLocaleDateString("en-US");
 }
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-// Icon for GameMenu
+/* --------------------------------------------------------------------------------
+Icon for GameMenu
+-------------------------------------------------------------------------------- */
 export const buttonLabel = <QueryStatsIcon />;
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-// Adding Rounds
+/* --------------------------------------------------------------------------------
+Adding Rounds
+-------------------------------------------------------------------------------- */
 export const handleAddRound =
   (
     ringPoints,
@@ -108,7 +115,9 @@ export const handleAddRound =
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-// Add Game
+/* --------------------------------------------------------------------------------
+Add Game
+-------------------------------------------------------------------------------- */
 export const handleAddGame =
   (
     newGameId,
@@ -151,7 +160,9 @@ export const handleAddGame =
   };
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-// Clear Scores
+/* --------------------------------------------------------------------------------
+Clear Scores
+-------------------------------------------------------------------------------- */
 export const handleClearScores =
   (
     gameDate,
@@ -175,7 +186,9 @@ export const handleClearScores =
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-// Reset Scores and Cookies
+/* --------------------------------------------------------------------------------
+Reset Scores and Cookies
+-------------------------------------------------------------------------------- */
 export const handleResetScore = (cookiesToClear, ...stateToReset) => {
   // Clear the specified cookies
   cookiesToClear.forEach((cookieName) => {
@@ -189,7 +202,9 @@ export const handleResetScore = (cookiesToClear, ...stateToReset) => {
 };
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-// Format Targets
+/* --------------------------------------------------------------------------------
+Format Targets
+-------------------------------------------------------------------------------- */
 export const formatTargets = (targets) => {
   return targets.map((target) => `${target.label}: ${target.points}`);
 };
