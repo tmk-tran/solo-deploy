@@ -68,12 +68,12 @@ const handleHit = (trapHit, setTrapHit) => (e) => {
 /* --------------------------------------------------------------------------------
 QuickRound Hits
 -------------------------------------------------------------------------------- */
-const handleTargetHit = (hit, setHit, setHitDisplay) => (e) => {
+const handleTargetHit = (hit, setHit, hitDisplay, setHitDisplay) => (e) => {
   e.preventDefault();
   const hitCount = Number(hit) + 1;
   document.cookie = `hit_quick=${hitCount}`;
   setHit(hitCount);
-  setHitDisplay(hitCount);
+  setHitDisplay(hitDisplay + 1);
 };
 
 /* --------------------------------------------------------------------------------
