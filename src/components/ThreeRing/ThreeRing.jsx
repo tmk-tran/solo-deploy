@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 import { Card, CardContent } from "@mui/material";
 import "./ThreeRing.css";
 // ~~~~~~~~~~~~~~~ Hooks ~~~~~~~~~~~~~~~~~~
-import getCookie from "../../hooks/cookie";
 import useGameId from "../../hooks/gameId";
 // ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
 import {
@@ -46,7 +45,7 @@ export default function ThreeRing() {
   // ~~~~~~~~~~ Hooks ~~~~~~~~~~
   const newGameId = useGameId();
 
-  // ~~~~~~~~~~ State ~~~~~~~~~~  
+  // ~~~~~~~~~~ State ~~~~~~~~~~
   const {
     pointsOuter,
     setPointsOuter,
@@ -75,35 +74,15 @@ export default function ThreeRing() {
     targetName,
     setTargetName,
     targetScore,
-    setTargetScore,    
-  } = useSharedState('3-Ring');
-
-  // ~~~~~~~~~~ State ~~~~~~~~~~
-  // const [pointsOuter, setPointsOuter] = useState(getCookie("outer") || 0);
-  // const [pointsInner, setPointsInner] = useState(getCookie("inner") || 0);
-  // const [bulls, setBulls] = useState(getCookie("bulls") || 0);
-  // const [showSettings, setShowSettings] = useState(false);
-  // const [isEdit, setIsEdit] = useState(false);
-  // const [replaceName, setReplaceName] = useState(false);
-  // // ~~~~~~~~~~ Round scores and round headers ~~~~~~~~~~
-  // const [roundScores, setRoundScores] = useState([]); // Array to store round scores
-  // const [roundHeaders, setRoundHeaders] = useState([]); // Array to store round headers
-  // const [totalRoundScores, setTotalRoundScores] = useState(0);
-  // // ~~~~~~~~~~ Round numbers ~~~~~~~~~~
-  // const [roundNumber, setRoundNumber] = useState(1);
+  } = useSharedState("3-Ring");
   // ~~~~~~~~~~ Game State ~~~~~~~~~~
   const [totalScore, setTotalScore] = useState(
     pointsOuter + pointsInner + bulls
   );
-  // const [gameDate, setGameDate] = useState(new Date()); // Initialize with the current date
-  // const [gameNotes, setGameNotes] = useState(getCookie("notes") || "Notes");
-  // const [targetName, setTargetName] = useState("3-Ring");
-  // const [targetScore, setTargetScore] = useState(0);
 
   useEffect(() => {
     // Calculate the total score whenever any of the individual scores change
-    const gameScore =
-      Number(pointsOuter) + Number(pointsInner) + Number(bulls);
+    const gameScore = Number(pointsOuter) + Number(pointsInner) + Number(bulls);
 
     // Update the total score in the component state
     setTotalScore(gameScore);

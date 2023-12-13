@@ -24,6 +24,7 @@ import {
   handleSaveNotes,
   handleSaveName,
 } from "../Utils/targetZones";
+import { useSharedState } from "../Utils/sharedState";
 import { savedAlert } from "../Utils/sweetAlerts";
 // ~~~~~~~~~~~~~~~ Components ~~~~~~~~~~~~~~~~~~
 import TopButtonsGame from "../TopButtonsGame/TopButtonsGame";
@@ -44,22 +45,33 @@ export default function Trap() {
   const newGameId = useGameId();
 
   // ~~~~~~~~~~ State ~~~~~~~~~~
-  const [showSettings, setShowSettings] = useState(false);
-  const [isEdit, setIsEdit] = useState(false);
-  const [replaceName, setReplaceName] = useState(false);
-  // ~~~~~~~~~~ Round scores and round headers ~~~~~~~~~~
-  const [roundScores, setRoundScores] = useState([]); // Array to store round scores
-  const [roundHeaders, setRoundHeaders] = useState([1]); // Array to store round headers
-  const [totalRoundScores, setTotalRoundScores] = useState(0);
-  // ~~~~~~~~~~ Round numbers ~~~~~~~~~~
-  const [roundNumber, setRoundNumber] = useState(1);
+  const {
+    showSettings,
+    setShowSettings,
+    isEdit,
+    setIsEdit,
+    replaceName,
+    setReplaceName,
+    roundScores,
+    setRoundScores,
+    roundHeaders,
+    setRoundHeaders,
+    totalRoundScores,
+    setTotalRoundScores,
+    roundNumber,
+    setRoundNumber,
+    gameDate,
+    setGameDate,
+    gameNotes,
+    setGameNotes,
+    targetName,
+    setTargetName,
+    targetScore,
+    setTargetScore,
+  } = useSharedState("Trap");
   // ~~~~~~~~~~ Game State ~~~~~~~~~~
-  const [totalScore, setTotalScore] = useState(0); // change once named
-  const [gameDate, setGameDate] = useState(new Date()); // Initialize with the current date
-  const [gameNotes, setGameNotes] = useState(getCookie("notes") || "Notes");
-  const [targetName, setTargetName] = useState("Trap");
-  const [targetScore, setTargetScore] = useState(0); // update this when we decide what it is for
-  //  ~~~~~~~~~~ Trap Round Scoring  ~~~~~~~~~~ 
+  const [totalScore, setTotalScore] = useState(0);
+  //  ~~~~~~~~~~ Trap Round Scoring  ~~~~~~~~~~
   const [trapHit, setTrapHit] = useState(getCookie("hits") || 0);
 
   useEffect(() => {

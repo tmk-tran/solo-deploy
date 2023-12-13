@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import GameTimer from "../GameTimer/GameTimer"; // timer keeps resetting, figure out issue
+// import GameTimer from "../GameTimer/GameTimer"; // timer keeps resetting, figure out issue
 import { useDispatch } from "react-redux";
 // ~~~~~~~~~~~~~~~ Style ~~~~~~~~~~~~~~~~~~
-import { Card, CardContent, Button } from "@mui/material";
+import { Card, CardContent } from "@mui/material";
 // ~~~~~~~~~~~~~~~ Hooks ~~~~~~~~~~~~~~~~~~
 import getCookie from "../../hooks/cookie";
 import useGameId from "../../hooks/gameId";
@@ -24,6 +24,7 @@ import {
   handleSaveNotes,
   handleSaveName,
 } from "../Utils/targetZones";
+import { useSharedState } from "../Utils/sharedState";
 import { savedAlert } from "../Utils/sweetAlerts";
 // ~~~~~~~~~~~~~~~ Components ~~~~~~~~~~~~~~~~~~
 import TopButtonsGame from "../TopButtonsGame/TopButtonsGame";
@@ -45,21 +46,33 @@ export default function QuickRound() {
   const newGameId = useGameId();
 
   // ~~~~~~~~~~ State ~~~~~~~~~~
-  const [showSettings, setShowSettings] = useState(false);
-  const [isEdit, setIsEdit] = useState(false);
-  const [replaceName, setReplaceName] = useState(false);
-  // ~~~~~~~~~~ Round scores and round headers ~~~~~~~~~~
-  const [roundScores, setRoundScores] = useState([]); // Array to store round scores
-  const [roundHeaders, setRoundHeaders] = useState([1]); // Array to store round headers
-  const [totalRoundScores, setTotalRoundScores] = useState(0);
-  // ~~~~~~~~~~ Round numbers ~~~~~~~~~~
-  const [roundNumber, setRoundNumber] = useState(1);
+  const {
+    showSettings,
+    setShowSettings,
+    isEdit,
+    setIsEdit,
+    replaceName,
+    setReplaceName,
+    roundScores,
+    setRoundScores,
+    roundHeaders,
+    setRoundHeaders,
+    totalRoundScores,
+    setTotalRoundScores,
+    roundNumber,
+    setRoundNumber,
+    gameDate,
+    setGameDate,
+    gameNotes,
+    setGameNotes,
+    targetName,
+    setTargetName,
+    targetScore,
+    setTargetScore,
+  } = useSharedState("Quick Round"); 
   // ~~~~~~~~~~ Game State ~~~~~~~~~~
   const [totalScore, setTotalScore] = useState(0);
-  const [gameDate, setGameDate] = useState(new Date());
-  const [gameNotes, setGameNotes] = useState(getCookie("notes") || "Notes");
-  const [targetName, setTargetName] = useState("Quick Round");
-  const [targetScore, setTargetScore] = useState(0); // for this component, we want to record total shots taken, too
+
   // ~~~~~~~~~~ Quick Round Scoring ~~~~~~~~~~
   const [hit, setHit] = useState(getCookie("hit_quick") || 0); // hit count for game
   const [hitDisplay, setHitDisplay] = useState(
@@ -69,11 +82,11 @@ export default function QuickRound() {
 
   useEffect(() => {
     // Calculate the total score whenever any of the individual scores change
-    const totalScore = Number(hit) + Number(miss);
+    const gameScore = Number(hit) + Number(miss);
 
     // Update the total score in the component state
-    setTotalScore(totalScore);
-    setTargetScore(totalScore);
+    setTotalScore(gameScore);
+    setTargetScore(gameScore);
   }, [hit, miss]);
 
   // Utils / Hits ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

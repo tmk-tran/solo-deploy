@@ -49,8 +49,7 @@ export default function FourRing() {
 
   // ~~~~~~~~~~ Fourth Ring State ~~~~~~~~~~
   const [pointsFourth, setPointsFourth] = useState(getCookie("fourth") || 0);
-
-  // ~~~~~~~~~~ State ~~~~~~~~~~  
+  // ~~~~~~~~~~ State ~~~~~~~~~~
   const {
     pointsOuter,
     setPointsOuter,
@@ -79,10 +78,8 @@ export default function FourRing() {
     targetName,
     setTargetName,
     targetScore,
-    setTargetScore,    
-  } = useSharedState('4-Ring');
-
-  // // ~~~~~~~~~~ Game State ~~~~~~~~~~
+  } = useSharedState("4-Ring");
+  // ~~~~~~~~~~ Game State ~~~~~~~~~~
   const [totalScore, setTotalScore] = useState(
     pointsFourth + pointsOuter + pointsInner + bulls
   );
