@@ -88,7 +88,7 @@ export default function QuickRound() {
 
   useEffect(() => {
     // Calculate the total score whenever any of the individual scores change
-    const totalScore = Number(totalRoundScores) + Number(miss);
+    const totalScore = Number(hit) + Number(miss);
 
     // Update the total score in the component state
     setTotalScore(totalScore);
@@ -114,7 +114,7 @@ export default function QuickRound() {
   console.log("Round ID = ", roundId);
 
   // Utils / Hits ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  const targetHit = handleTargetHit(hit, setHit, hitDisplay, setHitDisplay);
+  const targetHit = handleTargetHit(hit, setHit, setHitDisplay);
   // Utils / Misses ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const targetMiss = handleTargetMiss(miss, setMiss);
   // Utils / Settings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
