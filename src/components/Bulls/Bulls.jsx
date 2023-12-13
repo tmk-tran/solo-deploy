@@ -66,11 +66,11 @@ export default function Bulls() {
 
   useEffect(() => {
     // Calculate the total score whenever any of the individual scores change
-    const totalScore =
+    const gameScore =
       Number(pointsOuter) + Number(pointsInner) + Number(bulls);
 
     // Update the total score in the component state
-    setTotalScore(totalScore);
+    setTotalScore(gameScore);
   }, [pointsOuter, pointsInner, bulls]);
 
   // Utils / Bulls ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

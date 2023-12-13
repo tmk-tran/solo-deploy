@@ -15,6 +15,7 @@
 .fourth-ring:hover {
   background-color: #d5d50b;
   transform: scale(1.1);
+  cursor: crosshair;
 }
 
 .third-ring {

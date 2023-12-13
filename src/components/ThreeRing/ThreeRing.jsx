@@ -46,6 +46,7 @@ export default function ThreeRing() {
   // ~~~~~~~~~~ Hooks ~~~~~~~~~~
   const newGameId = useGameId();
 
+  // ~~~~~~~~~~ State ~~~~~~~~~~  
   const {
     pointsOuter,
     setPointsOuter,
@@ -101,11 +102,11 @@ export default function ThreeRing() {
 
   useEffect(() => {
     // Calculate the total score whenever any of the individual scores change
-    const totalScore =
+    const gameScore =
       Number(pointsOuter) + Number(pointsInner) + Number(bulls);
 
     // Update the total score in the component state
-    setTotalScore(totalScore);
+    setTotalScore(gameScore);
   }, [pointsOuter, pointsInner, bulls]);
 
   // Utils / Outer Zone ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

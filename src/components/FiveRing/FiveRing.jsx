@@ -76,7 +76,7 @@ export default function FourRing() {
 
   useEffect(() => {
     // Calculate the total score whenever any of the individual scores change
-    const totalScore =
+    const gameScore =
       Number(pointsFifth) +
       Number(pointsFourth) +
       Number(pointsOuter) +
@@ -84,7 +84,7 @@ export default function FourRing() {
       Number(bulls);
 
     // Update the total score in the component state
-    setTotalScore(totalScore);
+    setTotalScore(gameScore);
   }, [pointsFifth, pointsFourth, pointsOuter, pointsInner, bulls]);
 
   // Utils / Fifth Ring ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
