@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 // import GameTimer from "../GameTimer/GameTimer"; // timer keeps resetting, figure out issue
 import { useDispatch } from "react-redux";
-import "./Bulls.css";
+// ~~~~~~~~~~~~~~~ Style ~~~~~~~~~~~~~~~~~~
 import { Card, CardContent } from "@mui/material";
+import "./Bulls.css";
 // ~~~~~~~~~~~~~~~ Hooks ~~~~~~~~~~~~~~~~~~
 import useGameId from "../../hooks/gameId";
 // ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
