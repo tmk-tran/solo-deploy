@@ -124,72 +124,71 @@ export default function QuickRound() {
   // Utils / Round Name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const saveName = handleSaveName(targetName, setReplaceName);
 
-  const addRound = (e) => {
-    e.preventDefault();
-    //  Ensure there's a game_id before adding rounds
-    //   if (newGameId) {
+  // const addRound = (e) => {
+  //   e.preventDefault();
+  //   //  Ensure there's a game_id before adding rounds
+  //   //   if (newGameId) {
 
-    // Calculate the total score for the current round
-    const newRoundScore = Number(hitDisplay);
-    // Create a new array of round scores with the current total score
-    const newRoundScores = [...roundScores, newRoundScore];
-    console.log("NEW ROUND SCORES: ", newRoundScores); // confirmed
+  //   // Calculate the total score for the current round
+  //   const newRoundScore = Number(hitDisplay);
+  //   // Create a new array of round scores with the current total score
+  //   const newRoundScores = [...roundScores, newRoundScore];
+  //   console.log("NEW ROUND SCORES: ", newRoundScores); // confirmed
 
-    const sumRoundScores = newRoundScores.reduce(
-      (accumulator, currentValue) => {
-        return accumulator + currentValue;
-      },
-      0
-    );
+  //   const sumRoundScores = newRoundScores.reduce(
+  //     (accumulator, currentValue) => {
+  //       return accumulator + currentValue;
+  //     },
+  //     0
+  //   );
 
-    console.log("Sum of round scores:", sumRoundScores);
-    setTotalRoundScores(sumRoundScores);
+  //   console.log("Sum of round scores:", sumRoundScores);
+  //   setTotalRoundScores(sumRoundScores);
 
-    // Increment the round header
-    const newRoundHeader = roundHeaders.length + 1;
+  //   // Increment the round header
+  //   const newRoundHeader = roundHeaders.length + 1;
 
-    const roundData = {
-      game_id: newGameId,
-      round_number: roundNumber,
-      round_score: newRoundScore,
-    };
-    console.log("ROUND DATA IS: ", roundData); // remove after confirmation
+  //   const roundData = {
+  //     game_id: newGameId,
+  //     round_number: roundNumber,
+  //     round_score: newRoundScore,
+  //   };
+  //   console.log("ROUND DATA IS: ", roundData); // remove after confirmation
 
-    dispatch({ type: "ADD_ROUND", payload: roundData });
-    // dispatch({ type: "ADD_ROUND_SCORE", payload: roundScoreData }); // check roundScoreData
+  //   dispatch({ type: "ADD_ROUND", payload: roundData });
+  //   // dispatch({ type: "ADD_ROUND_SCORE", payload: roundScoreData }); // check roundScoreData
 
-    setRoundNumber(roundNumber + 1);
-    console.log("ROUND NUMBER IS: ", roundNumber); // remove after confirmation
-
-    setRoundScores(newRoundScores);
-    setRoundHeaders([...roundHeaders, newRoundHeader]);
-    // setHit(0);
-    setHitDisplay(0);
-    setTargetScore(sumRoundScores);
-  };
+  //   setRoundNumber(roundNumber + 1);
+  //   console.log("ROUND NUMBER IS: ", roundNumber); // remove after confirmation
+  //   setRoundScores(newRoundScores);
+  //   setRoundHeaders([...roundHeaders, newRoundHeader]);
+  //   // setHit(0);
+  //   setHitDisplay(0);
+  //   setTargetScore(sumRoundScores);
+  // };
 
   // // Utils / Add Round ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  // const addRound = handleAddRound(
-  //   [hit],
-  //   roundScores,
-  //   totalScore,
-  //   setRoundScores,
-  //   roundHeaders,
-  //   setRoundHeaders,
-  //   totalRoundScores,
-  //   setTotalRoundScores,
-  //   roundNumber,
-  //   setRoundNumber,
-  //   newGameId,
-  //   dispatch,
-  //   () => {
-  //     // setTargetScore(targetScore);
-  //   },
-  //   "QuickRound",
-  //   // setHit,
-  //   setHitDisplay,
-  //   // setTotalScore,
-  // );
+  const addRound = handleAddRound(
+    [hit, miss],
+    roundScores,
+    totalScore,
+    setRoundScores,
+    roundHeaders,
+    setRoundHeaders,
+    totalRoundScores,
+    setTotalRoundScores,
+    roundNumber,
+    setRoundNumber,
+    newGameId,
+    dispatch,
+    () => {
+      setTotalScore(hit + miss);
+    },
+    "QuickRound",
+    // setHit,
+    setHitDisplay,
+    // setTotalScore,
+  );
 
   const shotTotal = Number(hit + miss);
   console.log("SHOT TOTAL IS: ", shotTotal);

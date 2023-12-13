@@ -56,7 +56,6 @@ export const handleAddRound =
     setRoundScores,
     roundHeaders,
     setRoundHeaders,
-    totalRoundScores,
     setTotalRoundScores,
     roundNumber,
     setRoundNumber,
