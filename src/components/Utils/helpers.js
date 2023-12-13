@@ -71,12 +71,18 @@ export const handleAddRound =
     const newRoundScore =
       componentName === "Trap"
         ? Number(ringPoints)
+    : componentName === "QuickRound"
+        ? Number(ringPoints[2])
         : ringPoints.reduce((sum, points) => sum + Number(points), 0);
-
+    console.log("points = ", ringPoints);
+    console.log("NAME = ", componentName);
+    console.log("NEW ROUND SCORE: ", newRoundScore);
     // Create a new array of round scores with the current total score (with conditions)
     const newRoundScores =
-      componentName === "Trap"
+      componentName === "Trap" || componentName === "QuickRound"
         ? [...roundScores, newRoundScore]
+    // : componentName === "QuickRound"
+    //     ? [...roundScores, newRoundScore]
         : [...roundScores, totalScore];
 
     console.log("NEW ROUND SCORES: ", newRoundScores); // confirmed

@@ -169,13 +169,12 @@ export default function QuickRound() {
 
   // // Utils / Add Round ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const addRound = handleAddRound(
-    [hit, miss],
+    [hit, miss, hitDisplay],
     roundScores,
     totalScore,
     setRoundScores,
     roundHeaders,
     setRoundHeaders,
-    totalRoundScores,
     setTotalRoundScores,
     roundNumber,
     setRoundNumber,
