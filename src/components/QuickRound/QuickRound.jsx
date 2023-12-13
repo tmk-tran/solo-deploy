@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import GameTimer from "../GameTimer/GameTimer"; // timer keeps resetting, figure out issue
 import { useDispatch, useSelector } from "react-redux";
-
+// ~~~~~~~~~~~~~~~ Style ~~~~~~~~~~~~~~~~~~
 import {
   Card,
   CardContent,
@@ -48,6 +48,8 @@ import {
   handleSaveName,
 } from "../Utils/targetZones";
 import { savedAlert } from "../Utils/sweetAlerts";
+// ~~~~~~~~~~~~~~~ Components ~~~~~~~~~~~~~~~~~~
+
 // ~~~~~~~~~~~~~~~ Utils ~~~~~~~~~~~~~~~~~~
 import { StyledTableCell, StyledTableRow } from "../Utils/helpers";
 
@@ -56,34 +58,30 @@ export default function QuickRound() {
   const history = useHistory();
   // ~~~~~~~~~~ Hooks ~~~~~~~~~~
   const newGameId = useGameId();
-
+  // ~~~~~~~~~~ State ~~~~~~~~~~
   const [showSettings, setShowSettings] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [replaceName, setReplaceName] = useState(false);
-  // Define state to manage round scores and round headers
+  // ~~~~~~~~~~ Round scores and round headers ~~~~~~~~~~
   const [roundScores, setRoundScores] = useState([]); // Array to store round scores
   const [roundHeaders, setRoundHeaders] = useState([1]); // Array to store round headers
   const [totalRoundScores, setTotalRoundScores] = useState(0);
-  console.log("TOTAL SCORES OF ROUNDS = ", totalRoundScores);
-
-  // State to manage round numbers
+  // ~~~~~~~~~~ Round numbers ~~~~~~~~~~
   const [roundNumber, setRoundNumber] = useState(1);
   // ~~~~~~~~~~ Game State ~~~~~~~~~~
   const [totalScore, setTotalScore] = useState(0);
   console.log(totalScore);
-  const [gameDate, setGameDate] = useState(new Date()); // Initialize with the current date
+  const [gameDate, setGameDate] = useState(new Date());
   console.log("GAME DATE IS:", gameDate);
   const [gameNotes, setGameNotes] = useState(getCookie("notes") || "Notes");
   const [targetName, setTargetName] = useState("Quick Round");
   const [targetScore, setTargetScore] = useState(0); // for this component, we want to record total shots taken, too
   console.log("TARGET SCORE = ", targetScore);
-  // State for Quick Round Scoring ~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ~~~~~~~~~~ Quick Round Scoring ~~~~~~~~~~
   const [hit, setHit] = useState(getCookie("hit_quick") || 0); // hit count for game
-  console.log("HIT COUNT = ", hit);
   const [hitDisplay, setHitDisplay] = useState(
     getCookie("hit_quick_display") || 0
   ); // hit count for display
-  console.log("HIT DISPLAY = ", hitDisplay);
   const [miss, setMiss] = useState(getCookie("miss_quick") || 0);
 
   useEffect(() => {
@@ -93,8 +91,6 @@ export default function QuickRound() {
     // Update the total score in the component state
     setTotalScore(totalScore);
   }, [hit, miss]);
-
-  console.log("TOTAL SCORE = ", totalScore); 
 
   // Bring in Rounds
   const rounds = useSelector((store) => store.roundReducer);
@@ -124,49 +120,6 @@ export default function QuickRound() {
   // Utils / Round Name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const saveName = handleSaveName(targetName, setReplaceName);
 
-  // const addRound = (e) => {
-  //   e.preventDefault();
-  //   //  Ensure there's a game_id before adding rounds
-  //   //   if (newGameId) {
-
-  //   // Calculate the total score for the current round
-  //   const newRoundScore = Number(hitDisplay);
-  //   // Create a new array of round scores with the current total score
-  //   const newRoundScores = [...roundScores, newRoundScore];
-  //   console.log("NEW ROUND SCORES: ", newRoundScores); // confirmed
-
-  //   const sumRoundScores = newRoundScores.reduce(
-  //     (accumulator, currentValue) => {
-  //       return accumulator + currentValue;
-  //     },
-  //     0
-  //   );
-
-  //   console.log("Sum of round scores:", sumRoundScores);
-  //   setTotalRoundScores(sumRoundScores);
-
-  //   // Increment the round header
-  //   const newRoundHeader = roundHeaders.length + 1;
-
-  //   const roundData = {
-  //     game_id: newGameId,
-  //     round_number: roundNumber,
-  //     round_score: newRoundScore,
-  //   };
-  //   console.log("ROUND DATA IS: ", roundData); // remove after confirmation
-
-  //   dispatch({ type: "ADD_ROUND", payload: roundData });
-  //   // dispatch({ type: "ADD_ROUND_SCORE", payload: roundScoreData }); // check roundScoreData
-
-  //   setRoundNumber(roundNumber + 1);
-  //   console.log("ROUND NUMBER IS: ", roundNumber); // remove after confirmation
-  //   setRoundScores(newRoundScores);
-  //   setRoundHeaders([...roundHeaders, newRoundHeader]);
-  //   // setHit(0);
-  //   setHitDisplay(0);
-  //   setTargetScore(sumRoundScores);
-  // };
-
   // // Utils / Add Round ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   const addRound = handleAddRound(
     [hit, miss, hitDisplay],
@@ -184,9 +137,7 @@ export default function QuickRound() {
       setTotalScore(hit + miss);
     },
     "QuickRound",
-    // setHit,
-    setHitDisplay,
-    // setTotalScore,
+    setHitDisplay
   );
 
   const shotTotal = Number(hit + miss);
