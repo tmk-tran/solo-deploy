@@ -81,7 +81,9 @@ QuickRound Misses
 -------------------------------------------------------------------------------- */
 const handleTargetMiss = (miss, setMiss) => (e) => {
   e.preventDefault();
-  setMiss(miss + 1);
+  const missCount = Number(miss) + 1;
+  document.cookie = `miss_quick=${missCount}`;
+  setMiss(missCount);
 };
 
 /* --------------------------------------------------------------------------------

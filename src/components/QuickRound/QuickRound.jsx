@@ -129,8 +129,6 @@ export default function QuickRound() {
     //  Ensure there's a game_id before adding rounds
     //   if (newGameId) {
 
-    // document.cookie = `hit_quick=${hit}`;
-    document.cookie = `miss_quick=${miss}`;
     // Calculate the total score for the current round
     const newRoundScore = Number(hitDisplay);
     // Create a new array of round scores with the current total score
