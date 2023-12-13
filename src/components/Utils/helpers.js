@@ -142,7 +142,7 @@ export const handleAddGame =
       game_date: formatDate(gameDate),
       game_notes: gameNotes,
       target_name: targetName,
-      target_score_value: targetScore, // what is this representing??? -- decide later
+      target_score_value: targetScore, // represents target max score value
       total_game_score: totalRoundScores, // this is representing the total score of all the rounds for the game
     };
 
