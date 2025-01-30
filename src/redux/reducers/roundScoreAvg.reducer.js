@@ -1,4 +1,4 @@
-const roundAvg = (state = [], action) => {
+const roundAvgReducer = (state = [], action) => {
     switch (action.type) {
       case "SET_AVG":
         return action.payload;
@@ -7,5 +7,5 @@ const roundAvg = (state = [], action) => {
     }
   };
   
-  export default roundAvg;
+  export default roundAvgReducer;
   
