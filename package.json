@@ -1,5 +1,5 @@
 {
-  "name": "prime-solo-project",
+  "name": "eda-solo-project",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:5000",
