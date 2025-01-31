@@ -9,12 +9,15 @@ const {
  * Retrieve the average round score data of games played by a specific user using USER_ID
  */
 router.get("/", rejectUnauthenticated, (req, res) => {
-  const queryText = `SELECT g.game_id,
-  AVG(r.round_score) AS average_round_score
-FROM games g
-JOIN rounds r ON g.game_id = r.game_id
-WHERE g.user_id = $1
-GROUP BY g.game_id;`;
+  const queryText = `
+    SELECT g.game_id,
+      AVG(r.round_score) AS average_round_score
+    FROM games g
+    JOIN rounds r ON g.game_id = r.game_id
+    WHERE g.user_id = $1
+    GROUP BY g.game_id;
+  `;
+
   pool
     .query(queryText, [req.user.user_id])
     .then((result) => {

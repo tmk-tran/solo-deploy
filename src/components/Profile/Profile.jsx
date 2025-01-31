@@ -24,12 +24,16 @@ export default function Profile({ user }) {
   const [viewLastTen, setViewLastTen] = useState(true);
 
   useEffect(() => {
-    if (user && user.user_id) {
-      // Fetch games and rounds based on user.user_id
-      dispatch({ type: "FETCH_GAMES", payload: user.user_id });
-      dispatch({ type: "FETCH_ROUNDS", payload: user.user_id });
+    if (user?.user_id) {
+      const actions = [
+        { type: "FETCH_GAMES", payload: user.user_id },
+        { type: "FETCH_ROUNDS", payload: user.user_id },
+        { type: "FETCH_ROUND_AVG", payload: user.user_id },
+      ];
+
+      actions.forEach((action) => dispatch(action)); // Loop through and dispatch each action
     }
-  }, [dispatch, user]);
+  }, [user?.user_id]);
 
   const handleViewToggle = () => {
     setViewLastTen(!viewLastTen);
@@ -37,11 +41,9 @@ export default function Profile({ user }) {
 
   const currentUser = user.username;
   const userId = user.user_id;
-  console.log(userId);
   const userRounds = useSelector((store) => store.totalRounds);
   const games = useSelector((store) => store.gamesReducer);
-  const roundAvg = useSelector((store) => store.roundAvg);
-  console.log("roundAVG: ", roundAvg);
+  const roundAvg = useSelector((store) => store.roundAvgReducer);
 
   // Filter the games based on the user_id
   const filteredGames = games.filter((game) => game.user_id === userId);
@@ -49,6 +51,7 @@ export default function Profile({ user }) {
   const lastFiveGames = filteredGames.slice(-5);
   const lastTenGames = filteredGames.slice(-10);
   const lastTenRounds = roundAvg.slice(-10);
+  console.log(lastTenRounds);
   // Variables to pass as props to LineDot and HorizontalBars
   const scoresArrayTen = lastTenGames.map((game) => game.total_game_score);
   const scoresArrayFive = lastFiveGames.map((game) => game.total_game_score);
@@ -183,7 +186,9 @@ export default function Profile({ user }) {
                   <HorizontalBars roundAvgArray={roundAvgArray} />
                   <Card elevation={5} style={{ borderRadius: "10px" }}>
                     <CardContent>
-                      <Typography style={{ textAlign: "center" }}>(Last 10 Games)</Typography>
+                      <Typography style={{ textAlign: "center" }}>
+                        (Last 10 Games)
+                      </Typography>
                     </CardContent>
                   </Card>
                 </CardContent>

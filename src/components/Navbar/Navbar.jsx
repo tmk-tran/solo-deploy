@@ -91,14 +91,14 @@ export default function SimpleBottomNavigation() {
               component={Link}
               to="/about"
             />
-            <BottomNavigationAction
+            {/* <BottomNavigationAction
               className="profile-nav"
               label="Test"
               icon={<BiotechIcon />}
               style={{ color: "white" }}
               component={Link}
               to="/test"
-            />
+            /> */}
           </BottomNavigation>
         </Paper>
       )}

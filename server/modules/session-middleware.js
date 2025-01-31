@@ -1,6 +1,7 @@
 // No changes should be required in this file
 
-const cookieSession = require('cookie-session');
+const session = require('express-session');
+// const cookieSession = require('cookie-session');
 const warnings = require('../constants/warnings');
 
 /*
@@ -26,7 +27,7 @@ const serverSessionSecret = () => {
   return process.env.SERVER_SESSION_SECRET;
 };
 
-module.exports = cookieSession({
+module.exports = session({
   secret: serverSessionSecret() || 'secret', // please set this in your .env file
   key: 'user', // this is the name of the req.variable. 'user' is convention, but not required
   resave: 'false',

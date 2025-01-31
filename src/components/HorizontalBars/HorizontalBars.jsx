@@ -3,6 +3,11 @@ import { useSelector } from "react-redux";
 import { BarChart } from "@mui/x-charts/BarChart";
 
 export default function HorizontalBars({ roundAvgArray }) {
+  // Check if roundAvgArray is empty or undefined
+  if (!roundAvgArray || roundAvgArray.length === 0) {
+    return <p>Round average data not available</p>; // Fallback message
+  }
+
   return (
     <BarChart
       xAxis={[

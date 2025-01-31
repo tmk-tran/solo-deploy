@@ -2,13 +2,13 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.9 (Homebrew)
--- Dumped by pg_dump version 14.9 (Homebrew)
+-- Dumped from database version 14.12 (Homebrew)
+-- Dumped by pg_dump version 14.12 (Homebrew)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
+SET client_encoding = 'SQL_ASCII';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
@@ -146,7 +146,6 @@ ALTER TABLE ONLY public."user" ALTER COLUMN user_id SET DEFAULT nextval('public.
 
 INSERT INTO public.games (game_id, user_id, game_date, game_notes, total_game_score, target_name, target_score_value) VALUES (131, 1, '2023-10-27', 'Notes', 110, 'Bullseye Only', 0);
 INSERT INTO public.games (game_id, user_id, game_date, game_notes, total_game_score, target_name, target_score_value) VALUES (132, 1, '2023-10-27', 'Notes', 190, '3-Ring', 0);
-INSERT INTO public.games (game_id, user_id, game_date, game_notes, total_game_score, target_name, target_score_value) VALUES (258, 1, '2023-11-28', 'Notes', 420, '3-Ring', 0);
 INSERT INTO public.games (game_id, user_id, game_date, game_notes, total_game_score, target_name, target_score_value) VALUES (225, 1, '2023-10-29', 'Accuracy really good today', 627, '4-Ring', 0);
 INSERT INTO public.games (game_id, user_id, game_date, game_notes, total_game_score, target_name, target_score_value) VALUES (137, 1, '2023-10-27', 'Notes', 120, 'Bullseye Only', 0);
 INSERT INTO public.games (game_id, user_id, game_date, game_notes, total_game_score, target_name, target_score_value) VALUES (226, 1, '2023-10-29', 'Buy more targets for next session', 744, '5-Ring', 0);
@@ -176,8 +175,6 @@ INSERT INTO public.rounds (round_id, game_id, round_number, round_score) VALUES 
 INSERT INTO public.rounds (round_id, game_id, round_number, round_score) VALUES (181, 138, 1, 20);
 INSERT INTO public.rounds (round_id, game_id, round_number, round_score) VALUES (182, 138, 2, 10);
 INSERT INTO public.rounds (round_id, game_id, round_number, round_score) VALUES (183, 138, 3, 0);
-INSERT INTO public.rounds (round_id, game_id, round_number, round_score) VALUES (279, 258, 1, 180);
-INSERT INTO public.rounds (round_id, game_id, round_number, round_score) VALUES (280, 258, 2, 240);
 INSERT INTO public.rounds (round_id, game_id, round_number, round_score) VALUES (187, 141, 1, 124);
 INSERT INTO public.rounds (round_id, game_id, round_number, round_score) VALUES (188, 141, 2, 72);
 INSERT INTO public.rounds (round_id, game_id, round_number, round_score) VALUES (189, 141, 3, 40);
@@ -207,29 +204,30 @@ INSERT INTO public.rounds (round_id, game_id, round_number, round_score) VALUES 
 -- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public."user" (user_id, username, password, profile_picture) VALUES (1, 'Mark', '$2a$10$w7WI3a0uO9kgLrBUgSRTfOuK9m7W0TZYGEt6JYJ8h/NFf717AJiq.', NULL);
 INSERT INTO public."user" (user_id, username, password, profile_picture) VALUES (3, 'John', '$2a$10$QEewUR8tUYe/77A.TFgnMO1AD1RH.lVxOyUC3a9OVaUeGfDu3aLR6', NULL);
+INSERT INTO public."user" (user_id, username, password, profile_picture) VALUES (4, 'Devii', '$2a$10$t.X2d3km9FjZH0O4B6sqCeo8jF11NI.GajrdEEIVtkI4uExXYK.H2', NULL);
+INSERT INTO public."user" (user_id, username, password, profile_picture) VALUES (1, 'Mark', '$2a$10$t.X2d3km9FjZH0O4B6sqCeo8jF11NI.GajrdEEIVtkI4uExXYK.H2', NULL);
 
 
 --
 -- Name: games_game_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.games_game_id_seq', 259, true);
+SELECT pg_catalog.setval('public.games_game_id_seq', 260, true);
 
 
 --
 -- Name: rounds_round_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.rounds_round_id_seq', 280, true);
+SELECT pg_catalog.setval('public.rounds_round_id_seq', 283, true);
 
 
 --
 -- Name: user_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.user_user_id_seq', 3, true);
+SELECT pg_catalog.setval('public.user_user_id_seq', 4, true);
 
 
 --

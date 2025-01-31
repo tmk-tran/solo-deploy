@@ -16,32 +16,21 @@ export default function LineDot({
   //   setViewLastTen(!viewLastTen);
   // };
 
-  return (
-    //     <>
-    //       <LineChart
-    //         xAxis={[
-    //           {
-    //             label: "Games",
-    //             data: Array.from(
-    //               { length: scoresArrayTen.length },
-    //               (_, index) => index + 1
-    //             ),
-    //           },
-    //         ]}
-    //         series={[
-    //           {
-    //             label: "Score",
-    //             data: scoresArrayTen,
-    //           },
-    //         ]}
-    //         width={450}
-    //         height={300}
-    //         minWidth={400}
-    //       />
-    //     </>
-    //   );
-    // }
+  // Check if arrays are empty, and if so, render nothing or a fallback message
+  if (!scoresArrayTen.length && !scoresArrayFive.length) {
+    return <p>No data available</p>; // Replace this with a more user-friendly fallback
+  }
 
+  const xAxisDataTen = Array.from(
+    { length: scoresArrayTen.length },
+    (_, index) => index + 1
+  );
+  const xAxisDataFive = Array.from(
+    { length: scoresArrayFive.length },
+    (_, index) => index + 1
+  );
+
+  return (
     <>
       {viewLastTen ? (
         <LineChart
@@ -58,7 +47,7 @@ export default function LineDot({
             {
               label: "Score",
               data: scoresArrayTen,
-              color: "#1976D2"
+              color: "#1976D2",
             },
           ]}
           width={700}
