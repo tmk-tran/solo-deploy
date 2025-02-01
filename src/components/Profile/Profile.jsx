@@ -51,7 +51,6 @@ export default function Profile({ user }) {
   const lastFiveGames = filteredGames.slice(-5);
   const lastTenGames = filteredGames.slice(-10);
   const lastTenRounds = roundAvg.slice(-10);
-  console.log(lastTenRounds);
   // Variables to pass as props to LineDot and HorizontalBars
   const scoresArrayTen = lastTenGames.map((game) => game.total_game_score);
   const scoresArrayFive = lastFiveGames.map((game) => game.total_game_score);

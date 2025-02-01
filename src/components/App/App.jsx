@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 import Navbar from "../Navbar/Navbar";
 // import Footer from "../Footer/Footer";
@@ -69,6 +70,12 @@ const lightTheme = createTheme({
   typography: { fontFamily: "verdana" },
 });
 
+// Set up the API URL for your GraphQL endpoint
+const client = new ApolloClient({
+  uri: "https://api.devii.io/query", // Endpoint for queries
+  cache: new InMemoryCache(), // Apollo's memory cache
+});
+
 function App() {
   const dispatch = useDispatch();
   const [darkMode, setDarkMode] = useState(true);
@@ -79,7 +86,7 @@ function App() {
     localStorage.setItem("darkMode", !darkMode);
   };
 
-  const user = useSelector((store) => store.user);  
+  const user = useSelector((store) => store.user);
 
   useEffect(() => {
     const storedDarkMode = localStorage.getItem("darkMode");
@@ -92,151 +99,153 @@ function App() {
   }, [dispatch]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <Router>
-        <div>
-          <div className="dark-mode-btn">
-            <MuiSwitch
-              id="fixed-button"
-              defaultChecked
-              onChange={toggleDarkMode}
-            />
-          </div>
-          <Navbar />
-          {/* <Nav /> */}
-          {/* <MiniDrawer /> */}
-          <ReactRouterSwitch>
-            {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
-            <Redirect exact from="/" to="/home" />
+    <ApolloProvider client={client}>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <div>
+            <div className="dark-mode-btn">
+              <MuiSwitch
+                id="fixed-button"
+                defaultChecked
+                onChange={toggleDarkMode}
+              />
+            </div>
+            <Navbar />
+            {/* <Nav /> */}
+            {/* <MiniDrawer /> */}
+            <ReactRouterSwitch>
+              {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
+              <Redirect exact from="/" to="/home" />
 
-            {/* Visiting localhost:3000/about will show the about page. */}
-            <Route
-              // shows AboutPage at all times (logged in or not)
-              exact
-              path="/about"
-            >
-              <AboutPage />
-            </Route>
+              {/* Visiting localhost:3000/about will show the about page. */}
+              <Route
+                // shows AboutPage at all times (logged in or not)
+                exact
+                path="/about"
+              >
+                <AboutPage />
+              </Route>
 
-            {/* For protected routes, the view could show one of several things on the same route.
+              {/* For protected routes, the view could show one of several things on the same route.
             Visiting localhost:3000/user will show the UserPage if the user is logged in.
             If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
             Even though it seems like they are different pages, the user is always on localhost:3000/user */}
-            <ProtectedRoute
-              // logged in shows UserPage else shows LoginPage
-              exact
-              path="/user"
-            >
-              <UserPage />
-            </ProtectedRoute>
+              <ProtectedRoute
+                // logged in shows UserPage else shows LoginPage
+                exact
+                path="/user"
+              >
+                <UserPage />
+              </ProtectedRoute>
 
-            <ProtectedRoute exact path="/games-admin">
-              <Games />
-            </ProtectedRoute>
+              <ProtectedRoute exact path="/games-admin">
+                <Games />
+              </ProtectedRoute>
 
-            <ProtectedRoute exact path="/rounds-admin">
-              <Rounds />
-            </ProtectedRoute>
+              <ProtectedRoute exact path="/rounds-admin">
+                <Rounds />
+              </ProtectedRoute>
 
-            <ProtectedRoute exact path="/profile">
-              <Profile user={user} />
-            </ProtectedRoute>
+              <ProtectedRoute exact path="/profile">
+                <Profile user={user} />
+              </ProtectedRoute>
 
-            <ProtectedRoute exact path="/history">
-              <History />
-            </ProtectedRoute>
+              <ProtectedRoute exact path="/history">
+                <History />
+              </ProtectedRoute>
 
-            <ProtectedRoute exact path="/train">
-              <Train />
-            </ProtectedRoute>
+              <ProtectedRoute exact path="/train">
+                <Train />
+              </ProtectedRoute>
 
-            <ProtectedRoute exact path="/games">
-              <GamesPage />
-            </ProtectedRoute>
+              <ProtectedRoute exact path="/games">
+                <GamesPage />
+              </ProtectedRoute>
 
-            <ProtectedRoute
-              // logged in shows game page else shows LoginPage
-              exact
-              path="/3-ring"
-            >
-              <ThreeRing />
-            </ProtectedRoute>
+              <ProtectedRoute
+                // logged in shows game page else shows LoginPage
+                exact
+                path="/3-ring"
+              >
+                <ThreeRing />
+              </ProtectedRoute>
 
-            <ProtectedRoute exact path="/4-ring">
-              <FourRing />
-            </ProtectedRoute>
+              <ProtectedRoute exact path="/4-ring">
+                <FourRing />
+              </ProtectedRoute>
 
-            <ProtectedRoute exact path="/5-ring">
-              <FiveRing />
-            </ProtectedRoute>
+              <ProtectedRoute exact path="/5-ring">
+                <FiveRing />
+              </ProtectedRoute>
 
-            <ProtectedRoute exact path="/trap">
-              <Trap />
-            </ProtectedRoute>
+              <ProtectedRoute exact path="/trap">
+                <Trap />
+              </ProtectedRoute>
 
-            <ProtectedRoute exact path="/quickround">
-              <QuickRound />
-            </ProtectedRoute>
+              <ProtectedRoute exact path="/quickround">
+                <QuickRound />
+              </ProtectedRoute>
 
-            <ProtectedRoute exact path="/bulls">
-              <Bulls />
-            </ProtectedRoute>
+              <ProtectedRoute exact path="/bulls">
+                <Bulls />
+              </ProtectedRoute>
 
-            <ProtectedRoute exact path="/success">
-              <SuccessPage />
-            </ProtectedRoute>
+              <ProtectedRoute exact path="/success">
+                <SuccessPage />
+              </ProtectedRoute>
 
-            <ProtectedRoute exact path="/results">
-              <Results />
-            </ProtectedRoute>
+              <ProtectedRoute exact path="/results">
+                <Results />
+              </ProtectedRoute>
 
-            <ProtectedRoute exact path="/test">
-              {/* <MiniDrawer /> */}
-              <TestComp />
-            </ProtectedRoute>
+              <ProtectedRoute exact path="/test">
+                {/* <MiniDrawer /> */}
+                <TestComp />
+              </ProtectedRoute>
 
-            <Route exact path="/login">
-              {user.user_id ? (
-                // If the user is already logged in,
-                // redirect to the /user page
-                <Redirect to="/user" />
-              ) : (
-                // Otherwise, show the login page
-                <LoginPage />
-              )}
-            </Route>
+              <Route exact path="/login">
+                {user.user_id ? (
+                  // If the user is already logged in,
+                  // redirect to the /user page
+                  <Redirect to="/user" />
+                ) : (
+                  // Otherwise, show the login page
+                  <LoginPage />
+                )}
+              </Route>
 
-            <Route exact path="/registration">
-              {user.user_id ? (
-                // If the user is already logged in,
-                // redirect them to the /user page
-                <Redirect to="/user" />
-              ) : (
-                // Otherwise, show the registration page
-                <RegisterPage />
-              )}
-            </Route>
+              <Route exact path="/registration">
+                {user.user_id ? (
+                  // If the user is already logged in,
+                  // redirect them to the /user page
+                  <Redirect to="/user" />
+                ) : (
+                  // Otherwise, show the registration page
+                  <RegisterPage />
+                )}
+              </Route>
 
-            <Route exact path="/home">
-              {user.user_id ? (
-                // If the user is already logged in,
-                // redirect them to the /user page
-                <Redirect to="/user" />
-              ) : (
-                // Otherwise, show the Landing page
-                <LandingPage />
-              )}
-            </Route>
+              <Route exact path="/home">
+                {user.user_id ? (
+                  // If the user is already logged in,
+                  // redirect them to the /user page
+                  <Redirect to="/user" />
+                ) : (
+                  // Otherwise, show the Landing page
+                  <LandingPage />
+                )}
+              </Route>
 
-            {/* If none of the other routes matched, we will show a 404. */}
-            <Route>
-              <h1>404</h1>
-            </Route>
-          </ReactRouterSwitch>
-          {/* <SpeedDial /> */}
-        </div>
-      </Router>
-    </ThemeProvider>
+              {/* If none of the other routes matched, we will show a 404. */}
+              <Route>
+                <h1>404</h1>
+              </Route>
+            </ReactRouterSwitch>
+            {/* <SpeedDial /> */}
+          </div>
+        </Router>
+      </ThemeProvider>
+    </ApolloProvider>
   );
 }
 

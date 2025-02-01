@@ -8,6 +8,9 @@ export default function HorizontalBars({ roundAvgArray }) {
     return <p>Round average data not available</p>; // Fallback message
   }
 
+  // Convert all values to numbers (handle cases where they might be strings)
+  const numericData = roundAvgArray.map((value) => Number(value));
+
   return (
     <BarChart
       xAxis={[
@@ -23,7 +26,7 @@ export default function HorizontalBars({ roundAvgArray }) {
       series={[
         {
           // label: "Score",
-          data: roundAvgArray,
+          data: numericData, // Use converted numeric data
           color: "#2bde90de",
         },
       ]}
