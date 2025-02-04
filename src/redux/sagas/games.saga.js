@@ -1,19 +1,31 @@
 import axios from "axios";
-import { takeEvery, put } from "redux-saga/effects";
+import { call, takeEvery, put } from "redux-saga/effects";
+import client from "../../graphql/client";
+import { GET_GAMES_BY_USER } from "../../graphql/queries";
 
-function* fetchGameSaga() {
+function* fetchGameSaga(action) {
   try {
-    const items = yield axios.get("/api/games");
-    const currentGame = items.data[items.data.length - 1].game_id;
+    const userId = action.payload;
 
-    console.log(
-      "FETCH request from games.saga",
-      "GAME_ID = ",
-      items.data[items.data.length - 1].game_id
-    );
-    yield put({ type: "SET_GAMES", payload: items.data, currentGame });
-  } catch {
-    console.log("error in fetchTargetsSaga");
+    // const items = yield axios.get("/api/games");
+    // const currentGame = items.data[items.data.length - 1].game_id;
+    // yield put({ type: "SET_GAMES", payload: items.data, currentGame });
+
+    // DEVII SECTION - slower load than using redux, use gql query client side
+    // Construct the variables
+    const filter = `user_id = ${userId}`;
+    const ordering = ["game_id"];
+
+    // Make the graphQL query here, no need for router now
+    const response = yield call(client.query, {
+      query: GET_GAMES_BY_USER,
+      variables: { filter, ordering },
+    });
+    console.log("GAMES_BY_USER = ", response);
+
+    yield put({ type: "SET_GAMES", payload: response.data.games });
+  } catch (error) {
+    console.log("error in fetchTargetsSaga", error);
   }
 }
 

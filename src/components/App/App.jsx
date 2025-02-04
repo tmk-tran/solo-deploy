@@ -8,6 +8,7 @@ import {
 
 import { useDispatch, useSelector } from "react-redux";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import client from "../../graphql/client";
 
 import Navbar from "../Navbar/Navbar";
 // import Footer from "../Footer/Footer";
@@ -71,10 +72,10 @@ const lightTheme = createTheme({
 });
 
 // Set up the API URL for your GraphQL endpoint
-const client = new ApolloClient({
-  uri: "https://api.devii.io/query", // Endpoint for queries
-  cache: new InMemoryCache(), // Apollo's memory cache
-});
+// const client = new ApolloClient({
+//   uri: "https://api.devii.io/query", // Endpoint for queries
+//   cache: new InMemoryCache(), // Apollo's memory cache
+// });
 
 function App() {
   const dispatch = useDispatch();
@@ -92,7 +93,7 @@ function App() {
     const storedDarkMode = localStorage.getItem("darkMode");
     setDarkMode(storedDarkMode === "true"); // Convert the stored string to a boolean
     dispatch({ type: "FETCH_USER" });
-    dispatch({ type: "FETCH_GAMES" });
+    // dispatch({ type: "FETCH_GAMES" });
     dispatch({ type: "FETCH_ROUNDS" });
     dispatch({ type: "FETCH_TOTAL_ROUNDS" });
     dispatch({ type: "FETCH_ROUND_AVG" });

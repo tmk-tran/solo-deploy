@@ -55,6 +55,7 @@ const StyledTableRowRound = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function GamesList({ target, roundScores }) {
+  console.log("RoundScores in GamesList -----> ", roundScores);
   const dispatch = useDispatch();
 
   const [edit, setEdit] = useState(false);
@@ -321,6 +322,7 @@ export default function GamesList({ target, roundScores }) {
                 </Table>
               </CardContent>
             </Card>
+            {/* Right Square for Round Data */}
             <Card
               className="round-info"
               elevation={8}
